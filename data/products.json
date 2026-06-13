@@ -1,0 +1,2658 @@
+[
+  {
+    "id": "brkf-001",
+    "name": "iD Fresh Idli & Dosa Batter 1kg",
+    "brand": "iD",
+    "category": "fresh produce",
+    "price": 95,
+    "rating": 4.6,
+    "review_count": 12400,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "cooking",
+      "dinner",
+      "dosa",
+      "idli"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 15,
+    "expiry_months": 1,
+    "keywords": [
+      "batter",
+      "dosa batter",
+      "idli batter",
+      "south indian",
+      "breakfast"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Anitha S.",
+        "text": "Perfectly fermented, makes crispy dosas!"
+      },
+      {
+        "author": "Raj K.",
+        "text": "Super convenient for busy mornings."
+      }
+    ]
+  },
+  {
+    "id": "brkf-002",
+    "name": "Fresh Grated Coconut 200g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 45,
+    "rating": 4.3,
+    "review_count": 3400,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "chutney",
+      "breakfast"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 15,
+    "expiry_months": null,
+    "keywords": [
+      "coconut",
+      "grated coconut",
+      "chutney",
+      "nariyal"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Lakshmi R.",
+        "text": "Fresh and sweet, perfect for chutney."
+      },
+      {
+        "author": "Priya V.",
+        "text": "Saves so much time scraping coconut."
+      }
+    ]
+  },
+  {
+    "id": "brkf-003",
+    "name": "MTR Sambar Powder 200g",
+    "brand": "MTR",
+    "category": "pantry staples",
+    "price": 75,
+    "rating": 4.8,
+    "review_count": 15000,
+    "is_bestseller": true,
+    "serving_size": 20,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "lunch",
+      "dinner",
+      "breakfast"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 15,
+    "expiry_months": 12,
+    "keywords": [
+      "sambar",
+      "powder",
+      "masala",
+      "mtr",
+      "south indian"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Swati M.",
+        "text": "Authentic taste."
+      },
+      {
+        "author": "Karthik P.",
+        "text": "Best sambar powder in the market."
+      }
+    ]
+  },
+  {
+    "id": "snk-001",
+    "name": "Doritos Nacho Cheese Flavour Chips 200g",
+    "brand": "Doritos",
+    "category": "snacks",
+    "price": 90,
+    "rating": 4.6,
+    "review_count": 12400,
+    "is_bestseller": true,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "study"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 8,
+    "keywords": [
+      "chips",
+      "crisps",
+      "nacho",
+      "doritos",
+      "snacks"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Priya M.",
+        "text": "Perfect movie night snack, crispy and full of flavour!"
+      },
+      {
+        "author": "Rohit K.",
+        "text": "My whole family loves these. Great value pack."
+      }
+    ]
+  },
+  {
+    "id": "bev-001",
+    "name": "Pepsi Cola 500ml",
+    "brand": "Pepsi",
+    "category": "beverages",
+    "price": 40,
+    "rating": 4.3,
+    "review_count": 8200,
+    "is_bestseller": false,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "birthday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 6,
+    "keywords": [
+      "pepsi",
+      "cola",
+      "soft drink",
+      "soda",
+      "cold drink"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Aarav S.",
+        "text": "Chilled and refreshing, perfect for parties."
+      },
+      {
+        "author": "Meera R.",
+        "text": "Good quantity for the price."
+      }
+    ]
+  },
+  {
+    "id": "stpl-001",
+    "name": "Borges Spaghetti Pasta 500g",
+    "brand": "Borges",
+    "category": "pantry staples",
+    "price": 85,
+    "rating": 4.5,
+    "review_count": 5600,
+    "is_bestseller": true,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "aglio_olio",
+      "dinner"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": 24,
+    "keywords": [
+      "spaghetti",
+      "pasta",
+      "italian",
+      "noodles",
+      "aglio olio"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Kavya T.",
+        "text": "Cooks perfectly al dente. Great for aglio olio."
+      },
+      {
+        "author": "Arjun P.",
+        "text": "Best pasta brand I've tried. Holds sauce well."
+      }
+    ]
+  },
+  {
+    "id": "stpl-002",
+    "name": "Figaro Extra Virgin Olive Oil 500ml",
+    "brand": "Figaro",
+    "category": "pantry staples",
+    "price": 350,
+    "rating": 4.4,
+    "review_count": 3200,
+    "is_bestseller": false,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "aglio_olio",
+      "salad"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Mumbai",
+      "Delhi",
+      "Chennai"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": 18,
+    "keywords": [
+      "olive oil",
+      "extra virgin",
+      "cooking oil",
+      "figaro",
+      "aglio olio"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Nisha V.",
+        "text": "Light flavour, great for pasta."
+      },
+      {
+        "author": "Dev B.",
+        "text": "Good quality for the price. Use it daily."
+      }
+    ]
+  },
+  {
+    "id": "dair-001",
+    "name": "Amul Butter 100g",
+    "brand": "Amul",
+    "category": "dairy",
+    "price": 52,
+    "rating": 4.7,
+    "review_count": 22000,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "cooking",
+      "baking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 3,
+    "keywords": [
+      "butter",
+      "amul",
+      "dairy",
+      "breakfast",
+      "toast"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Sunita G.",
+        "text": "Classic taste, melts perfectly on hot toast."
+      },
+      {
+        "author": "Vikram N.",
+        "text": "Always fresh. Best butter brand in India."
+      }
+    ]
+  },
+  {
+    "id": "stpl-003",
+    "name": "Britannia Brown Bread 400g",
+    "brand": "Britannia",
+    "category": "pantry staples",
+    "price": 42,
+    "rating": 4.2,
+    "review_count": 9800,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "quick_meal"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 1,
+    "keywords": [
+      "bread",
+      "brown bread",
+      "britannia",
+      "breakfast",
+      "toast",
+      "sandwich"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Ananya C.",
+        "text": "Soft and fresh. Perfect for quick breakfast."
+      },
+      {
+        "author": "Rahul M.",
+        "text": "Good quality, arrives fresh every time."
+      }
+    ]
+  },
+  {
+    "id": "snk-002",
+    "name": "Grand Sweets Murukku 500g",
+    "brand": "Grand Sweets",
+    "category": "snacks",
+    "price": 120,
+    "rating": 4.8,
+    "review_count": 6700,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "festival",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Chennai",
+      "Coimbatore",
+      "Bangalore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": 2,
+    "keywords": [
+      "murukku",
+      "chakli",
+      "south indian snack",
+      "grand sweets",
+      "crispy"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Lakshmi R.",
+        "text": "Authentic taste, crispy and not too oily. Best murukku!"
+      },
+      {
+        "author": "Karthik S.",
+        "text": "Perfect evening snack. My kids love it."
+      }
+    ]
+  },
+  {
+    "id": "bev-002",
+    "name": "Tata Tea Premium 250g",
+    "brand": "Tata Tea",
+    "category": "beverages",
+    "price": 130,
+    "rating": 4.5,
+    "review_count": 18000,
+    "is_bestseller": true,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Coimbatore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 18,
+    "keywords": [
+      "tea",
+      "chai",
+      "tata tea",
+      "breakfast",
+      "morning drink"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Geeta P.",
+        "text": "Rich flavour, makes the perfect morning chai."
+      },
+      {
+        "author": "Suresh K.",
+        "text": "Been using this for years. Never disappoints."
+      }
+    ]
+  },
+  {
+    "id": "snk-003",
+    "name": "Lay's Classic Salted Chips 150g",
+    "brand": "Lay's",
+    "category": "snacks",
+    "price": 60,
+    "rating": 4.4,
+    "review_count": 15600,
+    "is_bestseller": true,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "study",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 6,
+    "keywords": [
+      "chips",
+      "lays",
+      "salted",
+      "crisps",
+      "potato chips"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Ravi T.",
+        "text": "Classic flavour that never gets old. Crispy every time."
+      },
+      {
+        "author": "Sneha D.",
+        "text": "Best snack for movie nights. Light and crunchy."
+      }
+    ]
+  },
+  {
+    "id": "snk-004",
+    "name": "Kurkure Masala Munch 120g",
+    "brand": "Kurkure",
+    "category": "snacks",
+    "price": 30,
+    "rating": 4.3,
+    "review_count": 19800,
+    "is_bestseller": true,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "evening_snack",
+      "study"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Kolkata",
+      "Hyderabad",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 5,
+    "keywords": [
+      "kurkure",
+      "masala",
+      "crunchy",
+      "indian snack",
+      "namkeen"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Amit J.",
+        "text": "Addictive masala flavor. Can't stop eating!"
+      },
+      {
+        "author": "Pooja S.",
+        "text": "Perfect evening snack with chai. Spicy and crunchy."
+      }
+    ]
+  },
+  {
+    "id": "snk-005",
+    "name": "Haldiram's Aloo Bhujia 400g",
+    "brand": "Haldiram's",
+    "category": "snacks",
+    "price": 110,
+    "rating": 4.6,
+    "review_count": 14200,
+    "is_bestseller": true,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "party",
+      "festival",
+      "evening_snack",
+      "birthday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Jaipur",
+      "Lucknow",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 6,
+    "keywords": [
+      "bhujia",
+      "namkeen",
+      "haldirams",
+      "aloo",
+      "traditional snack"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Rajesh G.",
+        "text": "Authentic Haldiram's taste. Perfect for any gathering."
+      },
+      {
+        "author": "Neha P.",
+        "text": "Crispy and flavourful. A must for festival season."
+      }
+    ]
+  },
+  {
+    "id": "snk-006",
+    "name": "Cadbury Gems 45g Pack of 5",
+    "brand": "Cadbury",
+    "category": "snacks",
+    "price": 100,
+    "rating": 4.5,
+    "review_count": 8900,
+    "is_bestseller": true,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "birthday",
+      "party",
+      "kids",
+      "festival"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 12,
+    "keywords": [
+      "gems",
+      "chocolate",
+      "cadbury",
+      "candy",
+      "kids candy",
+      "birthday treat"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Sanya M.",
+        "text": "Kids absolutely love these! Perfect party treat."
+      },
+      {
+        "author": "Deepak R.",
+        "text": "Great value multi-pack. Always a hit at birthdays."
+      }
+    ]
+  },
+  {
+    "id": "snk-007",
+    "name": "Parle-G Gold Biscuits 1kg",
+    "brand": "Parle",
+    "category": "snacks",
+    "price": 95,
+    "rating": 4.7,
+    "review_count": 32000,
+    "is_bestseller": true,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "evening_snack",
+      "party",
+      "birthday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Ahmedabad",
+      "Lucknow"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 9,
+    "keywords": [
+      "biscuit",
+      "parle-g",
+      "glucose",
+      "tea time",
+      "classic biscuit"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Manoj K.",
+        "text": "India's best biscuit. Perfect with chai."
+      },
+      {
+        "author": "Divya N.",
+        "text": "Value for money. Fresh and crispy always."
+      }
+    ]
+  },
+  {
+    "id": "bev-003",
+    "name": "Coca-Cola 750ml",
+    "brand": "Coca-Cola",
+    "category": "beverages",
+    "price": 40,
+    "rating": 4.4,
+    "review_count": 11500,
+    "is_bestseller": false,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "birthday",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 6,
+    "keywords": [
+      "coca-cola",
+      "coke",
+      "soft drink",
+      "soda",
+      "cola",
+      "cold drink"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Arjun M.",
+        "text": "Nothing beats an ice-cold Coke. Classic taste."
+      },
+      {
+        "author": "Tanya S.",
+        "text": "Perfect party drink. Everyone loves it."
+      }
+    ]
+  },
+  {
+    "id": "bev-004",
+    "name": "Tropicana Orange Juice 1L",
+    "brand": "Tropicana",
+    "category": "beverages",
+    "price": 110,
+    "rating": 4.3,
+    "review_count": 7400,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "birthday",
+      "party"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 2,
+    "keywords": [
+      "orange juice",
+      "tropicana",
+      "juice",
+      "breakfast drink",
+      "fresh juice"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Siddharth P.",
+        "text": "Fresh taste. Great for morning breakfast routine."
+      },
+      {
+        "author": "Aisha K.",
+        "text": "My kids love it. Refreshing and natural."
+      }
+    ]
+  },
+  {
+    "id": "bev-005",
+    "name": "Sprite Lemon-Lime 600ml",
+    "brand": "Sprite",
+    "category": "beverages",
+    "price": 38,
+    "rating": 4.2,
+    "review_count": 6800,
+    "is_bestseller": false,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "birthday",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 6,
+    "keywords": [
+      "sprite",
+      "lemon",
+      "lime",
+      "soda",
+      "soft drink",
+      "cold drink"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Vikas R.",
+        "text": "Refreshing lemon flavour. Great with meals."
+      },
+      {
+        "author": "Priti G.",
+        "text": "My go-to drink for hot days. Clean taste."
+      }
+    ]
+  },
+  {
+    "id": "bev-006",
+    "name": "Paper Boat Aam Panna 200ml Pack of 6",
+    "brand": "Paper Boat",
+    "category": "beverages",
+    "price": 180,
+    "rating": 4.6,
+    "review_count": 4300,
+    "is_bestseller": false,
+    "serving_size": 6,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "party",
+      "birthday",
+      "summer",
+      "festival"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Jaipur",
+      "Ahmedabad",
+      "Lucknow"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": 4,
+    "keywords": [
+      "aam panna",
+      "mango",
+      "traditional drink",
+      "paper boat",
+      "summer cooler"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Tanvi S.",
+        "text": "Tastes like homemade aam panna! Nostalgic."
+      },
+      {
+        "author": "Harsh V.",
+        "text": "Great for summer parties. Kids loved it."
+      }
+    ]
+  },
+  {
+    "id": "bev-007",
+    "name": "Nescafe Classic Instant Coffee 50g",
+    "brand": "Nescafe",
+    "category": "beverages",
+    "price": 165,
+    "rating": 4.5,
+    "review_count": 24000,
+    "is_bestseller": true,
+    "serving_size": 25,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "study",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 18,
+    "keywords": [
+      "coffee",
+      "instant coffee",
+      "nescafe",
+      "morning drink",
+      "caffeine"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Aditya M.",
+        "text": "Rich aroma, quick to make. Perfect morning boost."
+      },
+      {
+        "author": "Shweta K.",
+        "text": "My daily essential. Smooth and full-bodied."
+      }
+    ]
+  },
+  {
+    "id": "bev-008",
+    "name": "Frooti Mango Drink 200ml Pack of 6",
+    "brand": "Parle Agro",
+    "category": "beverages",
+    "price": 90,
+    "rating": 4.3,
+    "review_count": 16500,
+    "is_bestseller": true,
+    "serving_size": 6,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "birthday",
+      "party",
+      "kids",
+      "picnic"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 6,
+    "keywords": [
+      "frooti",
+      "mango",
+      "juice",
+      "kids drink",
+      "mango drink"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Ritu M.",
+        "text": "Kids' favorite! Perfect for birthday parties."
+      },
+      {
+        "author": "Manish T.",
+        "text": "Sweet mango taste. Refreshing and affordable."
+      }
+    ]
+  },
+  {
+    "id": "frsh-001",
+    "name": "Fresh Bananas 1 Dozen",
+    "brand": "Farm Fresh",
+    "category": "fresh produce",
+    "price": 50,
+    "rating": 4.3,
+    "review_count": 8900,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "quick_meal",
+      "morning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 15,
+    "expiry_months": null,
+    "keywords": [
+      "banana",
+      "fruit",
+      "fresh fruit",
+      "breakfast fruit",
+      "potassium"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Meena S.",
+        "text": "Always ripe and fresh. Great for smoothies too."
+      },
+      {
+        "author": "Vijay L.",
+        "text": "Consistent quality. Perfect breakfast staple."
+      }
+    ]
+  },
+  {
+    "id": "frsh-002",
+    "name": "Fresh Tomatoes 1kg",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 40,
+    "rating": 4.1,
+    "review_count": 5600,
+    "is_bestseller": false,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "salad",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Pune",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": null,
+    "keywords": [
+      "tomato",
+      "fresh vegetable",
+      "cooking ingredient",
+      "salad",
+      "sabzi"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Kamala D.",
+        "text": "Red and juicy. Fresh from the farm."
+      },
+      {
+        "author": "Prakash R.",
+        "text": "Good quality for daily cooking needs."
+      }
+    ]
+  },
+  {
+    "id": "frsh-003",
+    "name": "Fresh Onions 2kg",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 60,
+    "rating": 4,
+    "review_count": 4200,
+    "is_bestseller": false,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "dinner",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Pune",
+      "Hyderabad",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": null,
+    "keywords": [
+      "onion",
+      "pyaaz",
+      "fresh vegetable",
+      "cooking essential",
+      "sabzi"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Lata B.",
+        "text": "Good quality, medium sized. No bad ones."
+      },
+      {
+        "author": "Sunil R.",
+        "text": "Fresh and firm. Lasts a week easily."
+      }
+    ]
+  },
+  {
+    "id": "frsh-004",
+    "name": "Fresh Garlic 500g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 80,
+    "rating": 4.2,
+    "review_count": 3100,
+    "is_bestseller": false,
+    "serving_size": 20,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "aglio_olio",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": null,
+    "keywords": [
+      "garlic",
+      "lehsun",
+      "cooking ingredient",
+      "aglio olio",
+      "spice"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Anita K.",
+        "text": "Fresh garlic cloves, easy to peel. Great for pasta!"
+      },
+      {
+        "author": "Chef Ravi",
+        "text": "Essential for aglio olio. Good quality."
+      }
+    ]
+  },
+  {
+    "id": "frsh-005",
+    "name": "Fresh Coriander Bunch 200g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 15,
+    "rating": 4,
+    "review_count": 2800,
+    "is_bestseller": false,
+    "serving_size": 8,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "dinner",
+      "salad"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 22,
+    "expiry_months": null,
+    "keywords": [
+      "coriander",
+      "dhaniya",
+      "herbs",
+      "garnish",
+      "fresh herbs"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Geeta R.",
+        "text": "Fresh and green. Adds great flavour to dishes."
+      },
+      {
+        "author": "Ramesh T.",
+        "text": "Always fresh on delivery. No wilting."
+      }
+    ]
+  },
+  {
+    "id": "frsh-006",
+    "name": "Fresh Lemons 500g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 30,
+    "rating": 4.1,
+    "review_count": 3500,
+    "is_bestseller": false,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "salad",
+      "dinner",
+      "breakfast"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Hyderabad",
+      "Jaipur"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": null,
+    "keywords": [
+      "lemon",
+      "nimbu",
+      "citrus",
+      "cooking ingredient",
+      "garnish"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Seema J.",
+        "text": "Juicy and sour. Perfect for nimbu pani!"
+      },
+      {
+        "author": "Ashok M.",
+        "text": "Good size lemons. Value for money."
+      }
+    ]
+  },
+  {
+    "id": "frsh-007",
+    "name": "Fresh Green Chillies 200g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 20,
+    "rating": 4,
+    "review_count": 2400,
+    "is_bestseller": false,
+    "serving_size": 15,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "dinner",
+      "aglio_olio"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": null,
+    "keywords": [
+      "chilli",
+      "green chilli",
+      "hari mirch",
+      "spicy",
+      "cooking ingredient"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Radha K.",
+        "text": "Fresh and spicy. Perfect for everyday cooking."
+      },
+      {
+        "author": "Mohan S.",
+        "text": "Good heat level. Very fresh on arrival."
+      }
+    ]
+  },
+  {
+    "id": "dair-002",
+    "name": "Amul Taaza Toned Milk 1L",
+    "brand": "Amul",
+    "category": "dairy",
+    "price": 65,
+    "rating": 4.5,
+    "review_count": 28000,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "cooking",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": null,
+    "keywords": [
+      "milk",
+      "toned milk",
+      "amul",
+      "dairy",
+      "breakfast"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Shalini P.",
+        "text": "Consistent quality. Great for morning chai."
+      },
+      {
+        "author": "Naveen R.",
+        "text": "Always fresh. My go-to milk brand."
+      }
+    ]
+  },
+  {
+    "id": "dair-003",
+    "name": "Mother Dairy Curd 400g",
+    "brand": "Mother Dairy",
+    "category": "dairy",
+    "price": 30,
+    "rating": 4.3,
+    "review_count": 11200,
+    "is_bestseller": false,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "lunch",
+      "dinner",
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": null,
+    "keywords": [
+      "curd",
+      "dahi",
+      "yogurt",
+      "dairy",
+      "probiotic"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Uma S.",
+        "text": "Thick and creamy curd. Sets perfectly."
+      },
+      {
+        "author": "Kiran B.",
+        "text": "Fresh taste. Perfect for raita."
+      }
+    ]
+  },
+  {
+    "id": "dair-004",
+    "name": "Amul Cheese Slices 200g (10 slices)",
+    "brand": "Amul",
+    "category": "dairy",
+    "price": 110,
+    "rating": 4.4,
+    "review_count": 9500,
+    "is_bestseller": false,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "quick_meal",
+      "party",
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 3,
+    "keywords": [
+      "cheese",
+      "cheese slices",
+      "amul cheese",
+      "sandwich",
+      "breakfast"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Rina M.",
+        "text": "Melts beautifully on sandwiches. Creamy taste."
+      },
+      {
+        "author": "Sameer J.",
+        "text": "Kids love it. Great for toast and burgers."
+      }
+    ]
+  },
+  {
+    "id": "dair-005",
+    "name": "Epigamia Greek Yogurt Strawberry 90g",
+    "brand": "Epigamia",
+    "category": "dairy",
+    "price": 45,
+    "rating": 4.2,
+    "review_count": 5200,
+    "is_bestseller": false,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "quick_meal"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Mumbai",
+      "Delhi",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 1,
+    "keywords": [
+      "greek yogurt",
+      "yogurt",
+      "strawberry",
+      "healthy",
+      "breakfast"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Aditi S.",
+        "text": "Creamy texture, real fruit flavor. Love it!"
+      },
+      {
+        "author": "Rohan V.",
+        "text": "Great healthy breakfast option. Not too sweet."
+      }
+    ]
+  },
+  {
+    "id": "stpl-004",
+    "name": "Maggi 2-Minute Noodles 12 Pack",
+    "brand": "Nestle",
+    "category": "pantry staples",
+    "price": 168,
+    "rating": 4.6,
+    "review_count": 45000,
+    "is_bestseller": true,
+    "serving_size": 12,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "quick_meal",
+      "study",
+      "breakfast",
+      "evening_snack",
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 12,
+    "keywords": [
+      "maggi",
+      "noodles",
+      "instant noodles",
+      "quick meal",
+      "2 minute"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Aakash R.",
+        "text": "Classic comfort food. Quick and delicious."
+      },
+      {
+        "author": "Pooja L.",
+        "text": "12-pack is great value. Perfect for hostel life."
+      }
+    ]
+  },
+  {
+    "id": "stpl-005",
+    "name": "Aashirvaad Atta 5kg",
+    "brand": "Aashirvaad",
+    "category": "pantry staples",
+    "price": 285,
+    "rating": 4.6,
+    "review_count": 35000,
+    "is_bestseller": true,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "dinner",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Ahmedabad",
+      "Lucknow",
+      "Jaipur"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": 6,
+    "keywords": [
+      "atta",
+      "wheat flour",
+      "chapati",
+      "roti",
+      "whole wheat"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Savita M.",
+        "text": "Makes the softest rotis. Pure and fresh quality."
+      },
+      {
+        "author": "Deepak S.",
+        "text": "Best atta brand. Consistent quality every time."
+      }
+    ]
+  },
+  {
+    "id": "stpl-006",
+    "name": "Tata Salt 1kg",
+    "brand": "Tata",
+    "category": "pantry staples",
+    "price": 24,
+    "rating": 4.5,
+    "review_count": 41000,
+    "is_bestseller": true,
+    "serving_size": 100,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Ahmedabad",
+      "Lucknow"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 36,
+    "keywords": [
+      "salt",
+      "iodised salt",
+      "tata salt",
+      "cooking essential",
+      "namak"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Gita R.",
+        "text": "Trusted brand. Always consistent quality."
+      },
+      {
+        "author": "Arun K.",
+        "text": "Essential kitchen staple. Pure and fine."
+      }
+    ]
+  },
+  {
+    "id": "stpl-007",
+    "name": "MDH Garam Masala 100g",
+    "brand": "MDH",
+    "category": "pantry staples",
+    "price": 75,
+    "rating": 4.7,
+    "review_count": 18500,
+    "is_bestseller": true,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "dinner",
+      "festival"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Kolkata",
+      "Lucknow",
+      "Jaipur",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 12,
+    "keywords": [
+      "garam masala",
+      "spice",
+      "mdh",
+      "indian spice",
+      "masala"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Padma T.",
+        "text": "Authentic blend. Elevates any dish."
+      },
+      {
+        "author": "Rajiv S.",
+        "text": "Strong aroma, great flavour. MDH is the best."
+      }
+    ]
+  },
+  {
+    "id": "stpl-008",
+    "name": "Fortune Sunflower Oil 1L",
+    "brand": "Fortune",
+    "category": "pantry staples",
+    "price": 140,
+    "rating": 4.3,
+    "review_count": 14000,
+    "is_bestseller": false,
+    "serving_size": 30,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "everyday",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 12,
+    "keywords": [
+      "cooking oil",
+      "sunflower oil",
+      "fortune",
+      "vegetable oil",
+      "frying"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Kamla D.",
+        "text": "Light and healthy. Good for everyday cooking."
+      },
+      {
+        "author": "Pramod N.",
+        "text": "Doesn't leave a heavy feeling. Great for frying."
+      }
+    ]
+  },
+  {
+    "id": "stpl-009",
+    "name": "Penne Rigate Pasta 500g",
+    "brand": "Barilla",
+    "category": "pantry staples",
+    "price": 120,
+    "rating": 4.5,
+    "review_count": 4800,
+    "is_bestseller": false,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Mumbai",
+      "Delhi",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": 24,
+    "keywords": [
+      "penne",
+      "pasta",
+      "italian",
+      "barilla",
+      "rigate"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Ishaan R.",
+        "text": "Holds sauce perfectly. Great texture."
+      },
+      {
+        "author": "Tara V.",
+        "text": "Premium quality pasta. Worth the extra cost."
+      }
+    ]
+  },
+  {
+    "id": "stpl-010",
+    "name": "Red Chilli Flakes 100g",
+    "brand": "Urban Platter",
+    "category": "pantry staples",
+    "price": 95,
+    "rating": 4.3,
+    "review_count": 3200,
+    "is_bestseller": false,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "aglio_olio",
+      "pizza"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Mumbai",
+      "Delhi",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 18,
+    "keywords": [
+      "chilli flakes",
+      "red pepper flakes",
+      "seasoning",
+      "pasta topping",
+      "spice"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Chef Meera",
+        "text": "Nice heat without being overwhelming. Good for pasta."
+      },
+      {
+        "author": "Saurabh D.",
+        "text": "Generous quantity. Adds perfect kick to aglio olio."
+      }
+    ]
+  },
+  {
+    "id": "stpl-011",
+    "name": "Parmesan Cheese 100g",
+    "brand": "Le Bon",
+    "category": "pantry staples",
+    "price": 280,
+    "rating": 4.4,
+    "review_count": 2100,
+    "is_bestseller": false,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "aglio_olio",
+      "dinner"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": 6,
+    "keywords": [
+      "parmesan",
+      "cheese",
+      "italian cheese",
+      "pasta topping",
+      "grated cheese"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Divya M.",
+        "text": "Authentic taste. Great on pasta and salads."
+      },
+      {
+        "author": "Anil K.",
+        "text": "Good quality for the price. Melts well."
+      }
+    ]
+  },
+  {
+    "id": "stpl-012",
+    "name": "Eggs White 12 Pack",
+    "brand": "Farm Fresh",
+    "category": "pantry staples",
+    "price": 80,
+    "rating": 4.4,
+    "review_count": 12000,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "cooking",
+      "quick_meal",
+      "baking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 1,
+    "keywords": [
+      "eggs",
+      "anda",
+      "breakfast",
+      "protein",
+      "omelette"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Harish K.",
+        "text": "Fresh eggs every time. No breakage on delivery."
+      },
+      {
+        "author": "Priya G.",
+        "text": "Good size eggs. Perfect for breakfast omelette."
+      }
+    ]
+  },
+  {
+    "id": "cln-001",
+    "name": "Vim Dishwash Liquid 750ml",
+    "brand": "Vim",
+    "category": "cleaning supplies",
+    "price": 125,
+    "rating": 4.4,
+    "review_count": 19500,
+    "is_bestseller": true,
+    "serving_size": 30,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "everyday",
+      "cleaning",
+      "party"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 36,
+    "keywords": [
+      "dishwash",
+      "dish soap",
+      "vim",
+      "cleaning",
+      "kitchen cleaner"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Gita M.",
+        "text": "Cuts through grease easily. Lemon fresh scent."
+      },
+      {
+        "author": "Bharat S.",
+        "text": "Lasts long. Best dishwash liquid available."
+      }
+    ]
+  },
+  {
+    "id": "cln-002",
+    "name": "Harpic Power Plus 500ml",
+    "brand": "Harpic",
+    "category": "cleaning supplies",
+    "price": 95,
+    "rating": 4.3,
+    "review_count": 14200,
+    "is_bestseller": false,
+    "serving_size": 20,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "everyday",
+      "cleaning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": 36,
+    "keywords": [
+      "toilet cleaner",
+      "harpic",
+      "bathroom cleaner",
+      "disinfectant"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Seema R.",
+        "text": "Powerful cleaner. Removes stains completely."
+      },
+      {
+        "author": "Ajay P.",
+        "text": "Strong formula but pleasant smell. Works great."
+      }
+    ]
+  },
+  {
+    "id": "cln-003",
+    "name": "Lizol Floor Cleaner Citrus 975ml",
+    "brand": "Lizol",
+    "category": "cleaning supplies",
+    "price": 175,
+    "rating": 4.5,
+    "review_count": 11800,
+    "is_bestseller": true,
+    "serving_size": 25,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "everyday",
+      "cleaning",
+      "party"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": 36,
+    "keywords": [
+      "floor cleaner",
+      "lizol",
+      "disinfectant",
+      "citrus",
+      "mopping"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Neelam K.",
+        "text": "Leaves floors sparkling. Fresh citrus scent."
+      },
+      {
+        "author": "Dinesh V.",
+        "text": "Great disinfectant. Use it before every party."
+      }
+    ]
+  },
+  {
+    "id": "cln-004",
+    "name": "Scotch-Brite Scrub Pad Pack of 3",
+    "brand": "3M",
+    "category": "cleaning supplies",
+    "price": 50,
+    "rating": 4.4,
+    "review_count": 8700,
+    "is_bestseller": false,
+    "serving_size": 15,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "everyday",
+      "cleaning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": null,
+    "keywords": [
+      "scrub pad",
+      "scotch brite",
+      "sponge",
+      "dishwashing",
+      "utensil cleaner"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Rekha J.",
+        "text": "Durable pads. Don't fall apart easily."
+      },
+      {
+        "author": "Suresh M.",
+        "text": "Best scrub pads. Cleans without scratching."
+      }
+    ]
+  },
+  {
+    "id": "cln-005",
+    "name": "Surf Excel Matic Front Load 1kg",
+    "brand": "Surf Excel",
+    "category": "cleaning supplies",
+    "price": 220,
+    "rating": 4.5,
+    "review_count": 22000,
+    "is_bestseller": true,
+    "serving_size": 30,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "everyday",
+      "cleaning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": 24,
+    "keywords": [
+      "detergent",
+      "washing powder",
+      "surf excel",
+      "laundry",
+      "front load"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Shanti R.",
+        "text": "Removes tough stains. Clothes come out fresh."
+      },
+      {
+        "author": "Mukesh L.",
+        "text": "Works perfectly with front load machine."
+      }
+    ]
+  },
+  {
+    "id": "snk-008",
+    "name": "Cadbury Dairy Milk Silk 150g",
+    "brand": "Cadbury",
+    "category": "snacks",
+    "price": 165,
+    "rating": 4.8,
+    "review_count": 26000,
+    "is_bestseller": true,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "birthday",
+      "party",
+      "festival"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 10,
+    "keywords": [
+      "chocolate",
+      "cadbury",
+      "silk",
+      "dairy milk",
+      "dessert"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Riya S.",
+        "text": "Silky smooth chocolate. Melts in your mouth!"
+      },
+      {
+        "author": "Varun D.",
+        "text": "Premium taste. Perfect for gifting too."
+      }
+    ]
+  },
+  {
+    "id": "snk-009",
+    "name": "Act II Classic Salted Popcorn 60g x 5",
+    "brand": "Act II",
+    "category": "snacks",
+    "price": 125,
+    "rating": 4.4,
+    "review_count": 9800,
+    "is_bestseller": true,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "study",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 8,
+    "keywords": [
+      "popcorn",
+      "microwave popcorn",
+      "movie snack",
+      "act ii",
+      "corn"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Nitin G.",
+        "text": "Best microwave popcorn. Pops perfectly every time."
+      },
+      {
+        "author": "Ayesha R.",
+        "text": "Movie night essential! Kids love making it themselves."
+      }
+    ]
+  },
+  {
+    "id": "snk-010",
+    "name": "Bikano Rasgulla Tin 1kg",
+    "brand": "Bikano",
+    "category": "snacks",
+    "price": 199,
+    "rating": 4.3,
+    "review_count": 7800,
+    "is_bestseller": false,
+    "serving_size": 8,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "party",
+      "birthday",
+      "celebration"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Kolkata",
+      "Lucknow",
+      "Jaipur"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 6,
+    "keywords": [
+      "rasgulla",
+      "sweet",
+      "mithai",
+      "dessert",
+      "bengali sweet"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Soma C.",
+        "text": "Soft and juicy rasgullas. Just like homemade."
+      },
+      {
+        "author": "Pankaj A.",
+        "text": "Great for festivals. Everyone loved them."
+      }
+    ]
+  },
+  {
+    "id": "dair-006",
+    "name": "Amul Paneer 200g",
+    "brand": "Amul",
+    "category": "dairy",
+    "price": 85,
+    "rating": 4.5,
+    "review_count": 16800,
+    "is_bestseller": true,
+    "serving_size": 3,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "dinner",
+      "party",
+      "festival"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 1,
+    "keywords": [
+      "paneer",
+      "cottage cheese",
+      "amul paneer",
+      "vegetarian",
+      "protein"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Vandana S.",
+        "text": "Soft and fresh paneer. Makes great paneer tikka."
+      },
+      {
+        "author": "Rajan M.",
+        "text": "Best paneer brand. Never disappoints."
+      }
+    ]
+  },
+  {
+    "id": "stpl-013",
+    "name": "Saffola Masala Oats 400g",
+    "brand": "Saffola",
+    "category": "pantry staples",
+    "price": 150,
+    "rating": 4.2,
+    "review_count": 8700,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "quick_meal",
+      "morning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Pune",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 9,
+    "keywords": [
+      "oats",
+      "masala oats",
+      "healthy breakfast",
+      "quick meal",
+      "fiber"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Neha R.",
+        "text": "Tasty and filling. Perfect quick breakfast."
+      },
+      {
+        "author": "Amit B.",
+        "text": "Good masala flavour. Ready in 5 minutes."
+      }
+    ]
+  },
+  {
+    "id": "stpl-014",
+    "name": "Kissan Mixed Fruit Jam 500g",
+    "brand": "Kissan",
+    "category": "pantry staples",
+    "price": 135,
+    "rating": 4.4,
+    "review_count": 16200,
+    "is_bestseller": true,
+    "serving_size": 20,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "quick_meal",
+      "birthday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 12,
+    "keywords": [
+      "jam",
+      "fruit jam",
+      "kissan",
+      "bread spread",
+      "breakfast spread"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Swati M.",
+        "text": "Real fruit chunks! Kids love it on toast."
+      },
+      {
+        "author": "Rajesh P.",
+        "text": "Best jam for sandwiches. Consistent quality."
+      }
+    ]
+  },
+  {
+    "id": "bev-009",
+    "name": "Real Mixed Fruit Juice 1L",
+    "brand": "Real",
+    "category": "beverages",
+    "price": 100,
+    "rating": 4.2,
+    "review_count": 11300,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "birthday",
+      "party",
+      "morning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 4,
+    "keywords": [
+      "mixed fruit juice",
+      "juice",
+      "fruit drink",
+      "breakfast drink"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Kavitha N.",
+        "text": "Natural taste. Good for breakfast routine."
+      },
+      {
+        "author": "Vikas M.",
+        "text": "Refreshing blend of fruits. Value for money."
+      }
+    ]
+  },
+  {
+    "id": "bev-010",
+    "name": "Bisleri Water 5L",
+    "brand": "Bisleri",
+    "category": "beverages",
+    "price": 50,
+    "rating": 4.1,
+    "review_count": 8500,
+    "is_bestseller": false,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "party",
+      "birthday",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 12,
+    "keywords": [
+      "water",
+      "mineral water",
+      "bisleri",
+      "packaged water",
+      "drinking water"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Anita J.",
+        "text": "Safe and clean water. Always keep one at home."
+      },
+      {
+        "author": "Prakash D.",
+        "text": "Essential for parties. Reliable brand."
+      }
+    ]
+  },
+  {
+    "id": "snk-011",
+    "name": "Oreo Original Biscuits 300g",
+    "brand": "Cadbury",
+    "category": "snacks",
+    "price": 75,
+    "rating": 4.5,
+    "review_count": 21000,
+    "is_bestseller": true,
+    "serving_size": 6,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "birthday",
+      "party",
+      "movie_night",
+      "evening_snack",
+      "kids"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 9,
+    "keywords": [
+      "oreo",
+      "biscuit",
+      "cookies",
+      "chocolate biscuit",
+      "cream biscuit"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Tanisha R.",
+        "text": "Twist, lick, dunk! Kids birthday party essential."
+      },
+      {
+        "author": "Sahil G.",
+        "text": "Classic Oreo. Never goes wrong with these."
+      }
+    ]
+  },
+  {
+    "id": "snk-012",
+    "name": "Uncle Chipps Spicy Treat 70g x 6",
+    "brand": "Uncle Chipps",
+    "category": "snacks",
+    "price": 120,
+    "rating": 4.3,
+    "review_count": 7600,
+    "is_bestseller": false,
+    "serving_size": 6,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "party",
+      "birthday",
+      "kids",
+      "movie_night"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Kolkata",
+      "Lucknow",
+      "Jaipur"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 5,
+    "keywords": [
+      "chips",
+      "uncle chipps",
+      "spicy",
+      "potato chips",
+      "party pack"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Mohit S.",
+        "text": "Nostalgic taste! Party pack is great for kids."
+      },
+      {
+        "author": "Anvi D.",
+        "text": "Spicy and crunchy. Each kid gets their own bag."
+      }
+    ]
+  },
+  {
+    "id": "frsh-008",
+    "name": "Fresh Potatoes 2kg",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 50,
+    "rating": 4.2,
+    "review_count": 6800,
+    "is_bestseller": false,
+    "serving_size": 8,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "dinner",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Kolkata",
+      "Lucknow",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 20,
+    "expiry_months": null,
+    "keywords": [
+      "potato",
+      "aloo",
+      "vegetable",
+      "cooking essential",
+      "sabzi"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Radha M.",
+        "text": "Good size potatoes. Fresh and clean."
+      },
+      {
+        "author": "Vinod S.",
+        "text": "Uniform size, great for cooking. No bad ones."
+      }
+    ]
+  },
+  {
+    "id": "dair-007",
+    "name": "Amul Masti Lassi 200ml Pack of 5",
+    "brand": "Amul",
+    "category": "dairy",
+    "price": 100,
+    "rating": 4.3,
+    "review_count": 8200,
+    "is_bestseller": false,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "party",
+      "quick_meal",
+      "summer"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Ahmedabad",
+      "Jaipur",
+      "Lucknow"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 1,
+    "keywords": [
+      "lassi",
+      "buttermilk",
+      "yogurt drink",
+      "probiotic",
+      "chilled drink"
+    ],
+    "sample_reviews": [
+      {
+        "author": "Manisha K.",
+        "text": "Thick and creamy lassi. Very refreshing!"
+      },
+      {
+        "author": "Ravi V.",
+        "text": "Perfect after-meal drink. Love the sweetness."
+      }
+    ]
+  }
+]
