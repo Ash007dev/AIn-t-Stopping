@@ -105,16 +105,20 @@ The two sequential Gemini API calls (parse → curate) are the critical path. Pa
 - Renders three `ModeCard` components (Shopping by Intent, Cooking/Fresh, Frictionless Add-on)
 - Reads `household_profile` from `localStorage` on mount; redirects to `/setup` if absent
 - Passes selected mode to the Zustand `useAppStore` before navigating to `/intent`
+- **Recent orders row**: on mount, reads `purchaseHistory` from Zustand store. If non-empty, renders a "Recent orders" row below the mode cards showing up to 3 chips (most recent first, ordered by `createdAt` descending). Each chip displays `occasionTitle`. On chip tap: calls `setPrefillIntent(occasionTitle)` and navigates to `/intent`. The row is hidden entirely when `purchaseHistory` is empty.
+- On mobile (≤767px), the "Recent orders" chips row is horizontally scrollable with no vertical overflow.
 - **Responsive**: row layout ≥1280px, stacked ≤767px
 
 #### `app/setup/page.tsx` — Household Profile Setup
-- Controlled form with three fields: `pinCode` (text), `servingCount` (number stepper), `dietary` (select)
-- On mount: reads existing profile from `localStorage` and pre-populates fields
-- On submit: validates → writes `localStorage` → pushes to `/`
+- Controlled form with four fields: `pinCode` (text), `servingCount` (number stepper), `budget` (optional numeric input), `dietary` (select)
+- The `budget` field is positioned between `servingCount` and `dietary`; it is optional — blank maps to `null`
+- On mount: reads existing profile from `localStorage` and pre-populates fields (including `budget` if present)
+- On submit: validates pin code, serving count, and budget (if non-empty: must be integer ≥ 1; show inline error adjacent to field on failure) → writes `localStorage` (including `budget` as number or null) → pushes to `/`
 - Inline validation errors rendered adjacent to each field
 
 #### `app/intent/page.tsx` — Intent Input
 - Reads `mode` from Zustand store; sets placeholder text accordingly
+- On mount: reads `prefillIntent` from Zustand store; if non-null, pre-fills the intent textarea and calls `setPrefillIntent(null)` immediately after
 - Contains `IntentInput` (textarea, 300-char cap, char counter) and `VoiceButton` (**stubbed/disabled** in initial build — renders as a disabled placeholder; SARVAM AI voice input is deferred)
 - On submit: `POST /api/generate-cart` → stores result in Zustand → navigate to `/cart`
 - Shows `PipelineProgress` spinner during API call; disables submit button
@@ -130,6 +134,7 @@ The two sequential Gemini API calls (parse → curate) are the critical path. Pa
 - Reads `cart` from Zustand store; redirects to `/cart` if empty
 - Renders read-only order summary
 - `Place Order` simulates 1.5s delay, generates `ORD-XXXXXX`, clears `sessionStorage` cart
+- **Purchase history recording**: after order confirmation is visible in the DOM (inside the `useEffect` watching `orderConfirmed` state), calls `addToHistory({ orderId, occasionTitle, cartSnapshot: deepCopy(cart), createdAt: new Date().toISOString() })` before or alongside `clearCart()`. The `addToHistory` action handles the `localStorage` write atomically.
 
 ### Shared UI Components
 
@@ -185,7 +190,7 @@ Renders a clickable chip that pre-fills the modification input. Labels sourced f
 // Request
 interface GenerateCartRequest {
   intentText: string;         // max 300 chars
-  householdProfile: HouseholdProfile;
+  householdProfile: HouseholdProfile;  // budget included here
 }
 
 // Response
@@ -199,9 +204,11 @@ interface GenerateCartResponse {
 Orchestration logic:
 1. `Promise.all([invokeIntentParser(intentText, profile), loadCatalog()])` — parse + catalog load in parallel
 2. Guard: if parser returns `error` field, return 400 with error message
-3. `Promise.all([invokeCartCurator(parsed, catalog), invokeQuantityCalibrator(parsed, catalog)])` — curate + calibrate in parallel
+3. `Promise.all([invokeCartCurator(parsed, catalog, budget), invokeQuantityCalibrator(parsed, catalog)])` — curate + calibrate in parallel; `budget` is passed from `householdProfile.budget`
 4. Filter regional products from catalog using `resolvedRegion`
-5. Merge into `GenerateCartResponse`, return 200
+5. Merge Cart_Curator and Quantity_Calibrator results into `mergedItems`
+6. **Budget_Filter trim** (if `budget > 0` and `computeCartTotal(mergedItems) > budget`): sort `mergedItems` by `rating` ascending, remove items from the front one at a time until `computeCartTotal ≤ budget` or exactly 3 items remain; if 3 items remain and `computeCartTotal` still exceeds `budget`, return HTTP 400 `{ error: "Budget too low for a minimum cart" }`
+7. Return `GenerateCartResponse` with trimmed cart, 200
 
 #### `POST /api/modify`
 ```typescript
@@ -266,6 +273,7 @@ All prompts instruct the model to return only valid JSON. The system prompt and 
 - Receives: parsed intent JSON + catalog JSON (full products.json)
 - Instructed to return array of product IDs with AI reasoning strings
 - Dietary/exclusion filtering is both prompt-level (instructed) and code-level (hard filter after response)
+- **Budget prompt injection**: when `budget > 0`, the following instruction is appended to the system prompt: `"The total cart price must not exceed ₹{budget}. Prioritise lower-priced products that meet quality thresholds."`
 - **Tier**: `pro` (first available from `MODEL_CANDIDATES.pro` — large context input, reasoning-heavy)
 - `generationConfig: { maxOutputTokens: 1024 }`
 
@@ -291,10 +299,24 @@ All prompts instruct the model to return only valid JSON. The system prompt and 
 interface HouseholdProfile {
   pinCode: string;            // exactly 6 numeric digits
   servingCount: number;       // 1–50
+  budget: number | null;      // ≥1 INR, or null for no limit
   dietary: "No restriction" | "Vegetarian" | "Jain";
 }
 ```
 Stored under `localStorage` key `household_profile` as JSON.
+
+### `PurchaseRecord`
+```typescript
+interface PurchaseRecord {
+  orderId: string;            // format: ORD-XXXXXX
+  occasionTitle: string;      // from cart's occasionTitle at time of order
+  cartSnapshot: CartProduct[]; // deep copy of cart at time of placement
+  createdAt: string;          // ISO 8601 timestamp
+}
+```
+Stored in `localStorage` under key `purchase_history` as a JSON array. Hydrated on store initialisation via `JSON.parse(localStorage.getItem('purchase_history') ?? '[]')`. This is managed with `localStorage` directly, separate from the Zustand `persist` middleware (which uses `sessionStorage` for the active cart).
+
+---
 
 ### `Product` (Catalog entry)
 ```typescript
@@ -397,8 +419,23 @@ interface AppStore {
   // Modification
   modificationError: string | null;
   setModificationError: (e: string | null) => void;
+
+  // Purchase History
+  purchaseHistory: PurchaseRecord[];
+  addToHistory: (record: PurchaseRecord) => void;
+
+  // Intent pre-fill (home page chip → /intent)
+  prefillIntent: string | null;
+  setPrefillIntent: (v: string | null) => void;
 }
 ```
+
+**`addToHistory` behaviour**: appends the new `PurchaseRecord` to `purchaseHistory`, then writes the full updated array to `localStorage` under key `purchase_history`. It is called atomically alongside `clearCart` inside the "Place Order" flow (after order confirmation is visible in the DOM).
+
+**`purchaseHistory` hydration**: on store initialisation, `purchaseHistory` is populated from `JSON.parse(localStorage.getItem('purchase_history') ?? '[]')`. This is separate from the Zustand `persist` middleware — purchase history uses `localStorage` directly (not `sessionStorage`).
+
+**`prefillIntent` usage**: set to an `occasionTitle` string when a user taps a recent-order chip on the home page. Read and cleared on `/intent` page mount — the value pre-fills the intent input field, then `setPrefillIntent(null)` is called immediately after.
+
 Cart state is also mirrored to `sessionStorage` (key `intent_cart_session`) on every mutation via a Zustand middleware (`persist` with `sessionStorage` as the backing store), satisfying the requirement that clearing `sessionStorage` after order placement removes the cart.
 
 ### `products.json` Schema Validation
@@ -411,6 +448,26 @@ Validation runs once at catalog load time in `lib/catalog.ts`. A product is excl
 - `eta_minutes` not in [1, 180]
 - `expiry_months` present and not in [0, 120]
 - `sample_reviews` does not have exactly 2 entries
+
+### `lib/validation.ts` — Validation Utilities
+
+In addition to `validatePinCode` and `validateServingCount`, this module exports:
+
+```typescript
+function validateBudget(n: number | null): { valid: boolean; error?: string } {
+  if (n === null) return { valid: true };            // null = no limit, always valid
+  if (!Number.isInteger(n) || n < 1)
+    return { valid: false, error: "Budget must be an integer ≥ 1" };
+  return { valid: true };
+}
+```
+
+Rules:
+- `null` → valid (no budget limit)
+- Non-integer or value < 1 → `{ valid: false, error: "Budget must be an integer ≥ 1" }`
+- Integer ≥ 1 → `{ valid: true }`
+
+---
 
 ### Fuse.js Integration
 Used exclusively for Frictionless Add-on mode product lookup:
@@ -444,6 +501,8 @@ function findProduct(query: string): Product | null {
 - Requirements 9.4 and 9.5 both test catalog validation exclusion logic → merged into Property 9 (catalog product exclusion)
 - Requirements 7.3 and 10.1 both involve cardinality constraints on AI-generated lists → kept separate (different contexts: alternatives vs complementary products)
 - Requirements 7.5 and 12.1–12.3 overlap on regional filtering → merged into Property 10
+- Requirements 16.7 and 16.8 (Budget_Filter) → combined into a single Property 18 covering both the trim invariant and the 400-error boundary
+- Requirements 15.2 and 15.3 (Purchase History) → combined into a single Property 19 covering append correctness and chip display count
 
 ---
 
@@ -591,6 +650,22 @@ function findProduct(query: string): Product | null {
 
 ---
 
+### Property 18: Budget Hard-Trim Invariant
+
+*For any* cart and any `budget > 0`, after applying the Budget_Filter trim, `computeCartTotal(trimmedCart) ≤ budget` SHALL hold, OR the cart contains exactly 3 items (the minimum) and an HTTP 400 error is returned.
+
+**Validates: Requirements 16.7, 16.8**
+
+---
+
+### Property 19: Purchase History Append Invariant
+
+*For any* sequence of N successful "Place Order" actions, the `purchase_history` array in localStorage SHALL contain exactly N entries in descending `createdAt` order, and the "Recent orders" row SHALL display `min(3, N)` chips.
+
+**Validates: Requirements 15.2, 15.3**
+
+---
+
 ## Error Handling
 
 ### AI Pipeline Errors
@@ -600,6 +675,7 @@ function findProduct(query: string): Product | null {
 | Intent_Parser returns `{ error: "..." }` | API route returns HTTP 400; client shows inline error on `/intent`; no navigation to `/cart` |
 | Gemini API throws (network, throttle, auth) | Caught in `invokeGeminiAgent`; wrapped as `{ error: "AI service unavailable" }`; propagated as 503 |
 | Cart_Curator returns < 3 products | API route returns 400 `{ error: "Not enough matching products" }`; client shows user message |
+| Budget too low after trim | After Budget_Filter trim, if 3 items remain and `computeCartTotal` still exceeds `budget` → HTTP 400 `{ error: "Budget too low for a minimum cart" }`; client shows user-facing error on `/intent` page; no navigation to `/cart` |
 | Quantity_Calibrator receives `serving_size ≤ 0` | Product skipped with `console.warn`; not included in cart |
 | Pipeline exceeds 10s (client timeout) | `AbortController` cancels fetch; error shown; submit re-enabled; no navigation |
 | Modification_Handler parse failure | Returns `{ error: "..." }`; ModificationBar shows inline error; cart state unchanged |
@@ -657,6 +733,7 @@ Each property test is tagged with a comment in this format:
 
 - **Property 1**: `fc.string()` → filter to invalid pin codes (empty, non-numeric, wrong length) → assert `validatePinCode(s)` returns error and no localStorage write
 - **Property 2**: `fc.integer().filter(n => n < 1 || n > 50)` → assert `validateServingCount(n)` returns error
+- **Budget validation**: `fc.oneof(fc.constant(null), fc.float().filter(n => !Number.isInteger(n) || n < 1))` → assert `validateBudget(n)` returns `{ valid: false }` for invalid inputs; `fc.integer({ min: 1 })` → assert `{ valid: true }`; `fc.constant(null)` → assert `{ valid: true }`
 
 #### Intent Input (`components/IntentInput.tsx`)
 
@@ -711,6 +788,14 @@ Each property test is tagged with a comment in this format:
 #### Modification_Handler Output Parser
 
 - **Property 17**: Generate arbitrary modification strings. Mock Gemini to return various response shapes. Assert only valid diff or error object shapes pass validation.
+
+#### Budget Filter (`lib/cart-utils.ts` / `app/api/generate-cart/route.ts`)
+
+- **Property 18**: `fc.record({ items: fc.array(fc.record({ price: fc.float({ min: 0.01 }), quantity: fc.integer({ min: 1 }) }), { minLength: 3, maxLength: 15 }), budget: fc.integer({ min: 1 }) })` → call `applyBudgetTrim(items, budget)` → assert either `computeCartTotal(result) ≤ budget` OR `result.length === 3` (with a 400 error path)
+
+#### Purchase History (`store/useAppStore.ts` / `app/checkout/page.tsx`)
+
+- **Property 19**: `fc.array(fc.record({ orderId: fc.string(), occasionTitle: fc.string(), cartSnapshot: fc.array(fc.record({ ... })), createdAt: fc.date() }), { minLength: 1, maxLength: 20 })` → simulate N `addToHistory` calls → assert `localStorage.getItem('purchase_history')` contains exactly N entries in descending `createdAt` order, and `purchaseHistory.slice(0, 3)` matches the 3 most recent
 
 ### Integration Tests
 

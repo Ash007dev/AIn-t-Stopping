@@ -30,6 +30,8 @@ This spec covers the full working prototype for HackOn with Amazon Season 6.0 �
 - **SARVAM_AI**: A future third-party service for regional language voice recognition (Hindi, Tamil, Telugu, Kannada, Bengali, etc.).
 - **Fuse_js**: The client-side fuzzy matching library used for product search and catalog lookups.
 - **ETA**: Estimated time of arrival for product delivery, expressed in minutes.
+- **PurchaseRecord**: A record of a completed order stored in `localStorage`, containing `orderId`, `occasionTitle`, `cartSnapshot`, and `createdAt`.
+- **Budget_Filter**: A server-side hard constraint applied after Cart_Curator returns, removing lowest-priority items until the cart total is within the user's configured budget.
 
 ---
 
@@ -56,7 +58,7 @@ This spec covers the full working prototype for HackOn with Amazon Season 6.0 �
 
 #### Acceptance Criteria
 
-1. THE IntentCart SHALL render a profile setup form at the `/setup` route capturing: pin code (text input), default serving count (numeric stepper), and dietary preference (selectable option from: "No restriction", "Vegetarian", "Jain").
+1. THE IntentCart SHALL render a profile setup form at the `/setup` route capturing: pin code (text input), default serving count (numeric stepper), max spend per cart in ₹ (optional numeric input), and dietary preference (selectable option from: "No restriction", "Vegetarian", "Jain").
 2. WHEN a user submits a valid setup form, THE IntentCart SHALL serialize the form values as a JSON object and persist it to browser `localStorage` under the key `household_profile`, then navigate the user to the `/` route.
 3. IF a user submits the setup form and the pin code field is empty, contains non-numeric characters, or is not exactly 6 digits in length, THEN THE IntentCart SHALL display an inline validation error message adjacent to the pin code field and SHALL NOT invoke any localStorage write or navigation.
 4. IF a user submits the setup form and the serving count field contains a value less than 1 or greater than 50, THEN THE IntentCart SHALL display an inline validation error message adjacent to the serving count field and SHALL NOT invoke any localStorage write or navigation.
@@ -248,3 +250,37 @@ This spec covers the full working prototype for HackOn with Amazon Season 6.0 �
 4. THE IntentCart SHALL render all routes and complete all user interactions without requiring a user login or authentication token.
 5. THE IntentCart SHALL not execute any AWS Bedrock API call from client-side JavaScript running in the browser; all Bedrock invocations SHALL occur exclusively within Next.js API route handlers on the server.
 6. THE total AWS Bedrock token usage during the hackathon demo period (a single 8-hour session) SHALL not exceed a cost equivalent to $3.60 USD (approximately ₹300 at ₹83/USD exchange rate).
+
+---
+
+### Requirement 15: Purchase History
+
+**User Story:** As a returning customer, I want to see my recent orders on the home page, so that I can quickly re-shop for a past occasion without re-typing.
+
+#### Acceptance Criteria
+
+1. WHEN a user successfully places an order (order confirmation is visible in the DOM), THE IntentCart SHALL create a `PurchaseRecord` object containing: `orderId` (the generated ORD-XXXXXX string), `occasionTitle` (the current cart's occasion title), `cartSnapshot` (a deep copy of the current `CartProduct[]` at time of placement), and `createdAt` (ISO 8601 timestamp string at time of placement).
+2. WHEN a `PurchaseRecord` is created, THE IntentCart SHALL append it to the purchase history array stored in `localStorage` under key `purchase_history` (a JSON array), and SHALL update the Zustand store's `purchaseHistory` array atomically.
+3. THE IntentCart SHALL render a "Recent orders" row on the home page (`/` route) below the mode selection cards, displaying up to 3 `PurchaseRecord` entries as tappable chips ordered by `createdAt` descending (most recent first).
+4. IF `localStorage` key `purchase_history` is absent or empty, THEN THE IntentCart SHALL NOT render the "Recent orders" row on the home page.
+5. WHEN a user taps a recent order chip, THE IntentCart SHALL navigate to the `/intent` route and pre-fill the intent input field with the `occasionTitle` from the tapped `PurchaseRecord`.
+6. THE IntentCart SHALL persist the full `purchase_history` array across browser sessions using `localStorage`; it SHALL NOT be cleared when the active cart is cleared from `sessionStorage` after order placement.
+7. WHILE the viewport width is between 320px and 767px, THE IntentCart SHALL render recent order chips in a horizontally scrollable row with no vertical overflow.
+
+---
+
+### Requirement 16: Budget Filter
+
+**User Story:** As a budget-conscious customer, I want to set a maximum spend limit, so that the AI only builds carts I can afford.
+
+#### Acceptance Criteria
+
+1. THE IntentCart SHALL add an optional numeric input field labelled "Max spend per cart (₹)" to the `/setup` form, positioned between the serving count field and the dietary preference field; the field SHALL accept integers ≥ 1 or be left blank (representing no budget limit).
+2. WHEN a user submits the setup form with a non-empty budget field containing a value less than 1 or a non-integer value, THE IntentCart SHALL display an inline validation error adjacent to the budget field and SHALL NOT invoke any localStorage write or navigation.
+3. WHEN a user submits a valid setup form, THE IntentCart SHALL persist the `budget` field (as a number or null if left blank) as part of the `household_profile` JSON object in localStorage.
+4. WHEN the `/setup` route is loaded and a `household_profile` key exists in localStorage, THE IntentCart SHALL pre-populate the budget field with the stored value if present, or leave it blank if `budget` is null.
+5. WHEN a cart generation request is made and the resolved `budget` value is greater than 0, THE IntentCart SHALL include the budget value in the `GenerateCartRequest` payload sent to `/api/generate-cart`.
+6. WHEN `invokeCartCurator` receives a `budget > 0`, THE Cart_Curator system prompt SHALL include the instruction: "The total cart price must not exceed ₹{budget}. Prioritise lower-priced products that meet quality thresholds."
+7. AFTER the Cart_Curator returns its product selection and quantities are calculated, IF `computeCartTotal(items) > budget` and `budget > 0`, THEN THE IntentCart server route SHALL remove items from the cart in ascending priority order (lowest AI reasoning confidence or lowest rating) until `computeCartTotal(items) ≤ budget` or only 3 items remain (the minimum cart size).
+8. IF applying the budget hard-trim reduces the cart to fewer than 3 items while `computeCartTotal` of the 3 remaining items still exceeds the budget, THEN THE IntentCart SHALL return an HTTP 400 response with error message "Budget too low for a minimum cart" and SHALL NOT navigate to the `/cart` route.
+9. WHEN `budget` is null or 0 in the household profile, THE IntentCart SHALL NOT apply any budget constraint to cart generation, behaving identically to the pre-budget-filter behaviour.

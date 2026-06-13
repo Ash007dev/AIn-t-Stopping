@@ -13,7 +13,8 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
 - [ ] 1. Scaffold project structure and core type definitions
   - Initialise a Next.js 14 App Router project with TypeScript, Tailwind CSS, and the following dependencies: `@google/generative-ai`, `zustand`, `fuse.js`, `fast-check`, `vitest`, `@vitejs/plugin-react`, `@testing-library/react`, `@testing-library/jest-dom`, `nanoid`
   - Create directory structure: `app/`, `app/api/`, `components/`, `lib/`, `lib/agents/`, `store/`, `public/`
-  - Create `lib/types.ts` exporting all shared interfaces: `HouseholdProfile`, `Product`, `CartProduct`, `ParsedIntent`, `CartDiff`, `GenerateCartRequest`, `GenerateCartResponse`, `ModifyCartRequest`
+  - Create `lib/types.ts` exporting all shared interfaces: `HouseholdProfile`, `Product`, `CartProduct`, `ParsedIntent`, `CartDiff`, `GenerateCartRequest`, `GenerateCartResponse`, `ModifyCartRequest`, `PurchaseRecord`
+    - `PurchaseRecord`: `{ orderId: string; occasionTitle: string; cartSnapshot: CartProduct[]; createdAt: string }`
   - Create `.env.local.example` documenting `GEMINI_API_KEY`
   - Configure `vitest.config.ts` with jsdom environment, `@testing-library/jest-dom` setup file, and path aliases matching `tsconfig.json`
   - _Requirements: 9.1, 14.3, 14.4, 14.5_
@@ -32,10 +33,11 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
     - Use `fc.record({ ...productFields })` with one field randomly set to an out-of-range value; call `validateProduct(p)`; assert product is excluded and `console.warn` called with `id` and offending field name
 
 - [ ] 3. Build validation utilities
-  - [ ] 3.1 Create `lib/validation.ts` exporting `validatePinCode(s: string)` and `validateServingCount(n: number)` — each returns `{ valid: boolean; error?: string }` and has no side effects
+  - [ ] 3.1 Create `lib/validation.ts` exporting `validatePinCode(s: string)`, `validateServingCount(n: number)`, and `validateBudget(n: number | null)` — each returns `{ valid: boolean; error?: string }` and has no side effects
     - `validatePinCode`: empty → error; non-numeric → error; length ≠ 6 → error; otherwise valid
     - `validateServingCount`: n < 1 or n > 50 → error; otherwise valid
-    - _Requirements: 2.3, 2.4_
+    - `validateBudget`: null → valid; non-integer or < 1 → `{ valid: false, error: "Budget must be an integer ≥ 1" }`; integer ≥ 1 → valid
+    - _Requirements: 2.3, 2.4, 16.2_
   - [ ]* 3.2 Write property test for pin code validation (Property 1)
     - **Property 1: Pin Code Validation Rejects All Invalid Formats**
     - **Validates: Requirements 2.3**
@@ -44,6 +46,11 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
     - **Property 2: Serving Count Validation Rejects Out-of-Range Values**
     - **Validates: Requirements 2.4**
     - Use `fc.integer().filter(n => n < 1 || n > 50)`; assert `validateServingCount(n).valid === false`
+
+  - [ ]* 3.4 Write property test for budget validation (Property — Budget Validation)
+    - **Validates: Requirements 16.2**
+    - Use `fc.oneof(fc.constant(null), fc.float().filter(n => !Number.isInteger(n) || n < 1))` → assert `validateBudget(n).valid === false` for non-null invalid inputs; `fc.constant(null)` → assert `validateBudget(null).valid === true`
+    - Use `fc.integer({ min: 1 })` → assert `validateBudget(n).valid === true`
 
 - [ ] 4. Build region resolution utility
   - [ ] 4.1 Create `lib/region-map.ts` exporting `REGION_MAP` and `resolveRegion(pinCode: string): string | null`
@@ -79,11 +86,12 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
     - **Property 6: Intent_Parser Dietary Deduplication**
     - **Validates: Requirements 4.4**
     - Inject arrays with duplicate dietary keywords; call `deduplicateDietary(arr)`; assert each distinct keyword appears at most once
-  - [ ] 6.5 Create `lib/agents/cart-curator.ts` exporting `invokeCartCurator(parsed: ParsedIntent, catalog: Product[]): Promise<{ id: string; ai_reasoning: string }[]>`
+  - [ ] 6.5 Create `lib/agents/cart-curator.ts` exporting `invokeCartCurator(parsed: ParsedIntent, catalog: Product[], budget: number | null): Promise<{ id: string; ai_reasoning: string }[]>`
     - System prompt: instructs model to select product IDs from catalog matching parsed intent; dietary/exclusion filtering at both prompt level and hard filter after response
+    - When `budget > 0`, append to system prompt: `"The total cart price must not exceed ₹{budget}. Prioritise lower-priced products that meet quality thresholds."`
     - `generationConfig: { maxOutputTokens: 1024 }`, tier: `"pro"`
     - Export pure `filterAndSelectProducts(parsed, catalog)` for property testing
-    - _Requirements: 5.1, 5.4, 5.5, 5.6, 5.7_
+    - _Requirements: 5.1, 5.4, 5.5, 5.6, 5.7, 16.3_
   - [ ]* 6.6 Write property test for cart product selection invariants (Property 8)
     - **Property 8: Cart Product Selection Invariants**
     - **Validates: Requirements 5.1, 5.4, 5.5, 5.6**
@@ -119,12 +127,13 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
     - Parse and validate request body (`intentText` max 300 chars, `householdProfile`)
     - Step 1: `Promise.all([invokeIntentParser(...), loadCatalog()])` — parse + catalog in parallel
     - Guard: if parser returns `error` field, return HTTP 400 `{ error }`
-    - Step 2: `Promise.all([invokeCartCurator(parsed, catalog), invokeQuantityCalibrator(parsed.person_count, products)])` — curate + calibrate in parallel
+    - Step 2: `Promise.all([invokeCartCurator(parsed, catalog, householdProfile.budget), invokeQuantityCalibrator(parsed.person_count, products)])` — curate + calibrate in parallel; pass `householdProfile.budget` to `invokeCartCurator`
     - Filter regional products from catalog using `resolveRegion`
     - Guard: if Cart_Curator returns < 3 products, return HTTP 400 `{ error: "Not enough matching products" }`
-    - Merge into `GenerateCartResponse` and return HTTP 200
+    - Merge Cart_Curator and Quantity_Calibrator results into `mergedItems`
+    - **Budget_Filter trim** (if `budget > 0` and `computeCartTotal(mergedItems) > budget`): call `applyBudgetTrim(mergedItems, budget)`; if `underBudget` is false (3 items remain and total still > budget), return HTTP 400 `{ error: "Budget too low for a minimum cart" }`; otherwise use `trimmed` as the final cart
     - Wrap all Gemini errors and return HTTP 503 with `{ error: "AI service unavailable" }`
-    - _Requirements: 4.5, 4.6, 5.3, 5.6, 5.7, 6.1, 6.2, 6.3, 12.1, 12.6_
+    - _Requirements: 4.5, 4.6, 5.3, 5.6, 5.7, 6.1, 6.2, 6.3, 12.1, 12.6, 16.3, 16.7, 16.8_
   - [ ] 8.3 Create `app/api/modify/route.ts` implementing `POST /api/modify`
     - Parse request body (`modificationText` max 300 chars, `currentCart`)
     - Call `invokeModificationHandler(modText, currentCart)`
@@ -133,11 +142,12 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
     - _Requirements: 8.4, 8.6, 8.7_
 
 - [ ] 9. Build cart utility functions
-  - [ ] 9.1 Create `lib/cart-utils.ts` exporting `computeCartTotal(items: CartProduct[])`, `applyDiffToCart(cart, diff)`, and `applySwitch(cart, cardIndex, alternativeId)`
+  - [ ] 9.1 Create `lib/cart-utils.ts` exporting `computeCartTotal(items: CartProduct[])`, `applyDiffToCart(cart, diff)`, `applySwitch(cart, cardIndex, alternativeId)`, and `applyBudgetTrim(items: CartProduct[], budget: number)`
     - `computeCartTotal`: returns `Σ (product.price × product.quantity)` for all items
     - `applySwitch`: replaces primary product; ensures the alternative does not appear in its own 2 alternative slots
     - `applyDiffToCart`: applies `add`, `remove`, `modify` arrays to produce new cart state
-    - _Requirements: 7.4, 7.7, 8.4, 8.5_
+    - `applyBudgetTrim`: sorts items by `rating` ascending, removes from the front one at a time until `computeCartTotal(trimmed) ≤ budget` or 3 items remain; returns `{ trimmed: CartProduct[]; underBudget: boolean }` where `underBudget` is `computeCartTotal(trimmed) <= budget`
+    - _Requirements: 7.4, 7.7, 8.4, 8.5, 16.7, 16.8_
   - [ ]* 9.2 Write property test for cart total price invariant (Property 9)
     - **Property 9: Cart Total Price Invariant**
     - **Validates: Requirements 7.7**
@@ -146,6 +156,11 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
     - **Property 11: Product Switch Invariants**
     - **Validates: Requirements 7.4**
     - Generate random carts with alternatives; call `applySwitch(cart, cardIndex, alternativeId)`; assert: original product absent, alternative in primary slot, alternative not in its own alternative slots, total recalculated correctly
+
+  - [ ]* 9.4 Write property test for budget hard-trim invariant (Property 18)
+    - **Property 18: Budget Hard-Trim Invariant**
+    - **Validates: Requirements 16.7, 16.8**
+    - Use `fc.record({ items: fc.array(cartProductArb, { minLength: 3, maxLength: 15 }), budget: fc.integer({ min: 1 }) })` → call `applyBudgetTrim(items, budget)` → assert either `computeCartTotal(result.trimmed) <= budget` (underBudget: true) OR `result.trimmed.length === 3` (underBudget: false)
 
 - [ ] 10. Build Fuse.js integration for frictionless mode
   - [ ] 10.1 Create `lib/fuse-search.ts` exporting `findProduct(query: string, catalog: Product[]): Product | null` and `findComplementary(product: Product, catalog: Product[]): Product[]`
@@ -161,7 +176,16 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
   - [ ] 11.1 Create `store/useAppStore.ts` implementing the full `AppStore` interface with `persist` middleware using `sessionStorage` (key `intent_cart_session`)
     - Actions: `setMode`, `setPipelineRunning`, `setCartResult`, `switchProduct` (calls `applySwitch`), `applyDiff` (calls `applyDiffToCart`), `clearCart`, `setModificationError`
     - `setCartResult` sets `cart`, `regionalProducts`, `occasionTitle`, `parsedIntent` atomically
-    - _Requirements: 7.4, 7.7, 8.4, 11.4_
+    - Add to store: `purchaseHistory: PurchaseRecord[]`, `addToHistory: (record: PurchaseRecord) => void`, `prefillIntent: string | null`, `setPrefillIntent: (v: string | null) => void`
+    - `addToHistory`: appends the new record to `purchaseHistory`, then writes the full updated array to `localStorage` under key `purchase_history`
+    - On store init: hydrate `purchaseHistory` from `JSON.parse(localStorage.getItem('purchase_history') ?? '[]')` (separate from the `persist` sessionStorage middleware)
+    - `prefillIntent` is NOT persisted to sessionStorage
+    - _Requirements: 7.4, 7.7, 8.4, 11.4, 15.2, 15.3, 15.6_
+
+  - [ ]* 11.2 Write property test for purchase history append invariant (Property 19)
+    - **Property 19: Purchase History Append Invariant**
+    - **Validates: Requirements 15.2, 15.3**
+    - Use `fc.array(purchaseRecordArb, { minLength: 1, maxLength: 20 })` → simulate N `addToHistory` calls against the Zustand store → assert `JSON.parse(localStorage.getItem('purchase_history'))` has exactly N entries in descending `createdAt` order, and `purchaseHistory.slice(0, 3)` matches the 3 most recent
 
 - [ ] 12. Build shared UI components
   - [ ] 12.1 Create `components/StarRating.tsx` — pure display, accepts `rating: number` (1.0–5.0), renders filled/half/empty SVG stars; accessible `aria-label`
@@ -214,23 +238,29 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
 
 - [ ] 14. Implement app pages
   - [ ] 14.1 Create `app/setup/page.tsx` — Household Profile Setup
-    - Controlled form with `pinCode` (text), `servingCount` (number stepper), `dietary` (select: "No restriction" | "Vegetarian" | "Jain")
-    - On mount: read `localStorage.getItem("household_profile")` and pre-populate fields
-    - On submit: call `validatePinCode` and `validateServingCount`; show inline errors adjacent to fields on failure; on success write `localStorage.setItem("household_profile", JSON.stringify(values))` and `router.push("/")`
+    - Controlled form with `pinCode` (text), `servingCount` (number stepper), `budget` (optional numeric input, positioned between `servingCount` and `dietary`), `dietary` (select: "No restriction" | "Vegetarian" | "Jain")
+    - `budget` field accepts integers ≥ 1 or may be left blank (null)
+    - On mount: read `localStorage.getItem("household_profile")` and pre-populate fields (including `budget` if present)
+    - On submit: call `validatePinCode`, `validateServingCount`, and (if non-empty) `validateBudget`; show inline errors adjacent to respective fields on failure; on success write `localStorage.setItem("household_profile", JSON.stringify(values))` (including `budget` as number or null) and `router.push("/")`
     - Responsive: single-column layout 320px–767px, full layout ≥1280px
-    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 16.1, 16.2_
   - [ ] 14.2 Create `app/page.tsx` — Home / Mode Selection
     - On mount: check `localStorage` for `household_profile`; if absent, `router.replace("/setup")`
     - Renders three `ModeCard` components; on click: calls `setMode(...)` in Zustand store and `router.push("/intent")`
     - Frictionless Add-on card sets mode and navigates to `/intent` with add-on mode active
+    - On mount: read `purchaseHistory` from Zustand store; if non-empty, render "Recent orders" row below the mode cards showing up to 3 chips ordered by `createdAt` descending (most recent first)
+    - Each chip displays `occasionTitle`; on tap: call `setPrefillIntent(occasionTitle)` and navigate to `/intent`
+    - Hide "Recent orders" row entirely when `purchaseHistory` is empty
+    - On mobile (≤767px): chips row is horizontally scrollable with no vertical overflow
     - Responsive: row layout ≥1280px, stacked ≤767px
-    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 15.3, 15.4, 15.5, 15.7_
   - [ ] 14.3 Create `app/intent/page.tsx` — Intent Input Page
     - Reads `selectedMode` from Zustand; sets placeholder text based on mode
+    - On mount: read `prefillIntent` from Zustand store; if non-null, pre-fill the intent textarea and immediately call `setPrefillIntent(null)`
     - Renders `IntentInput` and disabled `VoiceButton` stub
     - Renders `PipelineProgress` while `isPipelineRunning` is true
     - On submit: set `setPipelineRunning(true)`, `POST /api/generate-cart` with 10s `AbortController` timeout, on success call `setCartResult(...)` and `router.push("/cart")`, on error display inline error and re-enable submit, on timeout display timeout error and re-enable submit
-    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9_
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 15.5_
   - [ ] 14.4 Create `app/cart/page.tsx` — Smart Cart Page
     - Reads `cart`, `regionalProducts`, `occasionTitle` from Zustand
     - Renders occasion title, ETA badge (max across all products), cart total, `ProductCard` list
@@ -243,9 +273,11 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
   - [ ] 14.5 Create `app/checkout/page.tsx` — Checkout Page
     - On mount: if `cart` is empty/absent in sessionStorage, `router.replace("/cart")`
     - Renders read-only order summary: occasion title, product list (name, quantity, line total), subtotal, ₹0 delivery fee, grand total, max ETA across products, "Place Order" button
-    - On "Place Order": 1.5s delay via `setTimeout`, generate `ORD-${nanoid(6).toUpperCase()}`, display confirmation, then `sessionStorage.removeItem("intent_cart_session")` inside `useEffect` watching `orderConfirmed`
+    - On "Place Order": 1.5s delay via `setTimeout`, generate `ORD-${nanoid(6).toUpperCase()}`, display confirmation, then inside `useEffect` watching `orderConfirmed`:
+      - Call `addToHistory({ orderId, occasionTitle, cartSnapshot: JSON.parse(JSON.stringify(cart)), createdAt: new Date().toISOString() })` before or alongside `clearCart()`
+      - Call `sessionStorage.removeItem("intent_cart_session")`
     - Responsive: no horizontal scroll, all product names visible at 320px–1920px
-    - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5_
+    - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 15.1, 15.2_
   - [ ]* 14.6 Write property test for checkout page renders all required fields (Property 14)
     - **Property 14: Checkout Page Renders All Required Fields**
     - **Validates: Requirements 11.3**
@@ -296,10 +328,10 @@ All code is TypeScript. Property-based tests use fast-check with a minimum of 10
 {
   "waves": [
     { "id": 0, "tasks": ["2.1", "3.1", "4.1", "5.1"] },
-    { "id": 1, "tasks": ["2.2", "6.1", "6.5", "6.7", "6.9", "9.1", "10.1"] },
-    { "id": 2, "tasks": ["2.3", "3.2", "3.3", "6.2", "6.3", "6.4", "6.6", "6.8", "6.10", "9.2", "9.3", "10.2"] },
+    { "id": 1, "tasks": ["2.2", "3.4", "6.1", "6.5", "6.7", "6.9", "9.1", "10.1"] },
+    { "id": 2, "tasks": ["2.3", "3.2", "3.3", "6.2", "6.3", "6.4", "6.6", "6.8", "6.10", "9.2", "9.3", "9.4", "10.2"] },
     { "id": 3, "tasks": ["8.1", "8.2", "8.3", "11.1", "12.1", "12.2", "12.3", "12.4", "12.7", "12.8"] },
-    { "id": 4, "tasks": ["12.5", "12.9", "12.11", "12.12", "12.13"] },
+    { "id": 4, "tasks": ["11.2", "12.5", "12.9", "12.11", "12.12", "12.13"] },
     { "id": 5, "tasks": ["12.6", "12.10", "12.14"] },
     { "id": 6, "tasks": ["14.1", "14.2", "14.3"] },
     { "id": 7, "tasks": ["14.4", "14.5"] },
