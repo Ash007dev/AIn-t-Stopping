@@ -10,6 +10,7 @@ import ProductCard from "@/components/ProductCard";
 import RegionalCard from "@/components/RegionalCard";
 import ModificationBar from "@/components/ModificationBar";
 import ReadAloudButton from "@/components/ReadAloudButton";
+import { recordRemovedItem, recordPreferredBrand, recordOccasion } from "@/lib/user-memory";
 
 const DARK_STORE_DISPLAY: Record<string, { name: string; distance: string }> = {
   "DS-North": { name: "Amazon Dark Store North", distance: "1.2km" },
@@ -55,6 +56,16 @@ export default function CartPage() {
   }));
 
   const handleApplyDiff = (diff: CartDiff) => {
+    // Track removed items in user memory
+    if (diff.remove?.length) {
+      for (const removedId of diff.remove) {
+        const removedProduct = cart.find(p => p.id === removedId);
+        if (removedProduct) {
+          recordRemovedItem(removedProduct.name, removedProduct.category);
+        }
+      }
+    }
+
     applyDiff(diff);
     const affectedIds = new Set<string>([
       ...diff.remove,

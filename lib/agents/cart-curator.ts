@@ -2,6 +2,7 @@
 import { ParsedIntent, Product, CartProduct, ProductCategory, AISuggestion } from "@/lib/types";
 import { invokeAI } from "./gemini-client";
 import Fuse from "fuse.js";
+import { getMemoryContext } from "@/lib/user-memory";
 
 /**
  * Build the dynamic SYSTEM PROMPT based on mode.
@@ -129,6 +130,7 @@ ${dietaryInstruction}
 ${regionHint}${budgetInstruction}
 
 Return ONLY a valid JSON array. No markdown. No explanation. No trailing commas.
+${getMemoryContext()}
 
 JSON format per product:
 {

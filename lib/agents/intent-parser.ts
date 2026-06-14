@@ -22,7 +22,8 @@ Return ONLY valid JSON with exactly these fields:
   "time_context": string or null (e.g., "morning", "evening", "tonight", "afternoon"),
   "dietary": array of strings (e.g., ["vegetarian", "no onion"]),
   "exclusions": array of strings (items to exclude),
-  "mode_override": string or null (set ONLY when a predictive life-situation is detected)
+  "mode_override": string or null (set ONLY when a predictive life-situation is detected),
+  "clarifying_question": string or null (set ONLY when the intent is too vague to act on)
 }
 
 Rules:
@@ -33,12 +34,21 @@ Rules:
 - Extract ALL dietary constraints mentioned.
 - Do NOT include any text outside the JSON object.
 
+ADAPTIVE CLARIFYING QUESTIONS — set clarifying_question when:
+- The request is dangerously vague (e.g., "I need medicine", "I need stuff", "buy things").
+  → clarifying_question: "What symptoms are you experiencing? (e.g., fever, cold, headache)"
+- The request is missing critical context (e.g., "party" without person count or type).
+  → clarifying_question: "What type of party? How many guests?"
+- The category is too broad (e.g., "I need groceries", "get me food").
+  → clarifying_question: "What type of food? Are you cooking a specific dish or stocking up?"
+- NOTE: If the intent is CLEAR ENOUGH to act on (e.g., "movie night for 5", "birthday party for 20 kids"), do NOT set clarifying_question. Only ask when genuinely ambiguous.
+
 PREDICTIVE MODE DETECTION — set mode_override when these life situations are detected:
 - If user mentions "new baby", "newborn", "just had a baby", "first baby" → occasion = "new_baby", mode_override = "predictive"
 - If user mentions "new home", "moved in", "new house", "shifting" → occasion = "new_home", mode_override = "predictive"
 - If user mentions "home office", "work from home setup", "WFH setup" → occasion = "home_office", mode_override = "predictive"
 - If user mentions "someone sick", "fever", "cold", "ill at home" → occasion = "sick_person", mode_override = "predictive"
-- If user mentions "college", "hostel", "first week of college" → occasion = "college_first_week", mode_override = "predictive"
+- If user mentions "college", "hostel", "first week of college" → occasion = "college_first_week", mode_override = "predictive"`;
 - For all other requests, set mode_override to null.`;
 
   try {

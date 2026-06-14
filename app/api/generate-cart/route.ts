@@ -24,6 +24,14 @@ export async function POST(req: NextRequest) {
     if (parsed.error)
       return NextResponse.json({ error: parsed.error }, { status: 400 });
 
+    // Step 1b: If AI needs clarification, return the question to the frontend
+    if (parsed.clarifying_question) {
+      return NextResponse.json({
+        clarifying_question: parsed.clarifying_question,
+        parsedIntent: parsed,
+      }, { status: 200 });
+    }
+
     const region = resolveRegion(householdProfile.pinCode);
 
     // Step 2: Determine effective mode — mode_override from intent parser takes priority

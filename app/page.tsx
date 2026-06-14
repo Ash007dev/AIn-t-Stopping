@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import ModeCard from "@/components/ModeCard";
 import VoiceButton from "@/components/VoiceButton";
+import ImageUploadButton from "@/components/ImageUploadButton";
 
 interface ReplenishableItem {
   id: string;
@@ -128,17 +129,18 @@ export default function Home() {
               Select a shopping mode below, or tap the mic to speak your need in any language.
             </p>
           </div>
-          <div className="flex-shrink-0 pt-1">
+          <div className="flex-shrink-0 pt-1 flex items-center gap-2">
+            <ImageUploadButton onIntentDetected={handleVoiceTranscript} />
             <VoiceButton onTranscript={handleVoiceTranscript} size="lg" />
           </div>
         </div>
 
-        {/* Voice CTA banner */}
-        <div className="mt-4 flex items-center gap-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10 border border-orange-200 dark:border-orange-800/30 rounded-xl">
-          <span className="text-xl">🎙️</span>
+        {/* Voice & Vision CTA banner */}
+        <div className="mt-4 flex items-center gap-3 p-3 bg-gradient-to-r from-orange-50 to-purple-50 dark:from-orange-900/10 dark:to-purple-900/10 border border-orange-200 dark:border-orange-800/30 rounded-xl">
+          <span className="text-xl">🎙️📷</span>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-orange-800 dark:text-orange-300">Voice Shopping — Just speak!</p>
-            <p className="text-[11px] text-orange-600/80 dark:text-orange-400/60">"Movie night for 10 people" → AI builds your cart instantly. Works in Hindi, Tamil, Telugu & more.</p>
+            <p className="text-xs font-semibold text-orange-800 dark:text-orange-300">Voice & Vision Shopping</p>
+            <p className="text-[11px] text-orange-600/80 dark:text-orange-400/60">Speak in any language or snap a photo — AI builds your cart instantly.</p>
           </div>
         </div>
       </div>

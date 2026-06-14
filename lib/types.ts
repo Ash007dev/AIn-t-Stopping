@@ -56,6 +56,7 @@ export interface ParsedIntent {
   dietary: string[];
   exclusions: string[];
   mode_override?: string | null;
+  clarifying_question?: string | null;
   error?: string;
 }
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import { computeCartTotal, getMaxEta, generateOrderId } from "@/lib/cart-utils";
+import { recordPreferredBrand, recordOccasion } from "@/lib/user-memory";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -32,6 +33,11 @@ export default function CheckoutPage() {
         cartSnapshot: JSON.parse(JSON.stringify(cart)),
         createdAt: new Date().toISOString(),
       });
+      // Record user preferences for memory
+      recordOccasion(occasionTitle);
+      for (const item of cart) {
+        if (item.brand) recordPreferredBrand(item.brand);
+      }
       // Clear cart
       clearCart();
     }

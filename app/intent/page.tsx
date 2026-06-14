@@ -45,6 +45,7 @@ function IntentPageContent() {
   const [intentText, setIntentText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [selectedSituation, setSelectedSituation] = useState<string | null>(null);
+  const [clarifyingQuestion, setClarifyingQuestion] = useState<string | null>(null);
 
   // Detect predictive mode from URL params
   useEffect(() => {
@@ -122,7 +123,18 @@ function IntentPageContent() {
       }
 
       const result = await res.json();
+
+      // Handle adaptive clarifying question
+      if (result.clarifying_question) {
+        setPipelineRunning(false);
+        setIntentText(""); // Clear so user can type a refined answer
+        setError(null);
+        setClarifyingQuestion(result.clarifying_question);
+        return;
+      }
+
       setCartResult(result);
+      setClarifyingQuestion(null);
       setPipelineRunning(false);
       router.push("/cart");
     } catch (e: unknown) {
@@ -244,6 +256,24 @@ function IntentPageContent() {
                   </div>
                 </div>
               </>
+            )}
+
+            {/* Adaptive Clarifying Question */}
+            {clarifyingQuestion && (
+              <div className="mt-4 px-4 py-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40 rounded-xl">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2.5">
+                      <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-amber-900 dark:text-amber-300">AI needs more details</p>
+                    <p className="text-sm text-amber-700 dark:text-amber-400 mt-1">{clarifyingQuestion}</p>
+                    <p className="text-xs text-amber-600/70 dark:text-amber-500/60 mt-2">Type your answer above and submit again.</p>
+                  </div>
+                </div>
+              </div>
             )}
 
             {/* Error */}
