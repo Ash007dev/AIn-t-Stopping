@@ -21,7 +21,8 @@ Return ONLY valid JSON with exactly these fields:
   "person_count": integer or null (number of people),
   "time_context": string or null (e.g., "morning", "evening", "tonight", "afternoon"),
   "dietary": array of strings (e.g., ["vegetarian", "no onion"]),
-  "exclusions": array of strings (items to exclude)
+  "exclusions": array of strings (items to exclude),
+  "mode_override": string or null (set ONLY when a predictive life-situation is detected)
 }
 
 Rules:
@@ -30,7 +31,15 @@ Rules:
 - For cooking/recipe requests, set occasion to the EXACT FULL name of the dish/recipe requested. If the user asks for a pairing (e.g., "idiyappam and egg roast", "puttu and kadala curry"), PRESERVE THE ENTIRE PHRASE (e.g., "idiyappam and egg roast"). Do NOT truncate it to just the first word. Do NOT overwrite the user's request with the generic word "cooking".
 - For single product requests (frictionless mode), set occasion to the EXACT product requested.
 - Extract ALL dietary constraints mentioned.
-- Do NOT include any text outside the JSON object.`;
+- Do NOT include any text outside the JSON object.
+
+PREDICTIVE MODE DETECTION — set mode_override when these life situations are detected:
+- If user mentions "new baby", "newborn", "just had a baby", "first baby" → occasion = "new_baby", mode_override = "predictive"
+- If user mentions "new home", "moved in", "new house", "shifting" → occasion = "new_home", mode_override = "predictive"
+- If user mentions "home office", "work from home setup", "WFH setup" → occasion = "home_office", mode_override = "predictive"
+- If user mentions "someone sick", "fever", "cold", "ill at home" → occasion = "sick_person", mode_override = "predictive"
+- If user mentions "college", "hostel", "first week of college" → occasion = "college_first_week", mode_override = "predictive"
+- For all other requests, set mode_override to null.`;
 
   try {
     const raw = await invokeAI(SYSTEM_PROMPT, intentText, "flash", 1024);
@@ -49,15 +58,17 @@ Rules:
         profile.dietary || "No restriction"
       ]),
     };
-  } catch (e: any) {
-    console.error("[invokeIntentParser] Error:", e.message || e);
+  } catch (e: unknown) {
+    const errMsg = e instanceof Error ? e.message : String(e);
+    console.error("[invokeIntentParser] Error:", errMsg);
     return {
       occasion: null,
       person_count: profile.servingCount || 1,
       time_context: null,
       dietary: [],
       exclusions: [],
-      error: "Parse failed: " + (e.message || "Unknown error"),
+      mode_override: null,
+      error: "Parse failed: " + (errMsg || "Unknown error"),
     };
   }
 }

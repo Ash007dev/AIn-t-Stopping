@@ -32,7 +32,7 @@ export function applyBudgetTrim(
   items: CartProduct[],
   budget: number
 ): { trimmed: CartProduct[]; underBudget: boolean } {
-  let trimmed = [...items].sort((a, b) => a.rating - b.rating);
+  const trimmed = [...items].sort((a, b) => a.rating - b.rating);
   while (computeCartTotal(trimmed) > budget && trimmed.length > 3) {
     trimmed.shift(); // Remove lowest-rated item
   }

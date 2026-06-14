@@ -45,6 +45,8 @@ export interface CartProduct extends Product {
   ai_reasoning: string;
   alternatives: Product[];
   is_suggestion?: boolean;
+  dark_store?: string;
+  return_policy?: string;
 }
 
 export interface ParsedIntent {
@@ -53,11 +55,13 @@ export interface ParsedIntent {
   time_context: string | null;
   dietary: string[];
   exclusions: string[];
+  mode_override?: string | null;
   error?: string;
 }
 
 export interface CartDiff {
-  add: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  add: Record<string, any>[];
   remove: string[];
   modify: { id: string; quantity: number }[];
 }
@@ -65,7 +69,7 @@ export interface CartDiff {
 export interface GenerateCartRequest {
   intentText: string;
   householdProfile: HouseholdProfile;
-  mode: "intent" | "cooking" | "addon";
+  mode: "intent" | "cooking" | "addon" | "predictive";
 }
 
 export interface GenerateCartResponse {
@@ -73,6 +77,9 @@ export interface GenerateCartResponse {
   regionalProducts: Product[];
   occasionTitle: string;
   parsedIntent: ParsedIntent;
+  darkStoreSummary?: { store: { name: string; distance_km: number; base_eta_minutes: number } | null; item_count: number; store_id: string }[];
+  consolidatedEta?: number;
+  subtotal?: number;
 }
 
 export interface ModifyCartRequest {
@@ -101,4 +108,6 @@ export interface AISuggestion {
   suggested_rating: number;
   suggested_review_count: number;
   is_suggestion?: boolean;
+  dark_store?: string;
+  return_policy?: string;
 }

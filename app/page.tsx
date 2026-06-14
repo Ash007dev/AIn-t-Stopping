@@ -27,7 +27,6 @@ export default function Home() {
   const router = useRouter();
   const setMode = useAppStore((s) => s.setMode);
   const purchaseHistory = useAppStore((s) => s.purchaseHistory);
-  const setPrefillIntent = useAppStore((s) => s.setPrefillIntent);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

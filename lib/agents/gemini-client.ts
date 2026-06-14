@@ -60,7 +60,6 @@ export async function invokeGeminiAgent(
   userMessage: string,
   tier: "pro" | "flash" = "flash",
   maxOutputTokens = 1024,
-  isRetry = false
 ): Promise<string> {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -80,15 +79,17 @@ export async function invokeGeminiAgent(
     const prompt = `${systemPrompt}\n\n---\n\n${userMessage}`;
     const result = await model.generateContent(prompt);
     return result.response.text();
-  } catch (geminiError: any) {
-    console.error(`[gemini-client] Gemini Primary Failed: ${geminiError.message || geminiError}`);
+  } catch (geminiError: unknown) {
+    const geminiMsg = geminiError instanceof Error ? geminiError.message : String(geminiError);
+    console.error(`[gemini-client] Gemini Primary Failed: ${geminiMsg}`);
     
     // Fallback: Try Groq immediately without retry ping delays
     try {
       return await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
-    } catch (groqError: any) {
-      console.error(`[gemini-client] Groq Fallback Failed: ${groqError.message || groqError}`);
-      throw new Error(`Both Primary (Gemini) and Fallback (Groq) failed. Gemini: ${geminiError?.message || 'Unknown'}. Groq: ${groqError?.message || 'Unknown'}`);
+    } catch (groqError: unknown) {
+      const groqMsg = groqError instanceof Error ? groqError.message : String(groqError);
+      console.error(`[gemini-client] Groq Fallback Failed: ${groqMsg}`);
+      throw new Error(`Both Primary (Gemini) and Fallback (Groq) failed. Gemini: ${geminiMsg}. Groq: ${groqMsg}`);
     }
   }
 }

@@ -188,7 +188,7 @@ export default function SetupPage() {
               Continue
             </button>
             <p className="mt-4 text-[12px] text-amazon-text-primary-light dark:text-amazon-text-primary-dark leading-snug">
-              By continuing, you agree to Amazon's <span className="text-amazon-blue hover:text-amazon-hover hover:underline cursor-pointer">Conditions of Use</span> and <span className="text-amazon-blue hover:text-amazon-hover hover:underline cursor-pointer">Privacy Notice</span>.
+              By continuing, you agree to Amazon&apos;s <span className="text-amazon-blue hover:text-amazon-hover hover:underline cursor-pointer">Conditions of Use</span> and <span className="text-amazon-blue hover:text-amazon-hover hover:underline cursor-pointer">Privacy Notice</span>.
             </p>
           </div>
         </form>

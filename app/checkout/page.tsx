@@ -142,7 +142,7 @@ export default function CheckoutPage() {
               </button>
               
               <p className="text-xs text-center text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark border-b border-amazon-border-light dark:border-amazon-border-dark pb-4 mb-4">
-                By placing your order, you agree to Amazon's privacy notice and conditions of use.
+                By placing your order, you agree to Amazon&apos;s privacy notice and conditions of use.
               </p>
 
               <h3 className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-3">Order Summary</h3>

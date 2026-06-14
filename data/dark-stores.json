@@ -1,0 +1,5 @@
+{
+  "DS-North": { "name": "Amazon Dark Store North", "distance_km": 1.2, "base_eta_minutes": 12 },
+  "DS-Central": { "name": "Amazon Dark Store Central", "distance_km": 2.8, "base_eta_minutes": 18 },
+  "DS-East": { "name": "Amazon Dark Store East", "distance_km": 4.1, "base_eta_minutes": 24 }
+}
