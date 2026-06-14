@@ -1,4 +1,4 @@
-// app/page.tsx — Home / Mode Selection
+// app/page.tsx - Home / Mode Selection
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ const MODES = [
   {
     key: "intent" as const,
     title: "Shopping by Intent",
-    description: "Describe an occasion — movie night, birthday party, study session — and we'll build the perfect cart.",
+    description: "Describe an occasion - movie night, birthday party, study session - and we'll build the perfect cart.",
   },
   {
     key: "cooking" as const,
@@ -19,7 +19,7 @@ const MODES = [
   {
     key: "addon" as const,
     title: "Frictionless Add-on",
-    description: "Add one product — we'll suggest 2-5 complementary items you might need.",
+    description: "Add one product - we'll suggest 2-5 complementary items you might need.",
   },
 ];
 

@@ -1,4 +1,4 @@
-// lib/agents/cart-curator.ts — AI-first dynamic product generation
+// lib/agents/cart-curator.ts - AI-first dynamic product generation
 import { ParsedIntent, Product, CartProduct, ProductCategory, AISuggestion } from "@/lib/types";
 import { invokeAI } from "./gemini-client";
 import Fuse from "fuse.js";
@@ -33,13 +33,13 @@ retail products to suggest the BEST products. Think like a knowledgeable Indian 
 You will receive the occasion, person_count, mode, and any dietary/exclusion constraints.
 
 For each product you suggest, provide:
-- A specific Indian brand name and product name (e.g., "iD Fresh Idli & Dosa Batter 1kg", not just "idli batter")
+- A specific Indian brand name and product name. VERY IMPORTANT: You must pick realistic package sizes (e.g., 250g, 500g, 1L, 200ml) rather than defaulting to large sizes like 1kg for everything. (e.g., "Everest Turmeric Powder 100g", not "1kg").
 - The category it belongs to
 - A realistic Indian market price in ₹
 - How many people ONE unit of this product serves
 - Why this specific product was chosen
 
-QUANTITY RULES (CRITICAL — follow these exactly):
+QUANTITY RULES (CRITICAL - follow these exactly):
 - Calculate quantity as: Math.ceil(person_count / serving_size)
 - If person_count = 3, serving_size = 4 → quantity = 1 (one pack is enough)
 - If person_count = 10, serving_size = 2 → quantity = 5
@@ -65,7 +65,7 @@ MODE-SPECIFIC BEHAVIOUR:
 
 If mode = "intent" (Shopping by Intent):
 - This is an OCCASION-based request (movie night, party, birthday, study session)
-- Build a complete cart for the occasion — snacks, drinks, party supplies, whatever fits
+- Build a complete cart for the occasion - snacks, drinks, party supplies, whatever fits
 - Group size determines quantities for ALL items
 - Think like a human shopper who knows this occasion well
 
@@ -78,9 +78,12 @@ If mode = "cooking" (Cooking/Fresh):
 
 If mode = "addon" (Frictionless Add-on):
 - The user has ONE specific anchor product (the thing they just added to cart)
-- Suggest ONLY 3-5 complementary products that naturally go with it
+- CRITICAL FOR ADDON MODE:
+  - You MUST include the anchor product itself as the FIRST item with "is_suggestion": false. Set its quantity to exactly 1 unless the user explicitly requested multiple. DO NOT scale the anchor product by person_count.
+  - Suggest ONLY 3-5 complementary products that naturally go with it.
+  - For all the complementary products you suggest, you MUST set "is_suggestion": true.
 - Complementary means: used together, part of the same meal/occasion, or commonly bought together
-- Do NOT suggest random popular items — ONLY directly complementary ones
+- Do NOT suggest random popular items - ONLY directly complementary ones
 
 ${dietaryInstruction}
 
@@ -94,7 +97,7 @@ INDIAN PRODUCT KNOWLEDGE to use:
 SELECTION CRITERIA (hardcode this logic in ai_reasoning):
 - ALWAYS prefer products with high review counts (>1000) and high ratings (>4.0)
 - ALWAYS prefer bestselling products in each category
-- State the reasoning clearly: "[Brand Name] [Product Name] chosen — #1 bestseller in [category], 4.7★
+- State the reasoning clearly: "[Brand Name] [Product Name] chosen - #1 bestseller in [category], 4.7★
   from 18,000+ reviews. One pack serves 4 people, so 1 pack is ideal for 3 people."
 ${regionHint}${budgetInstruction}
 
@@ -103,18 +106,19 @@ Return ONLY a valid JSON array. No other text. No markdown. No explanation outsi
 JSON format:
 [
   {
-    "name": "Specific Authentic Ingredient or Product Name 1kg",
+    "name": "Specific Authentic Ingredient or Product Name (with exact size e.g., 250g, 500g, 1L)",
     "brand": "Popular Regional Brand",
     "category": "category name",
     "suggested_price": 95,
     "serving_size": 4,
     "quantity": 1,
-    "ai_reasoning": "This brand is the #1 bestseller. 4.7★ from 18,000+ reviews. 1kg serves 3-4 people perfectly for your group of 3.",
+    "ai_reasoning": "This brand is the #1 bestseller. 4.7★ from 18,000+ reviews. 250g serves 3-4 people perfectly.",
     "keywords": ["keyword1", "keyword2", "keyword3"],
     "occasion_tags": ["occasion1", "occasion2"],
     "is_bestseller": true,
     "suggested_rating": 4.7,
-    "suggested_review_count": 18000
+    "suggested_review_count": 18000,
+    "is_suggestion": false
   }
 ]`;
 }
@@ -195,6 +199,7 @@ function createDynamicProduct(suggestion: AISuggestion): CartProduct {
     quantity: suggestion.quantity,
     ai_reasoning: suggestion.ai_reasoning,
     alternatives: [],
+    is_suggestion: suggestion.is_suggestion,
   };
 }
 
@@ -241,6 +246,10 @@ export async function buildDynamicCart(
       const existingIdx = results.findIndex((r) => r.id === catalogMatch.id);
       if (existingIdx >= 0) {
         results[existingIdx].quantity += suggestion.quantity;
+        // Keep it as a suggestion if all merged versions are suggestions
+        if (!suggestion.is_suggestion) {
+          results[existingIdx].is_suggestion = false;
+        }
       } else {
         const alternatives = catalog
           .filter((p) => p.category === catalogMatch.category && p.id !== catalogMatch.id && p.in_stock)
@@ -252,10 +261,11 @@ export async function buildDynamicCart(
           quantity: suggestion.quantity,
           ai_reasoning: suggestion.ai_reasoning,
           alternatives,
+          is_suggestion: suggestion.is_suggestion,
         });
       }
     } else {
-      // No catalog match — create a dynamic product from AI knowledge
+      // No catalog match - create a dynamic product from AI knowledge
       const newProduct = createDynamicProduct(suggestion);
       results.push(newProduct);
     }

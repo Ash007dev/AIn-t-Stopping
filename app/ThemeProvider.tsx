@@ -24,7 +24,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
             </div>
             <div>
               <span className="font-bold text-gray-900 dark:text-white text-base">IntentCart</span>
-              <span className="text-gray-400 text-xs ml-2 hidden sm:inline">by Amazon HackOn</span>
+              <span className="text-gray-400 text-xs ml-2 hidden sm:inline">for Amazon HackOn</span>
             </div>
           </Link>
         </div>

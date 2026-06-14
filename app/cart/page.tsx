@@ -1,4 +1,4 @@
-// app/cart/page.tsx — Smart Cart Page
+// app/cart/page.tsx - Smart Cart Page
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -17,10 +17,14 @@ export default function CartPage() {
   const occasionTitle = useAppStore((s) => s.occasionTitle);
   const switchProduct = useAppStore((s) => s.switchProduct);
   const applyDiff = useAppStore((s) => s.applyDiff);
+  const addSuggestionToCart = useAppStore((s) => s.addSuggestionToCart);
   const [highlightedIds, setHighlightedIds] = useState<Set<string>>(new Set());
 
-  const total = computeCartTotal(cart);
-  const maxEta = getMaxEta(cart);
+  const mainItems = cart.filter((p) => !p.is_suggestion);
+  const suggestedItems = cart.filter((p) => p.is_suggestion);
+
+  const total = computeCartTotal(mainItems);
+  const maxEta = getMaxEta(mainItems);
 
   // Get region for regional section header
   let regionName: string | null = null;
@@ -87,7 +91,7 @@ export default function CartPage() {
 
             {/* Product cards */}
             <div className="space-y-6">
-              {cart.map((product, index) => (
+              {mainItems.map((product, index) => (
                 <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
                   <ProductCard
                     product={product}
@@ -95,7 +99,7 @@ export default function CartPage() {
                     onSwitch={switchProduct}
                     highlighted={highlightedIds.has(product.id)}
                   />
-                  {index < cart.length - 1 && (
+                  {index < mainItems.length - 1 && (
                     <div className="border-b border-amazon-border-light dark:border-amazon-border-dark mt-6" />
                   )}
                 </div>
@@ -104,10 +108,35 @@ export default function CartPage() {
 
             <div className="border-t border-amazon-border-light dark:border-amazon-border-dark mt-6 pt-4 flex justify-end">
               <div className="text-lg">
-                Subtotal ({cart.length} items): <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{formatPrice(total)}</span>
+                Subtotal ({mainItems.length} items): <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{formatPrice(total)}</span>
               </div>
             </div>
           </div>
+
+          {/* Suggested Add-ons section */}
+          {suggestedItems.length > 0 && (
+            <div className="bg-white dark:bg-amazon-card-dark rounded-card p-4 sm:p-6 shadow-sm mb-6">
+              <h2 className="text-xl font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-4">
+                Suggested Add-ons
+              </h2>
+              <div className="space-y-6">
+                {suggestedItems.map((product, index) => (
+                  <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
+                    <ProductCard
+                      product={product}
+                      index={index}
+                      onSwitch={switchProduct}
+                      highlighted={highlightedIds.has(product.id)}
+                      onAdd={() => addSuggestionToCart(product.id)}
+                    />
+                    {index < suggestedItems.length - 1 && (
+                      <div className="border-b border-amazon-border-light dark:border-amazon-border-dark mt-6" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Regional section */}
           {regionalProducts.length > 0 && regionName && (
@@ -136,7 +165,7 @@ export default function CartPage() {
             </div>
 
             <div className="flex justify-between items-center mb-1">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal ({cart.length} items)</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal ({mainItems.length} items)</span>
               <span className="text-xl font-bold text-gray-900 dark:text-gray-100">{formatPrice(total)}</span>
             </div>
             <p className="text-xs text-gray-400 mb-5">Incl. all taxes · Free delivery</p>

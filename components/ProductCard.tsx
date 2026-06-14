@@ -8,9 +8,10 @@ interface ProductCardProps {
   index: number;
   onSwitch: (cardIndex: number, alternativeId: string) => void;
   highlighted?: boolean;
+  onAdd?: () => void;
 }
 
-export default function ProductCard({ product, index, onSwitch, highlighted }: ProductCardProps) {
+export default function ProductCard({ product, index, onSwitch, highlighted, onAdd }: ProductCardProps) {
   const lineTotal = (typeof product.price === "number" ? product.price : 0) * (typeof product.quantity === "number" ? product.quantity : 1);
 
   return (
@@ -90,20 +91,31 @@ export default function ProductCard({ product, index, onSwitch, highlighted }: P
         </div>
       )}
 
-      {/* Other options */}
-      {product.alternatives && product.alternatives.length > 0 && (
+      {/* Other options or Add Button */}
+      {onAdd ? (
         <div className="px-5 pb-4">
-          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Other options</p>
-          <div className="space-y-2">
-            {product.alternatives.slice(0, 2).map((alt) => (
-              <AlternativeCard
-                key={alt.id}
-                product={alt}
-                onSwitch={() => onSwitch(index, alt.id)}
-              />
-            ))}
-          </div>
+          <button
+            onClick={onAdd}
+            className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-semibold py-2.5 px-4 rounded-xl text-sm border border-[#FCD200] transition-colors"
+          >
+            Add to Cart
+          </button>
         </div>
+      ) : (
+        product.alternatives && product.alternatives.length > 0 && (
+          <div className="px-5 pb-4">
+            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Other options</p>
+            <div className="space-y-2">
+              {product.alternatives.slice(0, 2).map((alt) => (
+                <AlternativeCard
+                  key={alt.id}
+                  product={alt}
+                  onSwitch={() => onSwitch(index, alt.id)}
+                />
+              ))}
+            </div>
+          </div>
+        )
       )}
     </div>
   );

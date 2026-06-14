@@ -6,8 +6,8 @@ import ThemeProvider from "./ThemeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "IntentCart — Shop Smarter, Faster",
-  description: "Enterprise-grade AI shopping platform inspired by Amazon's speed and reliability.",
+  title: "IntentCart - Shop Smarter, Faster",
+  description: "Enterprise-grade AI shopping platform inspired for Amazon's speed and reliability.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

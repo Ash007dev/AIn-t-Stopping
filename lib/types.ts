@@ -44,6 +44,7 @@ export interface CartProduct extends Product {
   quantity: number;
   ai_reasoning: string;
   alternatives: Product[];
+  is_suggestion?: boolean;
 }
 
 export interface ParsedIntent {
@@ -99,4 +100,5 @@ export interface AISuggestion {
   is_bestseller: boolean;
   suggested_rating: number;
   suggested_review_count: number;
+  is_suggestion?: boolean;
 }

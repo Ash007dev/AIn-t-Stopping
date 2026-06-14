@@ -24,6 +24,7 @@ interface AppStore {
   setModificationError: (e: string | null) => void;
   prefillIntent: string | null;
   setPrefillIntent: (v: string | null) => void;
+  addSuggestionToCart: (productId: string) => void;
 }
 
 function loadPurchaseHistory(): PurchaseRecord[] {
@@ -154,4 +155,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
   setModificationError: (e) => set({ modificationError: e }),
   prefillIntent: null,
   setPrefillIntent: (v) => set({ prefillIntent: v }),
+  addSuggestionToCart: (productId: string) => {
+    set((state) => ({
+      cart: state.cart.map((item) =>
+        item.id === productId ? { ...item, is_suggestion: false } : item
+      ),
+    }));
+  },
 }));

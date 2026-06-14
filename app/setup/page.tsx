@@ -1,4 +1,4 @@
-// app/setup/page.tsx — Household Profile Setup
+// app/setup/page.tsx - Household Profile Setup
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -137,7 +137,7 @@ export default function SetupPage() {
           {/* Budget */}
           <div>
             <label className="block text-[13px] font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-[2px] pl-[2px]">
-              Max Spend Limit (₹) <span className="font-normal text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark">— Optional</span>
+              Max Spend Limit (₹) <span className="font-normal text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark">- Optional</span>
             </label>
             <input
               type="number"

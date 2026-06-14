@@ -33,7 +33,7 @@ export function loadCatalog(): Product[] {
     if (result.valid) {
       valid.push(p as unknown as Product);
     } else {
-      console.warn(`[catalog] Excluded product id=${p.id} — invalid field: ${result.field}`);
+      console.warn(`[catalog] Excluded product id=${p.id} - invalid field: ${result.field}`);
     }
   }
   _catalog = valid;

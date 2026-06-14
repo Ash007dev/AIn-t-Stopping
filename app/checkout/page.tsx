@@ -1,4 +1,4 @@
-// app/checkout/page.tsx — Checkout Confirmation
+// app/checkout/page.tsx - Checkout Confirmation
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";

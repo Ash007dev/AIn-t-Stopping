@@ -1,4 +1,4 @@
-// app/intent/page.tsx — Intent Input Page
+// app/intent/page.tsx - Intent Input Page
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
