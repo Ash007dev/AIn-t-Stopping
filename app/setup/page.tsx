@@ -164,6 +164,14 @@ export default function SetupPage() {
             <div className="flex flex-col gap-2">
               {DIETARY_OPTIONS.map((opt) => (
                 <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                  <input
+                    type="radio"
+                    name="dietary"
+                    value={opt}
+                    checked={dietary === opt}
+                    onChange={() => setDietary(opt)}
+                    className="sr-only"
+                  />
                   <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${
                     dietary === opt 
                       ? "border-amazon bg-amazon" 
