@@ -6,8 +6,12 @@ import { invokeIntentParser } from "@/lib/agents/intent-parser";
 import { buildDynamicCart } from "@/lib/agents/cart-curator";
 import { computeCartTotal } from "@/lib/cart-utils";
 import { groupCartByDarkStore, getConsolidatedEta, getDarkStoreInfo } from "@/lib/dark-store-utils";
+import { startPipelineTrace, finalizePipelineTrace } from "@/lib/ai-logger";
 
 export async function POST(req: NextRequest) {
+  const pipelineStart = Date.now();
+  let trace: ReturnType<typeof startPipelineTrace> | null = null;
+
   try {
     const body = (await req.json()) as GenerateCartRequest;
     const { intentText, householdProfile } = body;
@@ -15,17 +19,23 @@ export async function POST(req: NextRequest) {
     if (!intentText || intentText.trim().length === 0)
       return NextResponse.json({ error: "Intent text is required" }, { status: 400 });
 
+    // Start pipeline trace
+    trace = startPipelineTrace(intentText, body.mode || "intent");
+
     // Step 1: Parse intent + load catalog in parallel
     const [parsed, catalog] = await Promise.all([
       invokeIntentParser(intentText, householdProfile),
       Promise.resolve(loadCatalog()),
     ]);
 
-    if (parsed.error)
+    if (parsed.error) {
+      if (trace) finalizePipelineTrace(trace.id, { status: "error" });
       return NextResponse.json({ error: parsed.error }, { status: 400 });
+    }
 
     // Step 1b: If AI needs clarification, return the question to the frontend
     if (parsed.clarifying_question) {
+      if (trace) finalizePipelineTrace(trace.id, { clarifyingQuestion: parsed.clarifying_question, status: "partial" });
       return NextResponse.json({
         clarifying_question: parsed.clarifying_question,
         parsedIntent: parsed,
@@ -41,6 +51,7 @@ export async function POST(req: NextRequest) {
     const cart = await buildDynamicCart(parsed, catalog, householdProfile.budget, region, effectiveMode);
 
     if (cart.length === 0) {
+      if (trace) finalizePipelineTrace(trace.id, { cartItemCount: 0, status: "error" });
       return NextResponse.json({ error: "No matching products found for your request." }, { status: 400 });
     }
 
@@ -93,6 +104,9 @@ export async function POST(req: NextRequest) {
     }));
     const consolidatedEta = getConsolidatedEta(trimmedCart);
 
+    // Finalize pipeline trace
+    if (trace) finalizePipelineTrace(trace.id, { cartItemCount: trimmedCart.length, status: "success" });
+
     const response: GenerateCartResponse = {
       cart: trimmedCart,
       regionalProducts,
@@ -106,6 +120,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(response);
   } catch (e) {
     console.error("[generate-cart]", e);
+    if (trace) finalizePipelineTrace(trace.id, { status: "error" });
     return NextResponse.json({ error: "AI service unavailable. Please try again." }, { status: 503 });
   }
 }

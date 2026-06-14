@@ -1,6 +1,6 @@
 // lib/agents/cart-curator.ts - AI-first dynamic product generation
 import { ParsedIntent, Product, CartProduct, ProductCategory, AISuggestion } from "@/lib/types";
-import { invokeAI } from "./gemini-client";
+import { invokeAI, setAgentContext } from "./gemini-client";
 import Fuse from "fuse.js";
 import { getMemoryContext } from "@/lib/user-memory";
 
@@ -68,13 +68,10 @@ ${dietaryInstruction}
    - DO NOT add unrelated items. Stay within the occasion's scope.
 
    MODE = "cooking" (Recipe/Fresh):
-   - List ONLY ingredients for the stated recipe. Nothing else.
-   - "Aglio olio for 3" → spaghetti 500g (1 unit, serves 4), olive oil 500ml (1 unit),
-     garlic 250g (1 unit), parmesan 100g (1 unit), red chilli flakes 50g (1 unit).
-   - "Idli for 3" → iD Fresh Idli Batter 1kg (1 unit, serves 4), MTR Sambar Powder 100g
-     (1 unit), Eastern Coconut Chutney Mix 100g (1 unit), Mustard Seeds 100g (1 unit),
-     Coconut Oil 500ml (1 unit for tempering).
-   - Add 1-2 obvious accompaniments if they are natural to the dish.
+   - List ONLY ingredients for the EXACT stated recipe. Nothing else.
+   - If the user specifies a pairing (e.g., "Idiyappam and Kadala Curry"), you MUST provide ingredients for BOTH items (e.g., rice flour, black chickpeas, coconut milk, curry leaves, spices). DO NOT ignore the second item.
+   - DO NOT hallucinate default accompaniments (like sambar or chutney) unless the user specifically asks for a generic dish like "Idli" without specifying a side.
+   - "Aglio olio for 3" → spaghetti 500g, olive oil 500ml, garlic 250g, parmesan 100g, red chilli flakes 50g.
    - DO NOT add drinks, snacks, or anything not needed for the recipe.
 
    MODE = "addon" (Frictionless):
@@ -172,6 +169,7 @@ async function invokeCartCuratorAI(
     mode,
   });
 
+  setAgentContext("cart-curator");
   const raw = await invokeAI(systemPrompt, userMessage, "pro", 8192);
 
   // Extract JSON array

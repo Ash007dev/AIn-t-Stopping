@@ -1,6 +1,7 @@
 // app/page.tsx - Home / Mode Selection
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import ModeCard from "@/components/ModeCard";
@@ -129,15 +130,38 @@ export default function Home() {
               Select a shopping mode below, or tap the mic to speak your need in any language.
             </p>
           </div>
-          <div className="flex-shrink-0 pt-1 flex items-center gap-2">
-            <ImageUploadButton onIntentDetected={handleVoiceTranscript} />
-            <VoiceButton onTranscript={handleVoiceTranscript} size="lg" />
+          <div className="flex-shrink-0 pt-1 flex items-start gap-4">
+            <div className="flex flex-col items-center gap-1.5">
+              <Link
+                href="/admin"
+                title="Admin Dashboard"
+                className="w-14 h-14 rounded-full flex items-center justify-center bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 transition-all shadow-md hover:shadow-lg"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
+                </svg>
+              </Link>
+              <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Metrics</span>
+            </div>
+            
+            <div className="flex flex-col items-center gap-1.5">
+              <ImageUploadButton onIntentDetected={handleVoiceTranscript} />
+              <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Vision</span>
+            </div>
+
+            <div className="flex flex-col items-center gap-1.5">
+              <VoiceButton onTranscript={handleVoiceTranscript} size="lg" />
+              <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">Voice</span>
+            </div>
           </div>
         </div>
 
         {/* Voice & Vision CTA banner */}
         <div className="mt-4 flex items-center gap-3 p-3 bg-gradient-to-r from-orange-50 to-purple-50 dark:from-orange-900/10 dark:to-purple-900/10 border border-orange-200 dark:border-orange-800/30 rounded-xl">
-          <span className="text-xl">🎙️📷</span>
+          <div className="flex items-center gap-1 text-orange-500 dark:text-orange-400">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-orange-800 dark:text-orange-300">Voice & Vision Shopping</p>
             <p className="text-[11px] text-orange-600/80 dark:text-orange-400/60">Speak in any language or snap a photo — AI builds your cart instantly.</p>

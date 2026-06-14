@@ -24,11 +24,11 @@ const PLACEHOLDERS: Record<string, string> = {
 };
 
 const SITUATIONS = [
-  { id: "new_baby", label: "New baby at home", icon: "👶", desc: "Newborn essentials kit" },
-  { id: "new_home", label: "Just moved in", icon: "🏠", desc: "Kitchen and cleaning basics" },
-  { id: "home_office", label: "Setting up home office", icon: "💻", desc: "WFH setup essentials" },
-  { id: "sick_person", label: "Someone sick at home", icon: "🤒", desc: "OTC comfort items" },
-  { id: "college_first_week", label: "First week of college", icon: "🎓", desc: "Hostel survival kit" },
+  { id: "new_baby", label: "New baby at home", icon: "baby", desc: "Newborn essentials kit" },
+  { id: "new_home", label: "Just moved in", icon: "home", desc: "Kitchen and cleaning basics" },
+  { id: "home_office", label: "Setting up home office", icon: "laptop", desc: "WFH setup essentials" },
+  { id: "sick_person", label: "Someone sick at home", icon: "health", desc: "OTC comfort items" },
+  { id: "college_first_week", label: "First week of college", icon: "graduation", desc: "Hostel survival kit" },
 ];
 
 function IntentPageContent() {
@@ -201,7 +201,13 @@ function IntentPageContent() {
                           : "border-gray-200 dark:border-[#3A4553] hover:border-indigo-300 dark:hover:border-indigo-600 bg-white dark:bg-[#1A2332]"
                       }`}
                     >
-                      <span className="text-2xl">{situation.icon}</span>
+                      <span className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 flex-shrink-0">
+                        {situation.icon === "baby" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>}
+                        {situation.icon === "home" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>}
+                        {situation.icon === "laptop" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>}
+                        {situation.icon === "health" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>}
+                        {situation.icon === "graduation" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 6 3 6 3s6-1 6-3v-5"/></svg>}
+                      </span>
                       <div>
                         <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{situation.label}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">{situation.desc}</p>

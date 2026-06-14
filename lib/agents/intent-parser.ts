@@ -1,6 +1,6 @@
 // lib/agents/intent-parser.ts
 import { ParsedIntent, HouseholdProfile } from "@/lib/types";
-import { invokeAI } from "./gemini-client";
+import { invokeAI, setAgentContext } from "./gemini-client";
 
 export function resolvePersonCount(parsed: ParsedIntent, profileServingCount: number): number {
   if (parsed.person_count && parsed.person_count >= 1) return parsed.person_count;
@@ -48,10 +48,11 @@ PREDICTIVE MODE DETECTION — set mode_override when these life situations are d
 - If user mentions "new home", "moved in", "new house", "shifting" → occasion = "new_home", mode_override = "predictive"
 - If user mentions "home office", "work from home setup", "WFH setup" → occasion = "home_office", mode_override = "predictive"
 - If user mentions "someone sick", "fever", "cold", "ill at home" → occasion = "sick_person", mode_override = "predictive"
-- If user mentions "college", "hostel", "first week of college" → occasion = "college_first_week", mode_override = "predictive"`;
+- If user mentions "college", "hostel", "first week of college" → occasion = "college_first_week", mode_override = "predictive"
 - For all other requests, set mode_override to null.`;
 
   try {
+    setAgentContext("intent-parser");
     const raw = await invokeAI(SYSTEM_PROMPT, intentText, "flash", 1024);
     const start = raw.indexOf('{');
     const end = raw.lastIndexOf('}');

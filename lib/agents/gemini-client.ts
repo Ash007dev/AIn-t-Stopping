@@ -1,5 +1,6 @@
 // lib/agents/gemini-client.ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { logAgentCall, type AILogEntry } from "@/lib/ai-logger";
 
 const GROQ_MODELS = {
   pro: "llama-3.3-70b-versatile",
@@ -55,12 +56,22 @@ async function invokeGroqFallback(
   return data.choices[0].message.content;
 }
 
+// Track which agent is calling — set by callers before invoking
+let _currentAgentContext: AILogEntry["agent"] = "cart-curator";
+
+export function setAgentContext(agent: AILogEntry["agent"]) {
+  _currentAgentContext = agent;
+}
+
 export async function invokeGeminiAgent(
   systemPrompt: string,
   userMessage: string,
   tier: "pro" | "flash" = "flash",
   maxOutputTokens = 1024,
 ): Promise<string> {
+  const startTime = Date.now();
+  let usedModel = GEMINI_MODELS[tier];
+
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is missing");
@@ -78,17 +89,57 @@ export async function invokeGeminiAgent(
     
     const prompt = `${systemPrompt}\n\n---\n\n${userMessage}`;
     const result = await model.generateContent(prompt);
-    return result.response.text();
+    const output = result.response.text();
+
+    // Log successful call
+    logAgentCall({
+      agent: _currentAgentContext,
+      status: "success",
+      latencyMs: Date.now() - startTime,
+      input: userMessage.substring(0, 500),
+      output: output.substring(0, 1000),
+      model: usedModel,
+      tokenEstimate: Math.round((systemPrompt.length + userMessage.length + output.length) / 4),
+    });
+
+    return output;
   } catch (geminiError: unknown) {
     const geminiMsg = geminiError instanceof Error ? geminiError.message : String(geminiError);
     console.error(`[gemini-client] Gemini Primary Failed: ${geminiMsg}`);
     
-    // Fallback: Try Groq immediately without retry ping delays
+    // Fallback: Try Groq immediately
     try {
-      return await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
+      usedModel = GROQ_MODELS[tier];
+      const output = await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
+
+      // Log fallback call
+      logAgentCall({
+        agent: _currentAgentContext,
+        status: "fallback",
+        latencyMs: Date.now() - startTime,
+        input: userMessage.substring(0, 500),
+        output: output.substring(0, 1000),
+        model: usedModel,
+        tokenEstimate: Math.round((systemPrompt.length + userMessage.length + output.length) / 4),
+        metadata: { primaryError: geminiMsg },
+      });
+
+      return output;
     } catch (groqError: unknown) {
       const groqMsg = groqError instanceof Error ? groqError.message : String(groqError);
       console.error(`[gemini-client] Groq Fallback Failed: ${groqMsg}`);
+
+      // Log error
+      logAgentCall({
+        agent: _currentAgentContext,
+        status: "error",
+        latencyMs: Date.now() - startTime,
+        input: userMessage.substring(0, 500),
+        output: "",
+        model: usedModel,
+        errorMessage: `Gemini: ${geminiMsg}. Groq: ${groqMsg}`,
+      });
+
       throw new Error(`Both Primary (Gemini) and Fallback (Groq) failed. Gemini: ${geminiMsg}. Groq: ${groqMsg}`);
     }
   }

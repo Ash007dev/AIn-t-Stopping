@@ -90,18 +90,18 @@ export default function ImageUploadButton({
         onClick={handleClick}
         disabled={disabled || isProcessing}
         title="Upload a photo — AI will figure out what you need"
-        className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200 ${
+        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 ${
           isProcessing
             ? "bg-purple-500 text-white cursor-wait animate-pulse"
             : "bg-gradient-to-br from-purple-400 to-purple-600 hover:from-purple-500 hover:to-purple-700 text-white shadow-md hover:shadow-lg"
         } disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
       >
         {isProcessing ? (
-          <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
+          <svg className="animate-spin w-6 h-6" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="60" strokeDashoffset="20" />
           </svg>
         ) : (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
             <circle cx="8.5" cy="8.5" r="1.5" />
             <polyline points="21 15 16 10 5 21" />

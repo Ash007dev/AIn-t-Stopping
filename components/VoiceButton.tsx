@@ -185,8 +185,8 @@ export default function VoiceButton({
 
       {/* Recording indicator */}
       {isRecording && (
-        <span className="absolute -bottom-6 text-[10px] font-semibold text-red-500 whitespace-nowrap animate-pulse">
-          🔴 Listening...
+        <span className="absolute -bottom-6 flex items-center gap-1 text-[10px] font-semibold text-red-500 whitespace-nowrap animate-pulse">
+          <span className="w-2 h-2 rounded-full bg-red-500 inline-block" /> Listening...
         </span>
       )}
       {isProcessing && (
