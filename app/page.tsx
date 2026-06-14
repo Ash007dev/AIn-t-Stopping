@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import ModeCard from "@/components/ModeCard";
+import VoiceButton from "@/components/VoiceButton";
 
 interface ReplenishableItem {
   id: string;
@@ -105,16 +106,41 @@ export default function Home() {
     router.push('/cart');
   };
 
+  const handleVoiceTranscript = (text: string) => {
+    // When user speaks, auto-navigate to intent page with their transcript
+    setMode("intent");
+    setPrefillIntent(text);
+    router.push("/intent");
+  };
+
+  const setPrefillIntent = useAppStore((s) => s.setPrefillIntent);
+
   return (
     <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 max-w-5xl mx-auto flex flex-col pt-12">
       {/* Header */}
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          How would you like to shop today?
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
-          Select a shopping mode below. Our AI assistant will curate the best Amazon products for your needs.
-        </p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+              How would you like to shop today?
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              Select a shopping mode below, or tap the mic to speak your need in any language.
+            </p>
+          </div>
+          <div className="flex-shrink-0 pt-1">
+            <VoiceButton onTranscript={handleVoiceTranscript} size="lg" />
+          </div>
+        </div>
+
+        {/* Voice CTA banner */}
+        <div className="mt-4 flex items-center gap-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10 border border-orange-200 dark:border-orange-800/30 rounded-xl">
+          <span className="text-xl">🎙️</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold text-orange-800 dark:text-orange-300">Voice Shopping — Just speak!</p>
+            <p className="text-[11px] text-orange-600/80 dark:text-orange-400/60">"Movie night for 10 people" → AI builds your cart instantly. Works in Hindi, Tamil, Telugu & more.</p>
+          </div>
+        </div>
       </div>
 
       {/* Mode cards */}

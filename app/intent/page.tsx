@@ -6,6 +6,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { HouseholdProfile } from "@/lib/types";
 import IntentInput from "@/components/IntentInput";
 import PipelineProgress from "@/components/PipelineProgress";
+import VoiceButton from "@/components/VoiceButton";
 
 export default function IntentPage() {
   return (
@@ -57,8 +58,27 @@ function IntentPageContent() {
     if (prefillIntent) {
       setIntentText(prefillIntent);
       setPrefillIntent(null);
+      // Auto-submit when voice transcript arrives
+      setTimeout(() => {
+        const submitBtn = document.querySelector('[data-auto-submit]') as HTMLButtonElement;
+        if (submitBtn) submitBtn.click();
+      }, 300);
     }
   }, [prefillIntent, setPrefillIntent]);
+
+  // Also check URL query param for voice navigation
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q && !intentText) {
+      setIntentText(q);
+    }
+  }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleVoiceTranscript = (text: string) => {
+    setIntentText(text);
+    // Auto-submit after a brief delay for the UI to update
+    setTimeout(() => handleSubmit(), 200);
+  };
 
   const handleSubmit = async () => {
     if (mode === "predictive" && !selectedSituation) return;
@@ -190,14 +210,23 @@ function IntentPageContent() {
               </div>
             ) : (
               <>
-                {/* Standard intent input */}
-                <IntentInput
-                  value={intentText}
-                  onChange={setIntentText}
-                  onSubmit={handleSubmit}
-                  placeholder={placeholder}
-                  disabled={isPipelineRunning}
-                />
+                {/* Standard intent input with voice */}
+                <div className="relative">
+                  <IntentInput
+                    value={intentText}
+                    onChange={setIntentText}
+                    onSubmit={handleSubmit}
+                    placeholder={placeholder}
+                    disabled={isPipelineRunning}
+                  />
+                  <div className="absolute top-3 right-3 z-10">
+                    <VoiceButton
+                      onTranscript={handleVoiceTranscript}
+                      disabled={isPipelineRunning}
+                      size="sm"
+                    />
+                  </div>
+                </div>
 
                 {/* Quick examples */}
                 <div className="mt-10">

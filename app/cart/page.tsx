@@ -9,6 +9,7 @@ import { resolveRegion } from "@/lib/region-map";
 import ProductCard from "@/components/ProductCard";
 import RegionalCard from "@/components/RegionalCard";
 import ModificationBar from "@/components/ModificationBar";
+import ReadAloudButton from "@/components/ReadAloudButton";
 
 const DARK_STORE_DISPLAY: Record<string, { name: string; distance: string }> = {
   "DS-North": { name: "Amazon Dark Store North", distance: "1.2km" },
@@ -138,12 +139,19 @@ export default function CartPage() {
           )}
 
           <div className="bg-white dark:bg-amazon-card-dark rounded-card p-4 sm:p-6 mb-6 shadow-sm">
-            <h1 className="text-2xl sm:text-3xl font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-1">
-              Shopping Cart
-            </h1>
-            <p className="text-sm text-[#007185] dark:text-[#5EB6C6] mb-4">
-              Generated for: <span className="font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{occasionTitle}</span>
-            </p>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-1">
+                  Shopping Cart
+                </h1>
+                <p className="text-sm text-[#007185] dark:text-[#5EB6C6] mb-4">
+                  Generated for: <span className="font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{occasionTitle}</span>
+                </p>
+              </div>
+              <ReadAloudButton
+                text={`Your cart for ${occasionTitle} has ${itemCount} items: ${mainItems.map(i => `${i.quantity} ${i.name}`).join(', ')}. Total is ${formatPrice(total)}.`}
+              />
+            </div>
             <div className="border-b border-amazon-border-light dark:border-amazon-border-dark mb-4" />
             
             <div className="flex justify-end mb-2">
