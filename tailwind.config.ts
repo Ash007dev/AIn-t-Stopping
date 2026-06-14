@@ -9,7 +9,24 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)", "sans-serif"],
+        display: ["var(--font-sora)", "sans-serif"],
+      },
       colors: {
+        "bg-primary": "#0a0a0a",
+        "bg-card": "#111111",
+        "bg-elevated": "#1a1a1a",
+        "border-default": "#222222",
+        "border-bright": "#333333",
+        "accent-primary": "#E8170A",
+        "accent-hover": "#FF2010",
+        "accent-orange": "#FF9900",
+        "text-primary": "#FFFFFF",
+        "text-secondary": "#A0A0A0",
+        "text-muted": "#555555",
+        success: "#22C55E",
+        star: "#FBBF24",
         amazon: {
           DEFAULT: "#FF9900",
           hover: "#E88A00",

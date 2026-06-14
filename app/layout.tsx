@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "./ThemeProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+});
 
 export const metadata: Metadata = {
   title: "IntentCart - Shop Smarter, Faster",
@@ -12,8 +20,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} min-h-screen flex flex-col bg-amazon-background-light dark:bg-amazon-background-dark text-amazon-text-primary-light dark:text-amazon-text-primary-dark transition-colors duration-200`}>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+      <body className={`${inter.variable} ${sora.variable} font-sans min-h-screen flex flex-col bg-bg-primary text-text-primary antialiased`}>
         <ThemeProvider>
           {children}
         </ThemeProvider>
