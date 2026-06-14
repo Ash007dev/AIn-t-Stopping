@@ -11,6 +11,12 @@ interface ProductCardProps {
   onAdd?: () => void;
 }
 
+const DARK_STORE_NAMES: Record<string, string> = {
+  "DS-North": "North Fulfillment Center - 1.2km",
+  "DS-Central": "Central Dark Store - 2.8km",
+  "DS-East": "East Fulfillment Hub - 4.1km",
+};
+
 export default function ProductCard({ product, index, onSwitch, highlighted, onAdd }: ProductCardProps) {
   const lineTotal = (typeof product.price === "number" ? product.price : 0) * (typeof product.quantity === "number" ? product.quantity : 1);
 
@@ -75,6 +81,31 @@ export default function ProductCard({ product, index, onSwitch, highlighted, onA
                 {product.in_stock ? `In stock · Arrives in ${product.eta_minutes} min` : "Currently unavailable"}
               </span>
             </div>
+
+            {/* Dark store badge */}
+            {product.dark_store && (
+              <div className="flex items-center gap-1.5 mt-1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span className="text-xs text-gray-400">Ships from {DARK_STORE_NAMES[product.dark_store] || product.dark_store}</span>
+              </div>
+            )}
+
+            {/* Return policy badge */}
+            {product.return_policy && (
+              <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full mt-1.5 ${
+                product.return_policy === "no_return"
+                  ? "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
+                  : product.return_policy === "free_returns"
+                  ? "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400"
+                  : "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+              }`}>
+                {product.return_policy === "no_return" && "No returns - perishable"}
+                {product.return_policy === "7_day_return" && "7-day returns eligible"}
+                {product.return_policy === "free_returns" && "Free returns"}
+              </span>
+            )}
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { CartProduct, CartDiff, ParsedIntent, Product, GenerateCartResponse, Pur
 interface AppStore {
   theme: "light" | "dark";
   setTheme: (t: "light" | "dark") => void;
-  selectedMode: "intent" | "cooking" | "addon" | null;
+  selectedMode: "intent" | "cooking" | "addon" | "predictive" | null;
   setMode: (mode: AppStore["selectedMode"]) => void;
   isPipelineRunning: boolean;
   setPipelineRunning: (v: boolean) => void;

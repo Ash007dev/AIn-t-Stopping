@@ -118,8 +118,22 @@ export default function CheckoutPage() {
                       </div>
                     </div>
                   ))}
-                </div>
               </div>
+              </div>
+
+              {/* Return policy summary */}
+              {(() => {
+                const hasNoReturn = cart.some(i => i.return_policy === "no_return");
+                const has7Day = cart.some(i => i.return_policy === "7_day_return");
+                if (!hasNoReturn && !has7Day) return null;
+                return (
+                  <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40 rounded-lg text-xs text-amber-800 dark:text-amber-300">
+                    <p className="font-semibold mb-1">Return policy for this order:</p>
+                    {hasNoReturn && <p>Some items (perishables, medicines) are non-returnable once delivered.</p>}
+                    {has7Day && <p>Packaged goods and electronics are eligible for 7-day returns.</p>}
+                  </div>
+                );
+              })()}
             </div>
           </div>
 

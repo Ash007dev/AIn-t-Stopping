@@ -10,11 +10,18 @@ import ProductCard from "@/components/ProductCard";
 import RegionalCard from "@/components/RegionalCard";
 import ModificationBar from "@/components/ModificationBar";
 
+const DARK_STORE_DISPLAY: Record<string, { name: string; distance: string }> = {
+  "DS-North": { name: "Amazon Dark Store North", distance: "1.2km" },
+  "DS-Central": { name: "Amazon Dark Store Central", distance: "2.8km" },
+  "DS-East": { name: "Amazon Dark Store East", distance: "4.1km" },
+};
+
 export default function CartPage() {
   const router = useRouter();
   const cart = useAppStore((s) => s.cart);
   const regionalProducts = useAppStore((s) => s.regionalProducts);
   const occasionTitle = useAppStore((s) => s.occasionTitle);
+  const parsedIntent = useAppStore((s) => s.parsedIntent);
   const switchProduct = useAppStore((s) => s.switchProduct);
   const applyDiff = useAppStore((s) => s.applyDiff);
   const addSuggestionToCart = useAppStore((s) => s.addSuggestionToCart);
@@ -24,6 +31,7 @@ export default function CartPage() {
   const suggestedItems = cart.filter((p) => p.is_suggestion);
 
   const total = computeCartTotal(mainItems);
+  const itemCount = mainItems.reduce((sum, i) => sum + i.quantity, 0);
   const maxEta = getMaxEta(mainItems);
 
   // Get region for regional section header
@@ -33,13 +41,24 @@ export default function CartPage() {
     regionName = resolveRegion(profile.pinCode || "");
   } catch {}
 
+  // Compute dark store summary from cart items
+  const darkStoreGroups = new Map<string, number>();
+  for (const item of mainItems) {
+    const storeId = item.dark_store || "DS-Central";
+    darkStoreGroups.set(storeId, (darkStoreGroups.get(storeId) || 0) + 1);
+  }
+  const darkStoreSummary = Array.from(darkStoreGroups.entries()).map(([storeId, count]) => ({
+    store_id: storeId,
+    item_count: count,
+    ...(DARK_STORE_DISPLAY[storeId] || { name: storeId, distance: "?" }),
+  }));
+
   const handleApplyDiff = (diff: CartDiff) => {
     applyDiff(diff);
-    // Highlight affected cards
     const affectedIds = new Set<string>([
       ...diff.remove,
       ...diff.modify.map((m) => m.id),
-      ...diff.add.map((a) => a.product.id),
+      ...diff.add.map((a) => a.product?.id || a.id || ""),
     ]);
     setHighlightedIds(affectedIds);
     setTimeout(() => setHighlightedIds(new Set()), 3000);
@@ -76,6 +95,48 @@ export default function CartPage() {
         
         {/* Main Content (Left) */}
         <div className="flex-1 min-w-0">
+          {/* Predictive mode header */}
+          {parsedIntent?.mode_override === "predictive" && (
+            <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/40 rounded-xl p-4 mb-6 flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2.5">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-indigo-900 dark:text-indigo-300">AI-curated essentials kit</p>
+                <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">
+                  Every item in this kit was chosen specifically for your situation. Remove anything you already have.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Dark store delivery banner */}
+          {darkStoreSummary.length > 0 && (
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/40 rounded-xl p-4 mb-6">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-blue-900 dark:text-blue-300">
+                    {darkStoreSummary.length === 1
+                      ? `All items from ${darkStoreSummary[0].name}`
+                      : `Consolidated delivery from ${darkStoreSummary.length} nearby stores`}
+                  </p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">
+                    {darkStoreSummary.length === 1
+                      ? `${darkStoreSummary[0].distance} away - arriving together`
+                      : darkStoreSummary.map(s => `${s.item_count} item${s.item_count > 1 ? 's' : ''} from ${s.distance}`).join(', ') + ' - all arriving together'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="bg-white dark:bg-amazon-card-dark rounded-card p-4 sm:p-6 mb-6 shadow-sm">
             <h1 className="text-2xl sm:text-3xl font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-1">
               Shopping Cart
@@ -108,7 +169,7 @@ export default function CartPage() {
 
             <div className="border-t border-amazon-border-light dark:border-amazon-border-dark mt-6 pt-4 flex justify-end">
               <div className="text-lg">
-                Subtotal ({mainItems.length} items): <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{formatPrice(total)}</span>
+                Subtotal ({itemCount} items): <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{formatPrice(total)}</span>
               </div>
             </div>
           </div>
@@ -116,9 +177,14 @@ export default function CartPage() {
           {/* Suggested Add-ons section */}
           {suggestedItems.length > 0 && (
             <div className="bg-white dark:bg-amazon-card-dark rounded-card p-4 sm:p-6 shadow-sm mb-6">
-              <h2 className="text-xl font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-4">
-                Suggested Add-ons
-              </h2>
+              <div className="flex items-center gap-2 mb-4">
+                <h2 className="text-xl font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">
+                  Suggested Add-ons
+                </h2>
+                <span className="text-xs bg-gray-100 dark:bg-[#2B3645] text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">
+                  Customers who bought this also got
+                </span>
+              </div>
               <div className="space-y-6">
                 {suggestedItems.map((product, index) => (
                   <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
@@ -165,7 +231,7 @@ export default function CartPage() {
             </div>
 
             <div className="flex justify-between items-center mb-1">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal ({mainItems.length} items)</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal ({itemCount} items)</span>
               <span className="text-xl font-bold text-gray-900 dark:text-gray-100">{formatPrice(total)}</span>
             </div>
             <p className="text-xs text-gray-400 mb-5">Incl. all taxes · Free delivery</p>
