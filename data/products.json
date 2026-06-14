@@ -22,7 +22,8 @@
       "Chennai",
       "Hyderabad",
       "Mumbai",
-      "Delhi"
+      "Delhi",
+      "Coimbatore"
     ],
     "in_stock": true,
     "eta_minutes": 15,
@@ -32,7 +33,10 @@
       "dosa batter",
       "idli batter",
       "south indian",
-      "breakfast"
+      "breakfast",
+      "id id id fresh idli & dosa batter 1kg",
+      "id id fresh idli & dosa batter 1kg",
+      "id fresh idli & dosa batter 1kg"
     ],
     "sample_reviews": [
       {
@@ -66,7 +70,8 @@
       "Chennai",
       "Hyderabad",
       "Mumbai",
-      "Delhi"
+      "Delhi",
+      "Coimbatore"
     ],
     "in_stock": true,
     "eta_minutes": 15,
@@ -75,7 +80,9 @@
       "coconut",
       "grated coconut",
       "chutney",
-      "nariyal"
+      "nariyal",
+      "local farm local farm fresh grated coconut 200g",
+      "local farm fresh grated coconut 200g"
     ],
     "sample_reviews": [
       {
@@ -110,7 +117,8 @@
       "Chennai",
       "Hyderabad",
       "Mumbai",
-      "Delhi"
+      "Delhi",
+      "Coimbatore"
     ],
     "in_stock": true,
     "eta_minutes": 15,
@@ -120,7 +128,10 @@
       "powder",
       "masala",
       "mtr",
-      "south indian"
+      "south indian",
+      "mtr mtr mtr sambar powder 200g",
+      "mtr mtr sambar powder 200g",
+      "mtr sambar powder 200g"
     ],
     "sample_reviews": [
       {
@@ -162,7 +173,10 @@
       "crisps",
       "nacho",
       "doritos",
-      "snacks"
+      "snacks",
+      "doritos doritos doritos nacho cheese flavour chips 200g",
+      "doritos doritos nacho cheese flavour chips 200g",
+      "doritos nacho cheese flavour chips 200g"
     ],
     "sample_reviews": [
       {
@@ -206,7 +220,10 @@
       "cola",
       "soft drink",
       "soda",
-      "cold drink"
+      "cold drink",
+      "pepsi pepsi pepsi cola 500ml",
+      "pepsi pepsi cola 500ml",
+      "pepsi cola 500ml"
     ],
     "sample_reviews": [
       {
@@ -249,7 +266,11 @@
       "pasta",
       "italian",
       "noodles",
-      "aglio olio"
+      "aglio olio",
+      "borges borges borges spaghetti pasta 500g",
+      "borges borges spaghetti pasta 500g",
+      "borges spaghetti pasta 500g",
+      "borges spaghetti"
     ],
     "sample_reviews": [
       {
@@ -293,7 +314,11 @@
       "extra virgin",
       "cooking oil",
       "figaro",
-      "aglio olio"
+      "aglio olio",
+      "figaro figaro figaro extra virgin olive oil 500ml",
+      "figaro figaro extra virgin olive oil 500ml",
+      "figaro extra virgin olive oil 500ml",
+      "figaro olive oil"
     ],
     "sample_reviews": [
       {
@@ -338,7 +363,11 @@
       "amul",
       "dairy",
       "breakfast",
-      "toast"
+      "toast",
+      "amul amul amul butter 100g",
+      "amul amul butter 100g",
+      "amul butter 100g",
+      "amul butter"
     ],
     "sample_reviews": [
       {
@@ -383,7 +412,11 @@
       "britannia",
       "breakfast",
       "toast",
-      "sandwich"
+      "sandwich",
+      "britannia britannia britannia brown bread 400g",
+      "britannia britannia brown bread 400g",
+      "britannia brown bread 400g",
+      "britannia bread"
     ],
     "sample_reviews": [
       {
@@ -426,7 +459,11 @@
       "chakli",
       "south indian snack",
       "grand sweets",
-      "crispy"
+      "crispy",
+      "grand sweets grand sweets grand sweets murukku 500g",
+      "grand sweets grand sweets murukku 500g",
+      "grand sweets murukku 500g",
+      "grand sweets murukku"
     ],
     "sample_reviews": [
       {
@@ -472,7 +509,11 @@
       "chai",
       "tata tea",
       "breakfast",
-      "morning drink"
+      "morning drink",
+      "tata tea tata tea tata tea premium 250g",
+      "tata tea tata tea premium 250g",
+      "tata tea premium 250g",
+      "tata tea tea"
     ],
     "sample_reviews": [
       {
@@ -517,7 +558,10 @@
       "lays",
       "salted",
       "crisps",
-      "potato chips"
+      "potato chips",
+      "lay's lay's lay's classic salted chips 150g",
+      "lay's lay's classic salted chips 150g",
+      "lay's classic salted chips 150g"
     ],
     "sample_reviews": [
       {
@@ -562,7 +606,10 @@
       "masala",
       "crunchy",
       "indian snack",
-      "namkeen"
+      "namkeen",
+      "kurkure kurkure kurkure masala munch 120g",
+      "kurkure kurkure masala munch 120g",
+      "kurkure masala munch 120g"
     ],
     "sample_reviews": [
       {
@@ -606,7 +653,10 @@
       "namkeen",
       "haldirams",
       "aloo",
-      "traditional snack"
+      "traditional snack",
+      "haldiram's haldiram's haldiram's aloo bhujia 400g",
+      "haldiram's haldiram's aloo bhujia 400g",
+      "haldiram's aloo bhujia 400g"
     ],
     "sample_reviews": [
       {
@@ -653,7 +703,10 @@
       "cadbury",
       "candy",
       "kids candy",
-      "birthday treat"
+      "birthday treat",
+      "cadbury cadbury cadbury gems 45g pack of 5",
+      "cadbury cadbury gems 45g pack of 5",
+      "cadbury gems 45g pack of 5"
     ],
     "sample_reviews": [
       {
@@ -701,7 +754,9 @@
       "parle-g",
       "glucose",
       "tea time",
-      "classic biscuit"
+      "classic biscuit",
+      "parle parle parle-g gold biscuits 1kg",
+      "parle parle-g gold biscuits 1kg"
     ],
     "sample_reviews": [
       {
@@ -747,7 +802,10 @@
       "soft drink",
       "soda",
       "cola",
-      "cold drink"
+      "cold drink",
+      "coca-cola coca-cola coca-cola 750ml",
+      "coca-cola coca-cola 750ml",
+      "coca-cola 750ml"
     ],
     "sample_reviews": [
       {
@@ -791,7 +849,10 @@
       "tropicana",
       "juice",
       "breakfast drink",
-      "fresh juice"
+      "fresh juice",
+      "tropicana tropicana tropicana orange juice 1l",
+      "tropicana tropicana orange juice 1l",
+      "tropicana orange juice 1l"
     ],
     "sample_reviews": [
       {
@@ -838,7 +899,10 @@
       "lime",
       "soda",
       "soft drink",
-      "cold drink"
+      "cold drink",
+      "sprite sprite sprite lemon-lime 600ml",
+      "sprite sprite lemon-lime 600ml",
+      "sprite lemon-lime 600ml"
     ],
     "sample_reviews": [
       {
@@ -883,7 +947,10 @@
       "mango",
       "traditional drink",
       "paper boat",
-      "summer cooler"
+      "summer cooler",
+      "paper boat paper boat paper boat aam panna 200ml pack of 6",
+      "paper boat paper boat aam panna 200ml pack of 6",
+      "paper boat aam panna 200ml pack of 6"
     ],
     "sample_reviews": [
       {
@@ -930,7 +997,11 @@
       "instant coffee",
       "nescafe",
       "morning drink",
-      "caffeine"
+      "caffeine",
+      "nescafe nescafe nescafe classic instant coffee 50g",
+      "nescafe nescafe classic instant coffee 50g",
+      "nescafe classic instant coffee 50g",
+      "nescafe coffee"
     ],
     "sample_reviews": [
       {
@@ -976,7 +1047,9 @@
       "mango",
       "juice",
       "kids drink",
-      "mango drink"
+      "mango drink",
+      "parle agro parle agro frooti mango drink 200ml pack of 6",
+      "parle agro frooti mango drink 200ml pack of 6"
     ],
     "sample_reviews": [
       {
@@ -1021,7 +1094,9 @@
       "fruit",
       "fresh fruit",
       "breakfast fruit",
-      "potassium"
+      "potassium",
+      "farm fresh farm fresh fresh bananas 1 dozen",
+      "farm fresh fresh bananas 1 dozen"
     ],
     "sample_reviews": [
       {
@@ -1066,7 +1141,9 @@
       "fresh vegetable",
       "cooking ingredient",
       "salad",
-      "sabzi"
+      "sabzi",
+      "local farm local farm fresh tomatoes 1kg",
+      "local farm fresh tomatoes 1kg"
     ],
     "sample_reviews": [
       {
@@ -1110,7 +1187,9 @@
       "pyaaz",
       "fresh vegetable",
       "cooking essential",
-      "sabzi"
+      "sabzi",
+      "local farm local farm fresh onions 2kg",
+      "local farm fresh onions 2kg"
     ],
     "sample_reviews": [
       {
@@ -1155,7 +1234,10 @@
       "lehsun",
       "cooking ingredient",
       "aglio olio",
-      "spice"
+      "spice",
+      "local farm local farm fresh garlic 500g",
+      "local farm fresh garlic 500g",
+      "local farm garlic"
     ],
     "sample_reviews": [
       {
@@ -1200,7 +1282,9 @@
       "dhaniya",
       "herbs",
       "garnish",
-      "fresh herbs"
+      "fresh herbs",
+      "local farm local farm fresh coriander bunch 200g",
+      "local farm fresh coriander bunch 200g"
     ],
     "sample_reviews": [
       {
@@ -1245,7 +1329,9 @@
       "nimbu",
       "citrus",
       "cooking ingredient",
-      "garnish"
+      "garnish",
+      "local farm local farm fresh lemons 500g",
+      "local farm fresh lemons 500g"
     ],
     "sample_reviews": [
       {
@@ -1290,7 +1376,9 @@
       "green chilli",
       "hari mirch",
       "spicy",
-      "cooking ingredient"
+      "cooking ingredient",
+      "local farm local farm fresh green chillies 200g",
+      "local farm fresh green chillies 200g"
     ],
     "sample_reviews": [
       {
@@ -1337,7 +1425,10 @@
       "toned milk",
       "amul",
       "dairy",
-      "breakfast"
+      "breakfast",
+      "amul amul amul taaza toned milk 1l",
+      "amul amul taaza toned milk 1l",
+      "amul taaza toned milk 1l"
     ],
     "sample_reviews": [
       {
@@ -1381,7 +1472,10 @@
       "dahi",
       "yogurt",
       "dairy",
-      "probiotic"
+      "probiotic",
+      "mother dairy mother dairy mother dairy curd 400g",
+      "mother dairy mother dairy curd 400g",
+      "mother dairy curd 400g"
     ],
     "sample_reviews": [
       {
@@ -1426,7 +1520,10 @@
       "cheese slices",
       "amul cheese",
       "sandwich",
-      "breakfast"
+      "breakfast",
+      "amul amul amul cheese slices 200g (10 slices)",
+      "amul amul cheese slices 200g (10 slices)",
+      "amul cheese slices 200g (10 slices)"
     ],
     "sample_reviews": [
       {
@@ -1469,7 +1566,10 @@
       "yogurt",
       "strawberry",
       "healthy",
-      "breakfast"
+      "breakfast",
+      "epigamia epigamia epigamia greek yogurt strawberry 90g",
+      "epigamia epigamia greek yogurt strawberry 90g",
+      "epigamia greek yogurt strawberry 90g"
     ],
     "sample_reviews": [
       {
@@ -1517,7 +1617,9 @@
       "noodles",
       "instant noodles",
       "quick meal",
-      "2 minute"
+      "2 minute",
+      "nestle nestle maggi 2-minute noodles 12 pack",
+      "nestle maggi 2-minute noodles 12 pack"
     ],
     "sample_reviews": [
       {
@@ -1565,7 +1667,10 @@
       "wheat flour",
       "chapati",
       "roti",
-      "whole wheat"
+      "whole wheat",
+      "aashirvaad aashirvaad aashirvaad atta 5kg",
+      "aashirvaad aashirvaad atta 5kg",
+      "aashirvaad atta 5kg"
     ],
     "sample_reviews": [
       {
@@ -1611,7 +1716,10 @@
       "iodised salt",
       "tata salt",
       "cooking essential",
-      "namak"
+      "namak",
+      "tata tata tata salt 1kg",
+      "tata tata salt 1kg",
+      "tata salt 1kg"
     ],
     "sample_reviews": [
       {
@@ -1656,7 +1764,10 @@
       "spice",
       "mdh",
       "indian spice",
-      "masala"
+      "masala",
+      "mdh mdh mdh garam masala 100g",
+      "mdh mdh garam masala 100g",
+      "mdh garam masala 100g"
     ],
     "sample_reviews": [
       {
@@ -1701,7 +1812,10 @@
       "sunflower oil",
       "fortune",
       "vegetable oil",
-      "frying"
+      "frying",
+      "fortune fortune fortune sunflower oil 1l",
+      "fortune fortune sunflower oil 1l",
+      "fortune sunflower oil 1l"
     ],
     "sample_reviews": [
       {
@@ -1744,7 +1858,9 @@
       "pasta",
       "italian",
       "barilla",
-      "rigate"
+      "rigate",
+      "barilla barilla penne rigate pasta 500g",
+      "barilla penne rigate pasta 500g"
     ],
     "sample_reviews": [
       {
@@ -1788,7 +1904,9 @@
       "red pepper flakes",
       "seasoning",
       "pasta topping",
-      "spice"
+      "spice",
+      "urban platter urban platter red chilli flakes 100g",
+      "urban platter red chilli flakes 100g"
     ],
     "sample_reviews": [
       {
@@ -1831,7 +1949,9 @@
       "cheese",
       "italian cheese",
       "pasta topping",
-      "grated cheese"
+      "grated cheese",
+      "le bon le bon parmesan cheese 100g",
+      "le bon parmesan cheese 100g"
     ],
     "sample_reviews": [
       {
@@ -1877,7 +1997,11 @@
       "anda",
       "breakfast",
       "protein",
-      "omelette"
+      "omelette",
+      "farm fresh farm fresh eggs white 12 pack",
+      "farm fresh eggs white 12 pack",
+      "farm fresh eggs",
+      "farm fresh egg"
     ],
     "sample_reviews": [
       {
@@ -1922,7 +2046,10 @@
       "dish soap",
       "vim",
       "cleaning",
-      "kitchen cleaner"
+      "kitchen cleaner",
+      "vim vim vim dishwash liquid 750ml",
+      "vim vim dishwash liquid 750ml",
+      "vim dishwash liquid 750ml"
     ],
     "sample_reviews": [
       {
@@ -1964,7 +2091,10 @@
       "toilet cleaner",
       "harpic",
       "bathroom cleaner",
-      "disinfectant"
+      "disinfectant",
+      "harpic harpic harpic power plus 500ml",
+      "harpic harpic power plus 500ml",
+      "harpic power plus 500ml"
     ],
     "sample_reviews": [
       {
@@ -2009,7 +2139,10 @@
       "lizol",
       "disinfectant",
       "citrus",
-      "mopping"
+      "mopping",
+      "lizol lizol lizol floor cleaner citrus 975ml",
+      "lizol lizol floor cleaner citrus 975ml",
+      "lizol floor cleaner citrus 975ml"
     ],
     "sample_reviews": [
       {
@@ -2053,7 +2186,9 @@
       "scotch brite",
       "sponge",
       "dishwashing",
-      "utensil cleaner"
+      "utensil cleaner",
+      "3m 3m scotch-brite scrub pad pack of 3",
+      "3m scotch-brite scrub pad pack of 3"
     ],
     "sample_reviews": [
       {
@@ -2098,7 +2233,10 @@
       "washing powder",
       "surf excel",
       "laundry",
-      "front load"
+      "front load",
+      "surf excel surf excel surf excel matic front load 1kg",
+      "surf excel surf excel matic front load 1kg",
+      "surf excel matic front load 1kg"
     ],
     "sample_reviews": [
       {
@@ -2145,7 +2283,10 @@
       "cadbury",
       "silk",
       "dairy milk",
-      "dessert"
+      "dessert",
+      "cadbury cadbury cadbury dairy milk silk 150g",
+      "cadbury cadbury dairy milk silk 150g",
+      "cadbury dairy milk silk 150g"
     ],
     "sample_reviews": [
       {
@@ -2191,7 +2332,11 @@
       "microwave popcorn",
       "movie snack",
       "act ii",
-      "corn"
+      "corn",
+      "act ii act ii act ii classic salted popcorn 60g x 5",
+      "act ii act ii classic salted popcorn 60g x 5",
+      "act ii classic salted popcorn 60g x 5",
+      "act ii popcorn"
     ],
     "sample_reviews": [
       {
@@ -2235,7 +2380,10 @@
       "sweet",
       "mithai",
       "dessert",
-      "bengali sweet"
+      "bengali sweet",
+      "bikano bikano bikano rasgulla tin 1kg",
+      "bikano bikano rasgulla tin 1kg",
+      "bikano rasgulla tin 1kg"
     ],
     "sample_reviews": [
       {
@@ -2282,7 +2430,10 @@
       "cottage cheese",
       "amul paneer",
       "vegetarian",
-      "protein"
+      "protein",
+      "amul amul amul paneer 200g",
+      "amul amul paneer 200g",
+      "amul paneer 200g"
     ],
     "sample_reviews": [
       {
@@ -2327,7 +2478,10 @@
       "masala oats",
       "healthy breakfast",
       "quick meal",
-      "fiber"
+      "fiber",
+      "saffola saffola saffola masala oats 400g",
+      "saffola saffola masala oats 400g",
+      "saffola masala oats 400g"
     ],
     "sample_reviews": [
       {
@@ -2372,7 +2526,10 @@
       "fruit jam",
       "kissan",
       "bread spread",
-      "breakfast spread"
+      "breakfast spread",
+      "kissan kissan kissan mixed fruit jam 500g",
+      "kissan kissan mixed fruit jam 500g",
+      "kissan mixed fruit jam 500g"
     ],
     "sample_reviews": [
       {
@@ -2416,7 +2573,10 @@
       "mixed fruit juice",
       "juice",
       "fruit drink",
-      "breakfast drink"
+      "breakfast drink",
+      "real real real mixed fruit juice 1l",
+      "real real mixed fruit juice 1l",
+      "real mixed fruit juice 1l"
     ],
     "sample_reviews": [
       {
@@ -2461,7 +2621,10 @@
       "mineral water",
       "bisleri",
       "packaged water",
-      "drinking water"
+      "drinking water",
+      "bisleri bisleri bisleri water 5l",
+      "bisleri bisleri water 5l",
+      "bisleri water 5l"
     ],
     "sample_reviews": [
       {
@@ -2508,7 +2671,9 @@
       "biscuit",
       "cookies",
       "chocolate biscuit",
-      "cream biscuit"
+      "cream biscuit",
+      "cadbury cadbury oreo original biscuits 300g",
+      "cadbury oreo original biscuits 300g"
     ],
     "sample_reviews": [
       {
@@ -2552,7 +2717,10 @@
       "uncle chipps",
       "spicy",
       "potato chips",
-      "party pack"
+      "party pack",
+      "uncle chipps uncle chipps uncle chipps spicy treat 70g x 6",
+      "uncle chipps uncle chipps spicy treat 70g x 6",
+      "uncle chipps spicy treat 70g x 6"
     ],
     "sample_reviews": [
       {
@@ -2597,7 +2765,9 @@
       "aloo",
       "vegetable",
       "cooking essential",
-      "sabzi"
+      "sabzi",
+      "local farm local farm fresh potatoes 2kg",
+      "local farm fresh potatoes 2kg"
     ],
     "sample_reviews": [
       {
@@ -2642,7 +2812,10 @@
       "buttermilk",
       "yogurt drink",
       "probiotic",
-      "chilled drink"
+      "chilled drink",
+      "amul amul amul masti lassi 200ml pack of 5",
+      "amul amul masti lassi 200ml pack of 5",
+      "amul masti lassi 200ml pack of 5"
     ],
     "sample_reviews": [
       {
@@ -2666,17 +2839,43 @@
     "is_bestseller": true,
     "serving_size": 2,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["breakfast", "cooking", "morning"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata"],
+    "occasion_tags": [
+      "breakfast",
+      "cooking",
+      "morning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Coimbatore"
+    ],
     "in_stock": true,
     "eta_minutes": 12,
     "expiry_months": null,
-    "keywords": ["milk", "amul", "taza", "dairy", "breakfast"],
+    "keywords": [
+      "milk",
+      "amul",
+      "taza",
+      "dairy",
+      "breakfast",
+      "amul amul amul taza homogenised milk 500ml",
+      "amul amul taza homogenised milk 500ml",
+      "amul taza homogenised milk 500ml"
+    ],
     "dark_store": "DS-North",
     "return_policy": "no_return",
     "sample_reviews": [
-      { "author": "Anita S.", "text": "Fresh and reliable every time." },
-      { "author": "Mohit R.", "text": "Best milk for morning chai." }
+      {
+        "author": "Anita S.",
+        "text": "Fresh and reliable every time."
+      },
+      {
+        "author": "Mohit R.",
+        "text": "Best milk for morning chai."
+      }
     ]
   },
   {
@@ -2690,17 +2889,42 @@
     "is_bestseller": true,
     "serving_size": 2,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["breakfast", "cooking", "morning"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai"],
+    "occasion_tags": [
+      "breakfast",
+      "cooking",
+      "morning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
     "in_stock": true,
     "eta_minutes": 12,
     "expiry_months": null,
-    "keywords": ["milk", "amul", "gold", "full cream", "dairy"],
+    "keywords": [
+      "milk",
+      "amul",
+      "gold",
+      "full cream",
+      "dairy",
+      "amul amul amul gold full cream milk 500ml",
+      "amul amul gold full cream milk 500ml",
+      "amul gold full cream milk 500ml"
+    ],
     "dark_store": "DS-North",
     "return_policy": "no_return",
     "sample_reviews": [
-      { "author": "Priya M.", "text": "Rich and creamy. Best for coffee." },
-      { "author": "Suresh K.", "text": "Full cream milk at great price." }
+      {
+        "author": "Priya M.",
+        "text": "Rich and creamy. Best for coffee."
+      },
+      {
+        "author": "Suresh K.",
+        "text": "Full cream milk at great price."
+      }
     ]
   },
   {
@@ -2714,17 +2938,44 @@
     "is_bestseller": true,
     "serving_size": 3,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["breakfast", "cooking", "baking"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Hyderabad"],
+    "occasion_tags": [
+      "breakfast",
+      "cooking",
+      "baking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Coimbatore"
+    ],
     "in_stock": true,
     "eta_minutes": 14,
     "expiry_months": null,
-    "keywords": ["eggs", "egg", "anda", "breakfast", "protein"],
+    "keywords": [
+      "eggs",
+      "egg",
+      "anda",
+      "breakfast",
+      "protein",
+      "local farm local farm farm fresh eggs 6 pack",
+      "local farm farm fresh eggs 6 pack",
+      "local farm eggs",
+      "local farm egg"
+    ],
     "dark_store": "DS-North",
     "return_policy": "no_return",
     "sample_reviews": [
-      { "author": "Geeta P.", "text": "Always fresh. Good size eggs." },
-      { "author": "Rahul D.", "text": "Reliable quality every order." }
+      {
+        "author": "Geeta P.",
+        "text": "Always fresh. Good size eggs."
+      },
+      {
+        "author": "Rahul D.",
+        "text": "Reliable quality every order."
+      }
     ]
   },
   {
@@ -2738,17 +2989,42 @@
     "is_bestseller": true,
     "serving_size": 100,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["cooking"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata", "Hyderabad"],
+    "occasion_tags": [
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Coimbatore"
+    ],
     "in_stock": true,
     "eta_minutes": 16,
     "expiry_months": 36,
-    "keywords": ["salt", "tata", "iodized", "namak", "cooking essential"],
+    "keywords": [
+      "salt",
+      "tata",
+      "iodized",
+      "namak",
+      "cooking essential",
+      "tata tata tata salt iodized 1kg",
+      "tata tata salt iodized 1kg",
+      "tata salt iodized 1kg"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Lakshmi S.", "text": "Desh ka namak. Always trusted." },
-      { "author": "Ajay T.", "text": "Perfect iodized salt for daily cooking." }
+      {
+        "author": "Lakshmi S.",
+        "text": "Desh ka namak. Always trusted."
+      },
+      {
+        "author": "Ajay T.",
+        "text": "Perfect iodized salt for daily cooking."
+      }
     ]
   },
   {
@@ -2762,17 +3038,41 @@
     "is_bestseller": true,
     "serving_size": 30,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["cooking"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Hyderabad"],
+    "occasion_tags": [
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad",
+      "Coimbatore"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 12,
-    "keywords": ["oil", "cooking oil", "saffola", "refined", "healthy oil"],
+    "keywords": [
+      "oil",
+      "cooking oil",
+      "saffola",
+      "refined",
+      "healthy oil",
+      "saffola saffola saffola gold refined oil 1l",
+      "saffola saffola gold refined oil 1l",
+      "saffola gold refined oil 1l"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Sunita G.", "text": "Healthy cooking oil. Good for heart." },
-      { "author": "Deepak M.", "text": "Use it daily. Great quality." }
+      {
+        "author": "Sunita G.",
+        "text": "Healthy cooking oil. Good for heart."
+      },
+      {
+        "author": "Deepak M.",
+        "text": "Use it daily. Great quality."
+      }
     ]
   },
   {
@@ -2786,17 +3086,45 @@
     "is_bestseller": true,
     "serving_size": 25,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["breakfast", "morning", "study", "evening_snack"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata"],
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "study",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Coimbatore"
+    ],
     "in_stock": true,
     "eta_minutes": 14,
     "expiry_months": 18,
-    "keywords": ["coffee", "nescafe", "instant coffee", "classic", "morning drink"],
+    "keywords": [
+      "coffee",
+      "nescafe",
+      "instant coffee",
+      "classic",
+      "morning drink",
+      "nescafe nescafe nescafe classic coffee 50g",
+      "nescafe nescafe classic coffee 50g",
+      "nescafe classic coffee 50g",
+      "nescafe coffee"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Arjun P.", "text": "Perfect morning coffee. Rich aroma." },
-      { "author": "Sneha T.", "text": "Classic Nescafe taste. Never disappoints." }
+      {
+        "author": "Arjun P.",
+        "text": "Perfect morning coffee. Rich aroma."
+      },
+      {
+        "author": "Sneha T.",
+        "text": "Classic Nescafe taste. Never disappoints."
+      }
     ]
   },
   {
@@ -2810,17 +3138,44 @@
     "is_bestseller": true,
     "serving_size": 4,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["quick_meal", "evening_snack", "study", "breakfast"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata", "Hyderabad"],
+    "occasion_tags": [
+      "quick_meal",
+      "evening_snack",
+      "study",
+      "breakfast"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad",
+      "Coimbatore"
+    ],
     "in_stock": true,
     "eta_minutes": 12,
     "expiry_months": 9,
-    "keywords": ["maggi", "noodles", "instant noodles", "masala", "quick meal"],
+    "keywords": [
+      "maggi",
+      "noodles",
+      "instant noodles",
+      "masala",
+      "quick meal",
+      "nestle nestle maggi 2-minute noodles masala 70g x4",
+      "nestle maggi 2-minute noodles masala 70g x4"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Rohit K.", "text": "2 minutes mein tayyar! Hostel essential." },
-      { "author": "Priya D.", "text": "Late night hunger solved. Classic taste." }
+      {
+        "author": "Rohit K.",
+        "text": "2 minutes mein tayyar! Hostel essential."
+      },
+      {
+        "author": "Priya D.",
+        "text": "Late night hunger solved. Classic taste."
+      }
     ]
   },
   {
@@ -2835,16 +3190,38 @@
     "serving_size": 30,
     "image_url": "/placeholder-product.png",
     "occasion_tags": [],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata", "Hyderabad"],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 14,
     "expiry_months": 24,
-    "keywords": ["toothpaste", "colgate", "oral care", "dental", "hygiene"],
+    "keywords": [
+      "toothpaste",
+      "colgate",
+      "oral care",
+      "dental",
+      "hygiene",
+      "colgate colgate colgate maxfresh toothpaste 150g",
+      "colgate colgate maxfresh toothpaste 150g",
+      "colgate maxfresh toothpaste 150g"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Neha S.", "text": "Fresh breath all day. Love the cooling." },
-      { "author": "Sanjay R.", "text": "Best toothpaste for daily use." }
+      {
+        "author": "Neha S.",
+        "text": "Fresh breath all day. Love the cooling."
+      },
+      {
+        "author": "Sanjay R.",
+        "text": "Best toothpaste for daily use."
+      }
     ]
   },
   {
@@ -2859,16 +3236,37 @@
     "serving_size": 15,
     "image_url": "/placeholder-product.png",
     "occasion_tags": [],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata"],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 36,
-    "keywords": ["harpic", "toilet cleaner", "bathroom", "cleaning", "disinfectant"],
+    "keywords": [
+      "harpic",
+      "toilet cleaner",
+      "bathroom",
+      "cleaning",
+      "disinfectant",
+      "harpic harpic harpic powerplus toilet cleaner 500ml",
+      "harpic harpic powerplus toilet cleaner 500ml",
+      "harpic powerplus toilet cleaner 500ml"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Ananya M.", "text": "Removes tough stains easily." },
-      { "author": "Vikram S.", "text": "Essential cleaning product. Works great." }
+      {
+        "author": "Ananya M.",
+        "text": "Removes tough stains easily."
+      },
+      {
+        "author": "Vikram S.",
+        "text": "Essential cleaning product. Works great."
+      }
     ]
   },
   {
@@ -2883,16 +3281,37 @@
     "serving_size": 30,
     "image_url": "/placeholder-product.png",
     "occasion_tags": [],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Hyderabad"],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 16,
     "expiry_months": 36,
-    "keywords": ["vim", "dishwash", "dish soap", "utensil cleaner", "cleaning"],
+    "keywords": [
+      "vim",
+      "dishwash",
+      "dish soap",
+      "utensil cleaner",
+      "cleaning",
+      "vim vim vim dishwash liquid gel 500ml",
+      "vim vim dishwash liquid gel 500ml",
+      "vim dishwash liquid gel 500ml"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Geeta R.", "text": "Cuts grease well. Long lasting." },
-      { "author": "Manoj K.", "text": "Good dishwash liquid at fair price." }
+      {
+        "author": "Geeta R.",
+        "text": "Cuts grease well. Long lasting."
+      },
+      {
+        "author": "Manoj K.",
+        "text": "Good dishwash liquid at fair price."
+      }
     ]
   },
   {
@@ -2907,16 +3326,38 @@
     "serving_size": 50,
     "image_url": "/placeholder-product.png",
     "occasion_tags": [],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata", "Hyderabad"],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 14,
     "expiry_months": 36,
-    "keywords": ["dettol", "handwash", "hand soap", "sanitizer", "hygiene"],
+    "keywords": [
+      "dettol",
+      "handwash",
+      "hand soap",
+      "sanitizer",
+      "hygiene",
+      "dettol dettol dettol original liquid handwash 250ml",
+      "dettol dettol original liquid handwash 250ml",
+      "dettol original liquid handwash 250ml"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Priya T.", "text": "Trusted brand. Keeps germs away." },
-      { "author": "Amit S.", "text": "Essential for every bathroom. Fresh scent." }
+      {
+        "author": "Priya T.",
+        "text": "Trusted brand. Keeps germs away."
+      },
+      {
+        "author": "Amit S.",
+        "text": "Essential for every bathroom. Fresh scent."
+      }
     ]
   },
   {
@@ -2931,16 +3372,36 @@
     "serving_size": 30,
     "image_url": "/placeholder-product.png",
     "occasion_tags": [],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai"],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 36,
-    "keywords": ["colin", "glass cleaner", "window cleaner", "cleaning", "surface cleaner"],
+    "keywords": [
+      "colin",
+      "glass cleaner",
+      "window cleaner",
+      "cleaning",
+      "surface cleaner",
+      "colin colin colin glass cleaner 500ml",
+      "colin colin glass cleaner 500ml",
+      "colin glass cleaner 500ml"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Sunita K.", "text": "Sparkling clean windows every time." },
-      { "author": "Rajesh P.", "text": "Good streak-free finish." }
+      {
+        "author": "Sunita K.",
+        "text": "Sparkling clean windows every time."
+      },
+      {
+        "author": "Rajesh P.",
+        "text": "Good streak-free finish."
+      }
     ]
   },
   {
@@ -2954,17 +3415,40 @@
     "is_bestseller": false,
     "serving_size": 4,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["cooking", "pasta", "dinner"],
-    "region_tags": ["Bangalore", "Mumbai", "Delhi"],
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Mumbai",
+      "Delhi"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 24,
-    "keywords": ["penne", "pasta", "del monte", "italian", "macaroni"],
+    "keywords": [
+      "penne",
+      "pasta",
+      "del monte",
+      "italian",
+      "macaroni",
+      "del monte del monte del monte penne rigate pasta 500g",
+      "del monte del monte penne rigate pasta 500g",
+      "del monte penne rigate pasta 500g"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Kavya T.", "text": "Great texture. Holds sauce perfectly." },
-      { "author": "Arjun M.", "text": "Nice al dente result. Good quality." }
+      {
+        "author": "Kavya T.",
+        "text": "Great texture. Holds sauce perfectly."
+      },
+      {
+        "author": "Arjun M.",
+        "text": "Nice al dente result. Good quality."
+      }
     ]
   },
   {
@@ -2978,17 +3462,41 @@
     "is_bestseller": true,
     "serving_size": 20,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["cooking"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata", "Hyderabad"],
+    "occasion_tags": [
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 16,
     "expiry_months": 6,
-    "keywords": ["atta", "wheat flour", "aashirvaad", "roti", "chapati"],
+    "keywords": [
+      "atta",
+      "wheat flour",
+      "aashirvaad",
+      "roti",
+      "chapati",
+      "aashirvaad aashirvaad aashirvaad superior mp atta 1kg",
+      "aashirvaad aashirvaad superior mp atta 1kg",
+      "aashirvaad superior mp atta 1kg"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Sunita M.", "text": "Softest rotis every time. Best atta." },
-      { "author": "Manoj P.", "text": "Trusted brand. Great quality wheat flour." }
+      {
+        "author": "Sunita M.",
+        "text": "Softest rotis every time. Best atta."
+      },
+      {
+        "author": "Manoj P.",
+        "text": "Trusted brand. Great quality wheat flour."
+      }
     ]
   },
   {
@@ -3002,17 +3510,42 @@
     "is_bestseller": true,
     "serving_size": 6,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["cooking", "biryani", "dinner"],
-    "region_tags": ["Delhi", "Mumbai", "Hyderabad", "Bangalore", "Chennai"],
+    "occasion_tags": [
+      "cooking",
+      "biryani",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Hyderabad",
+      "Bangalore",
+      "Chennai"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 24,
-    "keywords": ["rice", "basmati", "india gate", "biryani rice", "pulao"],
+    "keywords": [
+      "rice",
+      "basmati",
+      "india gate",
+      "biryani rice",
+      "pulao",
+      "india gate india gate india gate basmati rice 1kg",
+      "india gate india gate basmati rice 1kg",
+      "india gate basmati rice 1kg"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Fatima B.", "text": "Long grain, aromatic. Perfect biryani." },
-      { "author": "Ravi K.", "text": "Best basmati for daily cooking." }
+      {
+        "author": "Fatima B.",
+        "text": "Long grain, aromatic. Perfect biryani."
+      },
+      {
+        "author": "Ravi K.",
+        "text": "Best basmati for daily cooking."
+      }
     ]
   },
   {
@@ -3026,17 +3559,42 @@
     "is_bestseller": true,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["baby", "newborn"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata", "Hyderabad"],
+    "occasion_tags": [
+      "baby",
+      "newborn"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 36,
-    "keywords": ["diapers", "pampers", "newborn", "baby", "nappies"],
+    "keywords": [
+      "diapers",
+      "pampers",
+      "newborn",
+      "baby",
+      "nappies",
+      "pampers pampers pampers active baby diapers nb 44 count",
+      "pampers pampers active baby diapers nb 44 count",
+      "pampers active baby diapers nb 44 count"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Meera R.", "text": "Soft on baby skin. No leaks overnight." },
-      { "author": "Deepa S.", "text": "Best diapers for newborns. Trusted brand." }
+      {
+        "author": "Meera R.",
+        "text": "Soft on baby skin. No leaks overnight."
+      },
+      {
+        "author": "Deepa S.",
+        "text": "Best diapers for newborns. Trusted brand."
+      }
     ]
   },
   {
@@ -3050,17 +3608,40 @@
     "is_bestseller": true,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["baby", "newborn"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai"],
+    "occasion_tags": [
+      "baby",
+      "newborn"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 24,
-    "keywords": ["baby wipes", "wipes", "waterwipes", "newborn", "sensitive skin"],
+    "keywords": [
+      "baby wipes",
+      "wipes",
+      "waterwipes",
+      "newborn",
+      "sensitive skin",
+      "waterwipes waterwipes waterwipes original baby wipes 60 count",
+      "waterwipes waterwipes original baby wipes 60 count",
+      "waterwipes original baby wipes 60 count"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Kavitha T.", "text": "Pure water wipes. Safe for newborns." },
-      { "author": "Priya A.", "text": "No chemicals. Best for baby's sensitive skin." }
+      {
+        "author": "Kavitha T.",
+        "text": "Pure water wipes. Safe for newborns."
+      },
+      {
+        "author": "Priya A.",
+        "text": "No chemicals. Best for baby's sensitive skin."
+      }
     ]
   },
   {
@@ -3074,17 +3655,41 @@
     "is_bestseller": true,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["baby", "newborn"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Hyderabad"],
+    "occasion_tags": [
+      "baby",
+      "newborn"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 16,
     "expiry_months": 36,
-    "keywords": ["baby lotion", "himalaya", "moisturizer", "baby care", "newborn"],
+    "keywords": [
+      "baby lotion",
+      "himalaya",
+      "moisturizer",
+      "baby care",
+      "newborn",
+      "himalaya himalaya himalaya baby lotion 100ml",
+      "himalaya himalaya baby lotion 100ml",
+      "himalaya baby lotion 100ml"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Anita S.", "text": "Gentle on baby skin. Nice fragrance." },
-      { "author": "Divya M.", "text": "Keeps skin soft and moisturized all day." }
+      {
+        "author": "Anita S.",
+        "text": "Gentle on baby skin. Nice fragrance."
+      },
+      {
+        "author": "Divya M.",
+        "text": "Keeps skin soft and moisturized all day."
+      }
     ]
   },
   {
@@ -3098,17 +3703,41 @@
     "is_bestseller": true,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["baby", "newborn"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata"],
+    "occasion_tags": [
+      "baby",
+      "newborn"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata"
+    ],
     "in_stock": true,
     "eta_minutes": 16,
     "expiry_months": 36,
-    "keywords": ["baby shampoo", "johnsons", "no tears", "baby care", "gentle shampoo"],
+    "keywords": [
+      "baby shampoo",
+      "johnsons",
+      "no tears",
+      "baby care",
+      "gentle shampoo",
+      "johnsons johnsons johnsons baby shampoo 200ml",
+      "johnsons johnsons baby shampoo 200ml",
+      "johnsons baby shampoo 200ml"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Lakshmi R.", "text": "No tears formula. Baby loves bath time." },
-      { "author": "Sunita K.", "text": "Trusted for generations. Gentle and safe." }
+      {
+        "author": "Lakshmi R.",
+        "text": "No tears formula. Baby loves bath time."
+      },
+      {
+        "author": "Sunita K.",
+        "text": "Trusted for generations. Gentle and safe."
+      }
     ]
   },
   {
@@ -3122,17 +3751,39 @@
     "is_bestseller": false,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["baby", "newborn"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore"],
+    "occasion_tags": [
+      "baby",
+      "newborn"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore"
+    ],
     "in_stock": true,
     "eta_minutes": 18,
     "expiry_months": 24,
-    "keywords": ["rash cream", "diaper rash", "mamaearth", "baby care", "zinc oxide"],
+    "keywords": [
+      "rash cream",
+      "diaper rash",
+      "mamaearth",
+      "baby care",
+      "zinc oxide",
+      "mamaearth mamaearth mamaearth diaper rash cream 50g",
+      "mamaearth mamaearth diaper rash cream 50g",
+      "mamaearth diaper rash cream 50g"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Priya N.", "text": "Natural ingredients. Rash cleared in 2 days." },
-      { "author": "Neha D.", "text": "Must-have for new parents. Works quickly." }
+      {
+        "author": "Priya N.",
+        "text": "Natural ingredients. Rash cleared in 2 days."
+      },
+      {
+        "author": "Neha D.",
+        "text": "Must-have for new parents. Works quickly."
+      }
     ]
   },
   {
@@ -3146,17 +3797,43 @@
     "is_bestseller": false,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["movie_night", "party", "summer"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Hyderabad"],
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "summer"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 14,
     "expiry_months": 6,
-    "keywords": ["sprite", "lemon", "lime", "soft drink", "soda", "cold drink"],
+    "keywords": [
+      "sprite",
+      "lemon",
+      "lime",
+      "soft drink",
+      "soda",
+      "cold drink",
+      "sprite sprite sprite lime lemon 500ml",
+      "sprite sprite lime lemon 500ml",
+      "sprite lime lemon 500ml"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Rahul S.", "text": "Refreshing. Best chilled on a hot day." },
-      { "author": "Tanya K.", "text": "Clear taste. Good party drink." }
+      {
+        "author": "Rahul S.",
+        "text": "Refreshing. Best chilled on a hot day."
+      },
+      {
+        "author": "Tanya K.",
+        "text": "Clear taste. Good party drink."
+      }
     ]
   },
   {
@@ -3170,17 +3847,43 @@
     "is_bestseller": true,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["movie_night", "party", "birthday"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Hyderabad"],
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "birthday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 14,
     "expiry_months": 6,
-    "keywords": ["thums up", "cola", "soft drink", "soda", "cold drink", "thunder"],
+    "keywords": [
+      "thums up",
+      "cola",
+      "soft drink",
+      "soda",
+      "cold drink",
+      "thunder",
+      "thums up thums up thums up 500ml",
+      "thums up thums up 500ml",
+      "thums up 500ml"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Siddharth M.", "text": "Strong cola taste. India's favourite!" },
-      { "author": "Ravi A.", "text": "Best with biryani. Love the kick." }
+      {
+        "author": "Siddharth M.",
+        "text": "Strong cola taste. India's favourite!"
+      },
+      {
+        "author": "Ravi A.",
+        "text": "Best with biryani. Love the kick."
+      }
     ]
   },
   {
@@ -3194,17 +3897,41 @@
     "is_bestseller": false,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["study", "gaming", "party"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Pune"],
+    "occasion_tags": [
+      "study",
+      "gaming",
+      "party"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Pune"
+    ],
     "in_stock": true,
     "eta_minutes": 16,
     "expiry_months": 12,
-    "keywords": ["red bull", "energy drink", "caffeine", "boost", "study fuel"],
+    "keywords": [
+      "red bull",
+      "energy drink",
+      "caffeine",
+      "boost",
+      "study fuel",
+      "red bull red bull red bull energy drink 250ml",
+      "red bull red bull energy drink 250ml",
+      "red bull energy drink 250ml"
+    ],
     "dark_store": "DS-Central",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Arjun D.", "text": "Perfect for late night study sessions." },
-      { "author": "Karan M.", "text": "Gives you wings! Great energy boost." }
+      {
+        "author": "Arjun D.",
+        "text": "Perfect for late night study sessions."
+      },
+      {
+        "author": "Karan M.",
+        "text": "Gives you wings! Great energy boost."
+      }
     ]
   },
   {
@@ -3218,17 +3945,43 @@
     "is_bestseller": true,
     "serving_size": 2,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["party", "birthday", "summer", "kids"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Hyderabad"],
+    "occasion_tags": [
+      "party",
+      "birthday",
+      "summer",
+      "kids"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Hyderabad"
+    ],
     "in_stock": true,
     "eta_minutes": 14,
     "expiry_months": 6,
-    "keywords": ["maaza", "mango", "juice", "mango drink", "kids drink"],
+    "keywords": [
+      "maaza",
+      "mango",
+      "juice",
+      "mango drink",
+      "kids drink",
+      "maaza maaza maaza mango drink 600ml",
+      "maaza maaza mango drink 600ml",
+      "maaza mango drink 600ml"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Priya K.", "text": "Real mango taste. Kids love it!" },
-      { "author": "Amit R.", "text": "Best mango drink in India. Always stocked." }
+      {
+        "author": "Priya K.",
+        "text": "Real mango taste. Kids love it!"
+      },
+      {
+        "author": "Amit R.",
+        "text": "Best mango drink in India. Always stocked."
+      }
     ]
   },
   {
@@ -3242,17 +3995,43 @@
     "is_bestseller": true,
     "serving_size": 5,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["movie_night", "party", "evening_snack", "kids"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata"],
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "evening_snack",
+      "kids"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata"
+    ],
     "in_stock": true,
     "eta_minutes": 12,
     "expiry_months": 12,
-    "keywords": ["oreo", "biscuit", "chocolate", "cream biscuit", "cookies"],
+    "keywords": [
+      "oreo",
+      "biscuit",
+      "chocolate",
+      "cream biscuit",
+      "cookies",
+      "cadbury cadbury cadbury oreo original vanilla 300g",
+      "cadbury cadbury oreo original vanilla 300g",
+      "cadbury oreo original vanilla 300g"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Sanya M.", "text": "Twist, lick, dunk! Family favourite." },
-      { "author": "Deepak R.", "text": "Best with cold milk. Kids can't stop." }
+      {
+        "author": "Sanya M.",
+        "text": "Twist, lick, dunk! Family favourite."
+      },
+      {
+        "author": "Deepak R.",
+        "text": "Best with cold milk. Kids can't stop."
+      }
     ]
   },
   {
@@ -3266,17 +4045,2209 @@
     "is_bestseller": true,
     "serving_size": 1,
     "image_url": "/placeholder-product.png",
-    "occasion_tags": ["evening_snack", "party", "birthday"],
-    "region_tags": ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata"],
+    "occasion_tags": [
+      "evening_snack",
+      "party",
+      "birthday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Kolkata"
+    ],
     "in_stock": true,
     "eta_minutes": 12,
     "expiry_months": 12,
-    "keywords": ["kitkat", "chocolate", "wafer", "nestle", "candy bar"],
+    "keywords": [
+      "kitkat",
+      "chocolate",
+      "wafer",
+      "nestle",
+      "candy bar",
+      "nestle nestle kitkat 4 finger chocolate 41.5g",
+      "nestle kitkat 4 finger chocolate 41.5g"
+    ],
     "dark_store": "DS-North",
     "return_policy": "7_day_return",
     "sample_reviews": [
-      { "author": "Ravi T.", "text": "Have a break! Classic crispy wafer." },
-      { "author": "Sneha D.", "text": "Perfect chocolate snack. Not too sweet." }
+      {
+        "author": "Ravi T.",
+        "text": "Have a break! Classic crispy wafer."
+      },
+      {
+        "author": "Sneha D.",
+        "text": "Perfect chocolate snack. Not too sweet."
+      }
+    ]
+  },
+  {
+    "id": "snk-popcorn-butter",
+    "name": "Act II Instant Popcorn Butter Delite 150g",
+    "brand": "Act II",
+    "category": "snacks",
+    "price": 80,
+    "rating": 4.5,
+    "review_count": 12000,
+    "is_bestseller": true,
+    "serving_size": 3,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 12,
+    "keywords": [
+      "popcorn",
+      "butter popcorn",
+      "instant popcorn",
+      "act ii",
+      "movie snack",
+      "act ii act ii act ii instant popcorn butter delite 150g",
+      "act ii act ii instant popcorn butter delite 150g",
+      "act ii instant popcorn butter delite 150g",
+      "act ii popcorn",
+      "act ii butter",
+      "butter"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Ravi K.",
+        "text": "Crispy and buttery, perfect for movies."
+      },
+      {
+        "author": "Pooja S.",
+        "text": "Very easy to cook, pops fully."
+      }
+    ]
+  },
+  {
+    "id": "snk-popcorn-caramel",
+    "name": "4700BC Gourmet Popcorn Caramel 150g",
+    "brand": "4700BC",
+    "category": "snacks",
+    "price": 150,
+    "rating": 4.4,
+    "review_count": 8000,
+    "is_bestseller": false,
+    "serving_size": 3,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "movie_night",
+      "party",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Jaipur",
+      "Lucknow"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 6,
+    "keywords": [
+      "popcorn",
+      "caramel popcorn",
+      "sweet popcorn",
+      "gourmet popcorn",
+      "4700bc",
+      "4700bc 4700bc 4700bc gourmet popcorn caramel 150g",
+      "4700bc 4700bc gourmet popcorn caramel 150g",
+      "4700bc gourmet popcorn caramel 150g",
+      "4700bc popcorn"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Amit V.",
+        "text": "Excellent sweet taste, gourmet quality."
+      },
+      {
+        "author": "Ritu P.",
+        "text": "Thick caramel coating. Delicious!"
+      }
+    ]
+  },
+  {
+    "id": "snk-kajukatli-250",
+    "name": "Haldiram's Kaju Katli 250g",
+    "brand": "Haldiram's",
+    "category": "snacks",
+    "price": 250,
+    "rating": 4.7,
+    "review_count": 22000,
+    "is_bestseller": true,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "celebration",
+      "sweet"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata",
+      "Ahmedabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 1,
+    "keywords": [
+      "kaju katli",
+      "sweet",
+      "diwali sweet",
+      "mithai",
+      "cashew sweet",
+      "haldirams",
+      "haldiram's haldiram's haldiram's kaju katli 250g",
+      "haldiram's haldiram's kaju katli 250g",
+      "haldiram's kaju katli 250g",
+      "haldiram's kaju katli"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Rajesh M.",
+        "text": "Very fresh and soft, not too sweet."
+      },
+      {
+        "author": "Sushma G.",
+        "text": "Authentic taste. Perfect for Diwali gifting."
+      }
+    ]
+  },
+  {
+    "id": "snk-gulabjamun-1kg",
+    "name": "Bikano Gulab Jamun Tin 1kg",
+    "brand": "Bikano",
+    "category": "snacks",
+    "price": 220,
+    "rating": 4.5,
+    "review_count": 14000,
+    "is_bestseller": true,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "celebration",
+      "sweet"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata",
+      "Lucknow",
+      "Jaipur"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 12,
+    "keywords": [
+      "gulab jamun",
+      "sweet",
+      "diwali sweet",
+      "mithai",
+      "tin sweet",
+      "bikano",
+      "bikano bikano bikano gulab jamun tin 1kg",
+      "bikano bikano gulab jamun tin 1kg",
+      "bikano gulab jamun tin 1kg",
+      "bikano gulab jamun"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Vikram K.",
+        "text": "Soft and juicy gulab jamuns. Loved it."
+      },
+      {
+        "author": "Neha A.",
+        "text": "Value for money. Great dessert option."
+      }
+    ]
+  },
+  {
+    "id": "snk-soanpapdi-250",
+    "name": "Haldiram's Soan Papdi 250g",
+    "brand": "Haldiram's",
+    "category": "snacks",
+    "price": 85,
+    "rating": 4.3,
+    "review_count": 18000,
+    "is_bestseller": false,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "celebration",
+      "sweet"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata",
+      "Jaipur",
+      "Lucknow",
+      "Pune",
+      "Ahmedabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 15,
+    "expiry_months": 6,
+    "keywords": [
+      "soan papdi",
+      "sweet",
+      "diwali sweet",
+      "mithai",
+      "haldirams",
+      "haldiram's haldiram's haldiram's soan papdi 250g",
+      "haldiram's haldiram's soan papdi 250g",
+      "haldiram's soan papdi 250g"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Rohit P.",
+        "text": "Crispy and flaky, melts in mouth."
+      },
+      {
+        "author": "Sangeeta D.",
+        "text": "Traditional Diwali sweet. Good taste."
+      }
+    ]
+  },
+  {
+    "id": "snk-mysorepak-250",
+    "name": "Grand Sweets Mysore Pak 250g",
+    "brand": "Grand Sweets",
+    "category": "snacks",
+    "price": 180,
+    "rating": 4.8,
+    "review_count": 9500,
+    "is_bestseller": true,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "celebration",
+      "sweet",
+      "south indian"
+    ],
+    "region_tags": [
+      "Coimbatore",
+      "Chennai",
+      "Bangalore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 1,
+    "keywords": [
+      "mysore pak",
+      "sweet",
+      "south indian sweet",
+      "ghee sweet",
+      "grand sweets",
+      "grand sweets grand sweets grand sweets mysore pak 250g",
+      "grand sweets grand sweets mysore pak 250g",
+      "grand sweets mysore pak 250g",
+      "grand sweets mysore pak"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Lakshmi N.",
+        "text": "Rich ghee aroma, melts in the mouth immediately."
+      },
+      {
+        "author": "Karthik R.",
+        "text": "Authentic South Indian Mysore Pak. Outstanding."
+      }
+    ]
+  },
+  {
+    "id": "snk-murukku-a2b",
+    "name": "Anandha Bhavan Murukku 250g",
+    "brand": "A2B",
+    "category": "snacks",
+    "price": 90,
+    "rating": 4.6,
+    "review_count": 11000,
+    "is_bestseller": true,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "snack",
+      "south indian",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Coimbatore",
+      "Chennai",
+      "Bangalore",
+      "Hyderabad",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 4,
+    "keywords": [
+      "murukku",
+      "snack",
+      "south indian snack",
+      "savory",
+      "a2b",
+      "crispy",
+      "a2b a2b anandha bhavan murukku 250g",
+      "a2b anandha bhavan murukku 250g",
+      "a2b murukku"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Arun S.",
+        "text": "Very crispy and fresh. Great tea time snack."
+      },
+      {
+        "author": "Divya B.",
+        "text": "Perfect crunch. Traditional taste."
+      }
+    ]
+  },
+  {
+    "id": "snk-butter-murukku",
+    "name": "A2B Butter Murukku 200g",
+    "brand": "A2B",
+    "category": "snacks",
+    "price": 80,
+    "rating": 4.5,
+    "review_count": 8500,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "snack",
+      "south indian",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Coimbatore",
+      "Chennai",
+      "Bangalore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 4,
+    "keywords": [
+      "butter murukku",
+      "murukku",
+      "snack",
+      "south indian snack",
+      "a2b",
+      "butter snack",
+      "a2b a2b a2b butter murukku 200g",
+      "a2b a2b butter murukku 200g",
+      "a2b butter murukku 200g",
+      "a2b murukku",
+      "a2b butter",
+      "butter"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Srinivas K.",
+        "text": "Super soft and buttery. Kids love it."
+      },
+      {
+        "author": "Meera R.",
+        "text": "Light and delicious. Perfect for Diwali."
+      }
+    ]
+  },
+  {
+    "id": "snk-mixture-a2b",
+    "name": "A2B Madras Mixture 250g",
+    "brand": "A2B",
+    "category": "snacks",
+    "price": 95,
+    "rating": 4.6,
+    "review_count": 12000,
+    "is_bestseller": true,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "snack",
+      "south indian",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Coimbatore",
+      "Chennai",
+      "Bangalore",
+      "Hyderabad",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 4,
+    "keywords": [
+      "mixture",
+      "madras mixture",
+      "snack",
+      "south indian mixture",
+      "a2b",
+      "a2b a2b a2b madras mixture 250g",
+      "a2b a2b madras mixture 250g",
+      "a2b madras mixture 250g",
+      "a2b mixture"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Venkatesh J.",
+        "text": "Perfect blend of spices and nuts. Very tasty."
+      },
+      {
+        "author": "Ramya S.",
+        "text": "Fresh and crunchy. Highly recommended."
+      }
+    ]
+  },
+  {
+    "id": "snk-mixture-haldirams",
+    "name": "Haldiram's Madras Mixture 200g",
+    "brand": "Haldiram's",
+    "category": "snacks",
+    "price": 75,
+    "rating": 4.4,
+    "review_count": 7500,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "festival",
+      "diwali",
+      "party",
+      "snack",
+      "south indian",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Coimbatore",
+      "Chennai",
+      "Bangalore",
+      "Hyderabad",
+      "Delhi",
+      "Mumbai",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 6,
+    "keywords": [
+      "mixture",
+      "madras mixture",
+      "snack",
+      "savory",
+      "haldirams",
+      "haldiram's haldiram's haldiram's madras mixture 200g",
+      "haldiram's haldiram's madras mixture 200g",
+      "haldiram's madras mixture 200g",
+      "haldiram's mixture"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Mohit G.",
+        "text": "Good flavor, nice crunchiness."
+      },
+      {
+        "author": "Karan T.",
+        "text": "Tasty mixture, good alternative brand."
+      }
+    ]
+  },
+  {
+    "id": "stpl-bread-white",
+    "name": "Harvest Gold White Sandwich Bread 400g",
+    "brand": "Harvest Gold",
+    "category": "pantry staples",
+    "price": 45,
+    "rating": 4.4,
+    "review_count": 15000,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "quick_meal",
+      "morning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": null,
+    "keywords": [
+      "bread",
+      "white bread",
+      "sandwich bread",
+      "harvest gold",
+      "breakfast",
+      "harvest gold harvest gold harvest gold white sandwich bread 400g",
+      "harvest gold harvest gold white sandwich bread 400g",
+      "harvest gold white sandwich bread 400g",
+      "harvest gold bread"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Gaurav S.",
+        "text": "Soft and fresh bread. Perfect for sandwiches."
+      },
+      {
+        "author": "Ridhi N.",
+        "text": "Good quality, delivered fresh."
+      }
+    ]
+  },
+  {
+    "id": "stpl-bread-multigrain",
+    "name": "English Oven Multigrain Bread 400g",
+    "brand": "English Oven",
+    "category": "pantry staples",
+    "price": 55,
+    "rating": 4.5,
+    "review_count": 11000,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "quick_meal",
+      "morning"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": null,
+    "keywords": [
+      "bread",
+      "multigrain bread",
+      "healthy bread",
+      "english oven",
+      "breakfast",
+      "english oven english oven english oven multigrain bread 400g",
+      "english oven english oven multigrain bread 400g",
+      "english oven multigrain bread 400g",
+      "english oven bread"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Vijay L.",
+        "text": "Healthy option, very soft multigrain slices."
+      },
+      {
+        "author": "Priya V.",
+        "text": "Fresh multigrain bread, excellent packaging."
+      }
+    ]
+  },
+  {
+    "id": "stpl-sugar-uttam",
+    "name": "Uttam Sugar Premium White Sugar 1kg",
+    "brand": "Uttam Sugar",
+    "category": "pantry staples",
+    "price": 50,
+    "rating": 4.7,
+    "review_count": 25000,
+    "is_bestseller": true,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "breakfast",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 36,
+    "keywords": [
+      "sugar",
+      "white sugar",
+      "refined sugar",
+      "uttam sugar",
+      "namak sugar",
+      "uttam sugar uttam sugar uttam sugar premium white sugar 1kg",
+      "uttam sugar uttam sugar premium white sugar 1kg",
+      "uttam sugar premium white sugar 1kg",
+      "uttam sugar sugar"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Asha R.",
+        "text": "Clean sugar crystals, dissolves quickly."
+      },
+      {
+        "author": "Kiran M.",
+        "text": "Hygiene packaging, best brand for sugar."
+      }
+    ]
+  },
+  {
+    "id": "stpl-sugar-mawana",
+    "name": "Mawana Premium Sugar 1kg",
+    "brand": "Mawana",
+    "category": "pantry staples",
+    "price": 52,
+    "rating": 4.6,
+    "review_count": 18000,
+    "is_bestseller": false,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "breakfast",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 15,
+    "expiry_months": 36,
+    "keywords": [
+      "sugar",
+      "white sugar",
+      "mawana sugar",
+      "refined sugar",
+      "mawana mawana mawana premium sugar 1kg",
+      "mawana mawana premium sugar 1kg",
+      "mawana premium sugar 1kg"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Sanjay D.",
+        "text": "Pure white crystals, good quality sugar."
+      },
+      {
+        "author": "Megha J.",
+        "text": "Good brand. No dust or impurities."
+      }
+    ]
+  },
+  {
+    "id": "stpl-sugar-trust",
+    "name": "Trust Classic Sulphurless Sugar 1kg",
+    "brand": "Trust",
+    "category": "pantry staples",
+    "price": 60,
+    "rating": 4.5,
+    "review_count": 12000,
+    "is_bestseller": false,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "breakfast",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 36,
+    "keywords": [
+      "sugar",
+      "sulphurless sugar",
+      "healthy sugar",
+      "trust sugar",
+      "trust trust trust classic sulphurless sugar 1kg",
+      "trust trust classic sulphurless sugar 1kg",
+      "trust classic sulphurless sugar 1kg"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Amit K.",
+        "text": "Sulphurless sugar, healthier for family."
+      },
+      {
+        "author": "Ritu S.",
+        "text": "Premium quality, clean and sweet."
+      }
+    ]
+  },
+  {
+    "id": "stpl-spaghetti-barilla",
+    "name": "Barilla Spaghetti Pasta 500g",
+    "brand": "Barilla",
+    "category": "pantry staples",
+    "price": 175,
+    "rating": 4.8,
+    "review_count": 25000,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Pune",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 24,
+    "keywords": [
+      "spaghetti",
+      "pasta",
+      "barilla",
+      "italian pasta",
+      "noodle pasta",
+      "barilla barilla barilla spaghetti pasta 500g",
+      "barilla barilla spaghetti pasta 500g",
+      "barilla spaghetti pasta 500g",
+      "barilla spaghetti"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Tanvi R.",
+        "text": "Best Italian pasta brand. Holds shape perfectly."
+      },
+      {
+        "author": "Varun P.",
+        "text": "Premium texture. Cooks al dente beautifully."
+      }
+    ]
+  },
+  {
+    "id": "stpl-spaghetti-delmonte",
+    "name": "Del Monte Spaghetti Pasta 500g",
+    "brand": "Del Monte",
+    "category": "pantry staples",
+    "price": 135,
+    "rating": 4.5,
+    "review_count": 16000,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 24,
+    "keywords": [
+      "spaghetti",
+      "pasta",
+      "del monte",
+      "italian pasta",
+      "spaghetti noodles",
+      "del monte del monte del monte spaghetti pasta 500g",
+      "del monte del monte spaghetti pasta 500g",
+      "del monte spaghetti pasta 500g",
+      "del monte spaghetti"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Rahul M.",
+        "text": "Good value for money. Cooks well."
+      },
+      {
+        "author": "Sanjana K.",
+        "text": "Tasty spaghetti, very convenient packet size."
+      }
+    ]
+  },
+  {
+    "id": "stpl-olive-borges",
+    "name": "Borges Extra Virgin Olive Oil 500ml",
+    "brand": "Borges",
+    "category": "pantry staples",
+    "price": 799,
+    "rating": 4.7,
+    "review_count": 19000,
+    "is_bestseller": true,
+    "serving_size": 15,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 24,
+    "keywords": [
+      "olive oil",
+      "extra virgin olive oil",
+      "borges",
+      "healthy oil",
+      "italian cooking",
+      "borges borges borges extra virgin olive oil 500ml",
+      "borges borges extra virgin olive oil 500ml",
+      "borges extra virgin olive oil 500ml",
+      "borges olive oil"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Meera S.",
+        "text": "Aromatic and fresh extra virgin oil. Perfect for salads and pasta."
+      },
+      {
+        "author": "Deepak C.",
+        "text": "High quality olive oil. Best brand in India."
+      }
+    ]
+  },
+  {
+    "id": "stpl-olive-disano",
+    "name": "Disano Extra Virgin Olive Oil 500ml",
+    "brand": "Disano",
+    "category": "pantry staples",
+    "price": 549,
+    "rating": 4.4,
+    "review_count": 12000,
+    "is_bestseller": false,
+    "serving_size": 15,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": 24,
+    "keywords": [
+      "olive oil",
+      "extra virgin olive oil",
+      "disano",
+      "cooking oil",
+      "healthy cooking",
+      "disano disano disano extra virgin olive oil 500ml",
+      "disano disano extra virgin olive oil 500ml",
+      "disano extra virgin olive oil 500ml",
+      "disano olive oil"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Rajesh G.",
+        "text": "Affordable extra virgin olive oil. Good taste."
+      },
+      {
+        "author": "Preeti A.",
+        "text": "Perfect for daily pasta cooking. Good value."
+      }
+    ]
+  },
+  {
+    "id": "stpl-parm-dlecta",
+    "name": "D'lecta Parmesan Cheese Powder 80g",
+    "brand": "D'lecta",
+    "category": "pantry staples",
+    "price": 210,
+    "rating": 4.5,
+    "review_count": 6000,
+    "is_bestseller": false,
+    "serving_size": 8,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 9,
+    "keywords": [
+      "parmesan",
+      "parmesan cheese",
+      "dlecta",
+      "cheese powder",
+      "pasta cheese",
+      "d'lecta d'lecta d'lecta parmesan cheese powder 80g",
+      "d'lecta d'lecta parmesan cheese powder 80g",
+      "d'lecta parmesan cheese powder 80g"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Swetha K.",
+        "text": "Very convenient powder form, tastes authentic."
+      },
+      {
+        "author": "Rohit T.",
+        "text": "Gives nice cheesy flavor to spaghetti."
+      }
+    ]
+  },
+  {
+    "id": "stpl-parm-zanetti",
+    "name": "Zanetti Grana Padano Parmesan 150g",
+    "brand": "Zanetti",
+    "category": "pantry staples",
+    "price": 399,
+    "rating": 4.7,
+    "review_count": 9000,
+    "is_bestseller": true,
+    "serving_size": 15,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": 6,
+    "keywords": [
+      "parmesan",
+      "grana padano",
+      "zanetti",
+      "cheese block",
+      "italian cheese",
+      "zanetti zanetti zanetti grana padano parmesan 150g",
+      "zanetti zanetti grana padano parmesan 150g",
+      "zanetti grana padano parmesan 150g"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Aravind S.",
+        "text": "Real Italian cheese block. Amazing flavor when grated."
+      },
+      {
+        "author": "Asha V.",
+        "text": "Premium quality cheese. Perfect for carbonara and aglio olio."
+      }
+    ]
+  },
+  {
+    "id": "stpl-chilli-keya",
+    "name": "Keya Red Chilli Flakes 50g",
+    "brand": "Keya",
+    "category": "pantry staples",
+    "price": 65,
+    "rating": 4.6,
+    "review_count": 8000,
+    "is_bestseller": true,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 12,
+    "keywords": [
+      "chilli flakes",
+      "red chilli flakes",
+      "keya",
+      "seasoning",
+      "pizza flakes",
+      "keya keya keya red chilli flakes 50g",
+      "keya keya red chilli flakes 50g",
+      "keya red chilli flakes 50g"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Vikram N.",
+        "text": "Spicy and well crushed flakes. Great bottle."
+      },
+      {
+        "author": "Pooja L.",
+        "text": "Nice hot taste. Perfect for pasta seasoning."
+      }
+    ]
+  },
+  {
+    "id": "stpl-chilli-snapin",
+    "name": "Snapin Chilli Flakes 40g",
+    "brand": "Snapin",
+    "category": "pantry staples",
+    "price": 59,
+    "rating": 4.5,
+    "review_count": 6200,
+    "is_bestseller": false,
+    "serving_size": 8,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "everyday"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 12,
+    "keywords": [
+      "chilli flakes",
+      "snapin",
+      "seasoning",
+      "chilli seasoning",
+      "snapin snapin snapin chilli flakes 40g",
+      "snapin snapin chilli flakes 40g",
+      "snapin chilli flakes 40g"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Mohan K.",
+        "text": "Fresh flakes, spicy kick."
+      },
+      {
+        "author": "Anjali S.",
+        "text": "Standard flakes. Convenient package."
+      }
+    ]
+  },
+  {
+    "id": "stpl-sauce-veeba",
+    "name": "Veeba Pizza & Pasta Sauce 300g",
+    "brand": "Veeba",
+    "category": "pantry staples",
+    "price": 89,
+    "rating": 4.5,
+    "review_count": 18000,
+    "is_bestseller": true,
+    "serving_size": 6,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 12,
+    "keywords": [
+      "pasta sauce",
+      "pizza sauce",
+      "veeba",
+      "tomato sauce",
+      "italian sauce",
+      "veeba veeba veeba pizza & pasta sauce 300g",
+      "veeba veeba pizza & pasta sauce 300g",
+      "veeba pizza & pasta sauce 300g",
+      "veeba pasta sauce",
+      "veeba sauce"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Shalu T.",
+        "text": "Perfect mix of tangy and spicy. Very thick."
+      },
+      {
+        "author": "Sandeep P.",
+        "text": "Best sauce for quick home pizzas and spaghetti."
+      }
+    ]
+  },
+  {
+    "id": "stpl-sauce-barilla",
+    "name": "Barilla Basilico Pasta Sauce 400g",
+    "brand": "Barilla",
+    "category": "pantry staples",
+    "price": 249,
+    "rating": 4.7,
+    "review_count": 15000,
+    "is_bestseller": true,
+    "serving_size": 8,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Pune",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 24,
+    "keywords": [
+      "pasta sauce",
+      "basilico",
+      "barilla",
+      "tomato basil sauce",
+      "italian sauce",
+      "barilla barilla barilla basilico pasta sauce 400g",
+      "barilla barilla basilico pasta sauce 400g",
+      "barilla basilico pasta sauce 400g",
+      "barilla pasta sauce",
+      "barilla sauce"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Gaurav H.",
+        "text": "Authentic Italian basil flavor. No chemical taste."
+      },
+      {
+        "author": "Simran K.",
+        "text": "Pure tomato puree with rich basil. Delicious on spaghetti."
+      }
+    ]
+  },
+  {
+    "id": "stpl-sauce-funfoods",
+    "name": "Dr. Oetker FunFoods Pasta Sauce 325g",
+    "brand": "Dr. Oetker",
+    "category": "pantry staples",
+    "price": 99,
+    "rating": 4.3,
+    "review_count": 11000,
+    "is_bestseller": false,
+    "serving_size": 6,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": 12,
+    "keywords": [
+      "pasta sauce",
+      "funfoods",
+      "pizza sauce",
+      "tomato sauce",
+      "dr. oetker dr. oetker dr. oetker funfoods pasta sauce 325g",
+      "dr. oetker dr. oetker funfoods pasta sauce 325g",
+      "dr. oetker funfoods pasta sauce 325g",
+      "dr. oetker pasta sauce",
+      "dr. oetker sauce"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Nitin S.",
+        "text": "Good tanginess. Kids like it."
+      },
+      {
+        "author": "Rachit D.",
+        "text": "A bit sweet but nice flavor for home pasta."
+      }
+    ]
+  },
+  {
+    "id": "frsh-eggoz-10",
+    "name": "Eggoz Nutrition Farm Fresh White Eggs 10 Pack",
+    "brand": "Eggoz",
+    "category": "fresh produce",
+    "price": 99,
+    "rating": 4.6,
+    "review_count": 12000,
+    "is_bestseller": true,
+    "serving_size": 5,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": null,
+    "keywords": [
+      "eggs",
+      "white eggs",
+      "eggoz",
+      "fresh eggs",
+      "breakfast",
+      "eggoz eggoz eggoz nutrition farm fresh white eggs 10 pack",
+      "eggoz eggoz nutrition farm fresh white eggs 10 pack",
+      "eggoz nutrition farm fresh white eggs 10 pack",
+      "eggoz eggs",
+      "eggoz egg"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Divya N.",
+        "text": "Fresh and high quality white eggs. Standard sizing."
+      },
+      {
+        "author": "Aakash T.",
+        "text": "Eggoz eggs are always clean. Good taste."
+      }
+    ]
+  },
+  {
+    "id": "frsh-nandus-6",
+    "name": "Nandu's Free Range Organic Eggs 6 Pack",
+    "brand": "Nandu's",
+    "category": "fresh produce",
+    "price": 85,
+    "rating": 4.5,
+    "review_count": 8000,
+    "is_bestseller": false,
+    "serving_size": 3,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "cooking"
+    ],
+    "region_tags": [
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": null,
+    "keywords": [
+      "eggs",
+      "organic eggs",
+      "free range eggs",
+      "nandus",
+      "breakfast",
+      "nandu's nandu's nandu's free range organic eggs 6 pack",
+      "nandu's nandu's free range organic eggs 6 pack",
+      "nandu's free range organic eggs 6 pack",
+      "nandu's eggs",
+      "nandu's egg"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Karthik P.",
+        "text": "Yolk is deep yellow. Excellent quality organic eggs."
+      },
+      {
+        "author": "Bhavya G.",
+        "text": "Tasty eggs, free range is a healthy choice."
+      }
+    ]
+  },
+  {
+    "id": "frsh-garlic-250",
+    "name": "Fresh Garlic 250g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 60,
+    "rating": 4.3,
+    "review_count": 7000,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "everyday",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": null,
+    "keywords": [
+      "garlic",
+      "lahsun",
+      "vegetable",
+      "fresh garlic",
+      "local farm local farm fresh garlic 250g",
+      "local farm fresh garlic 250g",
+      "local farm garlic"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Shanti K.",
+        "text": "Good small size garlic cloves, very aromatic."
+      },
+      {
+        "author": "Vikas R.",
+        "text": "Fresh garlic, easy to peel."
+      }
+    ]
+  },
+  {
+    "id": "frsh-garlic-organic",
+    "name": "Organic Garlic 200g",
+    "brand": "Organic India",
+    "category": "fresh produce",
+    "price": 80,
+    "rating": 4.5,
+    "review_count": 4000,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "everyday",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": null,
+    "keywords": [
+      "garlic",
+      "organic garlic",
+      "lahsun",
+      "organic india",
+      "organic india organic india organic garlic 200g",
+      "organic india organic garlic 200g",
+      "organic india garlic"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Sunil V.",
+        "text": "Strong flavor organic garlic. Very good."
+      },
+      {
+        "author": "Manju P.",
+        "text": "Clean cloves. No chemical spray taste."
+      }
+    ]
+  },
+  {
+    "id": "frsh-parsley-100",
+    "name": "Fresh Parsley Bunch 100g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 35,
+    "rating": 4.4,
+    "review_count": 5000,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": null,
+    "keywords": [
+      "parsley",
+      "fresh parsley",
+      "italian seasoning",
+      "herb",
+      "garnish",
+      "local farm local farm fresh parsley bunch 100g",
+      "local farm fresh parsley bunch 100g",
+      "local farm parsley"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Amit S.",
+        "text": "Fresh green parsley leaves. Ideal for aglio olio."
+      },
+      {
+        "author": "Meera R.",
+        "text": "Crisp and fresh herb. Well packed."
+      }
+    ]
+  },
+  {
+    "id": "frsh-parsley-organic",
+    "name": "Organic Curly Parsley Bunch 100g",
+    "brand": "Organic India",
+    "category": "fresh produce",
+    "price": 60,
+    "rating": 4.5,
+    "review_count": 3200,
+    "is_bestseller": false,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "pasta",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": null,
+    "keywords": [
+      "parsley",
+      "curly parsley",
+      "organic parsley",
+      "organic herb",
+      "organic india organic india organic curly parsley bunch 100g",
+      "organic india organic curly parsley bunch 100g",
+      "organic india parsley"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Kavitha R.",
+        "text": "Very clean organic curly parsley. Highly fresh."
+      },
+      {
+        "author": "Nikhil T.",
+        "text": "Nice fragrance, makes dish look beautiful."
+      }
+    ]
+  },
+  {
+    "id": "frsh-celery-250",
+    "name": "Fresh Celery Bunch 250g",
+    "brand": "Local Farm",
+    "category": "fresh produce",
+    "price": 45,
+    "rating": 4.2,
+    "review_count": 2500,
+    "is_bestseller": false,
+    "serving_size": 6,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "cooking",
+      "salad",
+      "dinner"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 14,
+    "expiry_months": null,
+    "keywords": [
+      "celery",
+      "fresh celery",
+      "salad celery",
+      "herb",
+      "local farm local farm fresh celery bunch 250g",
+      "local farm fresh celery bunch 250g",
+      "local farm celery"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Karan B.",
+        "text": "Good crunchy stalks, fresh celery."
+      },
+      {
+        "author": "Shikha G.",
+        "text": "Fresh celery bunch, great for salads."
+      }
+    ]
+  },
+  {
+    "id": "bev-redlabel-250",
+    "name": "Brooke Bond Red Label Tea 250g",
+    "brand": "Brooke Bond",
+    "category": "beverages",
+    "price": 135,
+    "rating": 4.7,
+    "review_count": 35000,
+    "is_bestseller": true,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "evening_snack",
+      "chai"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata",
+      "Pune",
+      "Lucknow",
+      "Jaipur"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 18,
+    "keywords": [
+      "tea",
+      "chai",
+      "red label",
+      "tea powder",
+      "morning chai",
+      "brooke bond brooke bond brooke bond red label tea 250g",
+      "brooke bond brooke bond red label tea 250g",
+      "brooke bond red label tea 250g",
+      "brooke bond tea"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Nirmala S.",
+        "text": "Classic taste, makes perfect milk chai."
+      },
+      {
+        "author": "Arvind G.",
+        "text": "Red Label tea is the best for daily use."
+      }
+    ]
+  },
+  {
+    "id": "bev-waghbakri-250",
+    "name": "Wagh Bakri Premium Leaf Tea 250g",
+    "brand": "Wagh Bakri",
+    "category": "beverages",
+    "price": 140,
+    "rating": 4.6,
+    "review_count": 22000,
+    "is_bestseller": true,
+    "serving_size": 50,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "evening_snack",
+      "chai"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Ahmedabad",
+      "Jaipur",
+      "Lucknow",
+      "Bangalore",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 18,
+    "keywords": [
+      "tea",
+      "chai",
+      "wagh bakri",
+      "leaf tea",
+      "tea powder",
+      "wagh bakri wagh bakri wagh bakri premium leaf tea 250g",
+      "wagh bakri wagh bakri premium leaf tea 250g",
+      "wagh bakri premium leaf tea 250g",
+      "wagh bakri tea"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Paresh R.",
+        "text": "Strong color and rich taste. Excellent tea."
+      },
+      {
+        "author": "Jaya M.",
+        "text": "Love the strong flavor of Wagh Bakri chai."
+      }
+    ]
+  },
+  {
+    "id": "bev-bru-50",
+    "name": "Bru Instant Coffee 50g",
+    "brand": "Bru",
+    "category": "beverages",
+    "price": 125,
+    "rating": 4.5,
+    "review_count": 29000,
+    "is_bestseller": true,
+    "serving_size": 25,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "study",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Coimbatore",
+      "Chennai",
+      "Bangalore",
+      "Hyderabad",
+      "Mumbai",
+      "Delhi"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 18,
+    "keywords": [
+      "coffee",
+      "bru",
+      "instant coffee",
+      "south indian coffee",
+      "morning coffee",
+      "bru bru bru instant coffee 50g",
+      "bru bru instant coffee 50g",
+      "bru instant coffee 50g",
+      "bru coffee"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Sundar R.",
+        "text": "Perfect chicory blend. Best for South Indian milk coffee."
+      },
+      {
+        "author": "Priya K.",
+        "text": "Rich filter-like taste instantly. Love Bru."
+      }
+    ]
+  },
+  {
+    "id": "bev-continental-50",
+    "name": "Continental Xtra Instant Coffee 50g",
+    "brand": "Continental",
+    "category": "beverages",
+    "price": 110,
+    "rating": 4.3,
+    "review_count": 14000,
+    "is_bestseller": false,
+    "serving_size": 25,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "morning",
+      "study",
+      "evening_snack"
+    ],
+    "region_tags": [
+      "Coimbatore",
+      "Chennai",
+      "Bangalore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 18,
+    "keywords": [
+      "coffee",
+      "continental coffee",
+      "instant coffee",
+      "morning drink",
+      "continental continental continental xtra instant coffee 50g",
+      "continental continental xtra instant coffee 50g",
+      "continental xtra instant coffee 50g"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Madhavan K.",
+        "text": "Good strong taste, very aromatic coffee."
+      },
+      {
+        "author": "Shruthi S.",
+        "text": "Nice instant coffee, value for money."
+      }
+    ]
+  },
+  {
+    "id": "dair-md-butter",
+    "name": "Mother Dairy Premium Butter 100g",
+    "brand": "Mother Dairy",
+    "category": "dairy",
+    "price": 56,
+    "rating": 4.5,
+    "review_count": 15000,
+    "is_bestseller": true,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Kolkata",
+      "Bangalore",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 10,
+    "expiry_months": 6,
+    "keywords": [
+      "butter",
+      "mother dairy",
+      "salty butter",
+      "table butter",
+      "mother dairy mother dairy mother dairy premium butter 100g",
+      "mother dairy mother dairy premium butter 100g",
+      "mother dairy premium butter 100g",
+      "mother dairy butter"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Naveen S.",
+        "text": "Very creamy and salty, just as good as Amul."
+      },
+      {
+        "author": "Divya P.",
+        "text": "Fresh salted butter, perfect for toast."
+      }
+    ]
+  },
+  {
+    "id": "dair-nuralite-butter",
+    "name": "Nuralite Premium Butter 100g",
+    "brand": "Nuralite",
+    "category": "dairy",
+    "price": 52,
+    "rating": 4.2,
+    "review_count": 8000,
+    "is_bestseller": false,
+    "serving_size": 10,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "breakfast",
+      "cooking"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore"
+    ],
+    "in_stock": true,
+    "eta_minutes": 12,
+    "expiry_months": 6,
+    "keywords": [
+      "butter",
+      "nuralite",
+      "table butter",
+      "salty butter",
+      "nuralite nuralite nuralite premium butter 100g",
+      "nuralite nuralite premium butter 100g",
+      "nuralite premium butter 100g",
+      "nuralite butter"
+    ],
+    "dark_store": "DS-North",
+    "return_policy": "no_return",
+    "sample_reviews": [
+      {
+        "author": "Rajesh T.",
+        "text": "Nice taste, spreads easily."
+      },
+      {
+        "author": "Archana G.",
+        "text": "Decent butter option, good packaging."
+      }
+    ]
+  },
+  {
+    "id": "cln-diya-clay",
+    "name": "Handmade Clay Diyas Pack of 12",
+    "brand": "Festive India",
+    "category": "cleaning supplies",
+    "price": 49,
+    "rating": 4.6,
+    "review_count": 8500,
+    "is_bestseller": true,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "diwali",
+      "festival",
+      "party",
+      "pooja"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata",
+      "Lucknow",
+      "Jaipur",
+      "Ahmedabad",
+      "Pune"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": null,
+    "keywords": [
+      "diya",
+      "diyas",
+      "clay diya",
+      "diwali diya",
+      "festive decor",
+      "pooja essential",
+      "festive india festive india handmade clay diyas pack of 12",
+      "festive india handmade clay diyas pack of 12",
+      "festive india diya"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Ramesh P.",
+        "text": "Very pretty handmade diyas. None were broken."
+      },
+      {
+        "author": "Sushma R.",
+        "text": "Eco-friendly clay diyas, absorbs oil nicely."
+      }
+    ]
+  },
+  {
+    "id": "cln-diya-brass",
+    "name": "Decorative Brass Diya 1pc",
+    "brand": "Festive India",
+    "category": "cleaning supplies",
+    "price": 149,
+    "rating": 4.7,
+    "review_count": 5000,
+    "is_bestseller": false,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "diwali",
+      "festival",
+      "party",
+      "pooja"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad"
+    ],
+    "in_stock": true,
+    "eta_minutes": 18,
+    "expiry_months": null,
+    "keywords": [
+      "diya",
+      "brass diya",
+      "diwali diya",
+      "decorative diya",
+      "brass puja",
+      "festive india festive india decorative brass diya 1pc",
+      "festive india decorative brass diya 1pc",
+      "festive india diya",
+      "diyas"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Deepa K.",
+        "text": "Solid brass diya. Elegant look for puja room."
+      },
+      {
+        "author": "Vijay M.",
+        "text": "Good weight, easy to clean. Perfect for Diwali."
+      }
+    ]
+  },
+  {
+    "id": "cln-candles-tealight",
+    "name": "Wax Tealight Candles Pack of 50",
+    "brand": "Aroma",
+    "category": "cleaning supplies",
+    "price": 199,
+    "rating": 4.5,
+    "review_count": 15000,
+    "is_bestseller": true,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "occasion_tags": [
+      "diwali",
+      "festival",
+      "party",
+      "decor"
+    ],
+    "region_tags": [
+      "Delhi",
+      "Mumbai",
+      "Bangalore",
+      "Chennai",
+      "Coimbatore",
+      "Hyderabad",
+      "Kolkata"
+    ],
+    "in_stock": true,
+    "eta_minutes": 16,
+    "expiry_months": null,
+    "keywords": [
+      "tealight",
+      "candles",
+      "wax candles",
+      "tealight candles",
+      "diwali lighting",
+      "aroma aroma wax tealight candles pack of 50",
+      "aroma wax tealight candles pack of 50",
+      "aroma tea",
+      "tea"
+    ],
+    "dark_store": "DS-Central",
+    "return_policy": "7_day_return",
+    "sample_reviews": [
+      {
+        "author": "Preeti S.",
+        "text": "Smokeless candles, burns for a solid 3-4 hours."
+      },
+      {
+        "author": "Rohan D.",
+        "text": "Excellent pack of candles. Very handy for Diwali."
+      }
     ]
   }
 ]
