@@ -46,7 +46,12 @@ export default function ModificationBar({ onApplyDiff }: ModificationBarProps) {
         return;
       }
 
-      const diff: CartDiff = await res.json();
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      const diff: CartDiff = data;
       onApplyDiff(diff);
       setText("");
     } catch (e: unknown) {

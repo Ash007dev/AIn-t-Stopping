@@ -1,73 +1,71 @@
 // lib/agents/modification-handler.ts
 import { CartProduct, CartDiff } from "@/lib/types";
-import { invokeGeminiAgent } from "./gemini-client";
-import { loadCatalog } from "@/lib/catalog";
+import { invokeAI } from "./gemini-client";
+
+const MODIFICATION_SYSTEM_PROMPT = `You are a cart modification assistant for an Indian quick-commerce app.
+You receive a modification request in natural language and the current cart.
+
+Your job: Return ONLY a valid JSON object describing what to change. No other text.
+
+Modification types you must handle:
+1. "Remove X" → add X's id to remove array
+2. "Switch X to Y" → remove X, add Y with same quantity
+3. "Make it vegetarian" → remove all non-vegetarian items (chicken, fish, egg, meat products)
+4. "Add X" → add product X with appropriate quantity for the group
+5. "For N people" or "change to N people" → modify ALL quantities: new_qty = Math.ceil(N / item.serving_size)
+6. "Add more X" or "N more X" → increase quantity of existing item by N
+7. "Less X" or "remove one X" → decrease quantity, minimum 1
+8. "Replace all drinks with X" → remove all beverages, add X
+9. "Use pre-made mixes" → remove raw granular spices/dals and replace with a pre-made masala/mix (e.g. MTR Kadala Curry Mix)
+10. "Cook from scratch" → remove pre-made mixes and add raw granular ingredients (spices, dals, etc.)
+
+Return format (ALL keys must be present, even if array is empty):
+{
+  "add": [{"id": "new-id", "name": "Product Name", "brand": "Brand", "category": "snacks", "price": 90, "quantity": 2, "serving_size": 2, "ai_reasoning": "Added based on your request"}],
+  "remove": ["product-id-1"],
+  "modify": [{"id": "product-id-2", "quantity": 3}],
+  "error": null
+}
+
+If you cannot understand the request, set error to a human-readable message and leave other arrays empty.
+NEVER return anything except this JSON object. No markdown. No explanation.`;
 
 export async function invokeModificationHandler(
   modificationText: string,
   currentCart: CartProduct[]
-): Promise<CartDiff> {
-  const catalog = loadCatalog();
-
-  const SYSTEM_PROMPT = `You are a cart modification handler for a grocery shopping app. Given the current cart and a modification request, return a JSON diff object.
-
-Return ONLY valid JSON with this exact structure:
-{
-  "add": [{ "product": { full product object from catalog }, "quantity": number }],
-  "remove": ["product_id_to_remove"],
-  "modify": [{ "id": "product_id", "quantity": new_quantity }]
-}
-
-Rules:
-- For "remove X": add the product ID to the remove array
-- For "add X": find the best matching product from the catalog sample and add it
-- For "change quantity": use the modify array
-- For "make it vegetarian": remove non-veg items
-- For "add N more people": increase quantities proportionally
-- Keep arrays empty if no changes of that type are needed
-- Do NOT include any text outside the JSON object`;
-
+): Promise<CartDiff & { error?: string | null }> {
   const userMessage = JSON.stringify({
     modification: modificationText,
-    currentCart: currentCart.map((p) => ({
+    current_cart: currentCart.map((p) => ({
       id: p.id,
       name: p.name,
+      brand: p.brand,
+      category: p.category,
+      price: p.price,
       quantity: p.quantity,
-      price: p.price,
-      category: p.category,
+      serving_size: p.serving_size,
       keywords: p.keywords,
-    })),
-    catalogSample: catalog.slice(0, 50).map((p) => ({
-      id: p.id,
-      name: p.name,
-      category: p.category,
-      price: p.price,
-      keywords: p.keywords,
-      occasion_tags: p.occasion_tags,
-      in_stock: p.in_stock,
     })),
   });
 
   try {
-    const raw = await invokeGeminiAgent(SYSTEM_PROMPT, userMessage, "flash", 1024);
-    const start = raw.indexOf('{');
-    const end = raw.lastIndexOf('}');
+    const raw = await invokeAI(MODIFICATION_SYSTEM_PROMPT, userMessage, "flash", 1024);
+    const cleaned = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+    const start = cleaned.indexOf("{");
+    const end = cleaned.lastIndexOf("}");
     if (start === -1 || end === -1) {
-      throw new Error(`No JSON object found in response: ${raw}`);
+      throw new Error("No JSON found");
     }
-    const cleaned = raw.substring(start, end + 1);
-    const parsed = JSON.parse(cleaned);
-    
+    const parsed = JSON.parse(cleaned.substring(start, end + 1));
+
     return {
-      diff: {
-        remove: parsed.diff.remove || [],
-        modify: parsed.diff.modify || [],
-        add: [],
-      },
-      new_intent: parsed.new_intent,
+      add: Array.isArray(parsed.add) ? parsed.add : [],
+      remove: Array.isArray(parsed.remove) ? parsed.remove : [],
+      modify: Array.isArray(parsed.modify) ? parsed.modify : [],
+      error: parsed.error || null,
     };
-  } catch (e: any) {
-    console.error("[invokeModificationHandler] JSON parse error:", e.message || e);
-    return null;
+  } catch (e) {
+    console.error("[modification-handler] Failed:", e);
+    return { add: [], remove: [], modify: [], error: "Could not process modification. Try rephrasing." };
   }
 }

@@ -78,18 +78,68 @@ export const useAppStore = create<AppStore>((set, get) => ({
   },
   applyDiff: (diff) => {
     let cart = [...get().cart];
+
     // Remove
-    cart = cart.filter((item) => !diff.remove.includes(item.id));
-    // Modify quantities
-    cart = cart.map((item) => {
-      const mod = diff.modify.find((m) => m.id === item.id);
-      return mod ? { ...item, quantity: mod.quantity } : item;
-    });
-    // Add new items
-    for (const addition of diff.add) {
-      cart.push({ ...addition.product, quantity: addition.quantity, ai_reasoning: "Added based on your request", alternatives: [] });
+    if (diff.remove?.length) {
+      cart = cart.filter((item) => !diff.remove.includes(item.id));
     }
-    set({ cart });
+
+    // Modify quantities
+    if (diff.modify?.length) {
+      cart = cart.map((item) => {
+        const mod = diff.modify.find((m) => m.id === item.id);
+        return mod ? { ...item, quantity: Math.max(1, mod.quantity) } : item;
+      });
+    }
+
+    // Add new items (from AI suggestion in modification)
+    if (diff.add?.length) {
+      for (const addition of diff.add) {
+        // Check if it's the old format { product, quantity } or the new flat format
+        const isOldFormat = addition.product && typeof addition.product === "object";
+        
+        if (isOldFormat) {
+          cart.push({ ...addition.product, quantity: addition.quantity, ai_reasoning: "Added based on your request", alternatives: [] });
+        } else {
+          // New flat format from AI modification
+          const existingIdx = cart.findIndex(
+            (i) => i.id === addition.id || i.name?.toLowerCase() === addition.name?.toLowerCase()
+          );
+          if (existingIdx >= 0) {
+            cart[existingIdx] = { ...cart[existingIdx], quantity: cart[existingIdx].quantity + (addition.quantity || 1) };
+          } else {
+            const newProduct: CartProduct = {
+              id: addition.id || `mod-${Date.now()}`,
+              name: addition.name || "Added product",
+              brand: addition.brand || "",
+              category: addition.category || "snacks",
+              price: addition.price || 0,
+              rating: 4.3,
+              review_count: 1200,
+              is_bestseller: false,
+              serving_size: addition.serving_size || 2,
+              image_url: "/placeholder-product.png",
+              occasion_tags: [],
+              region_tags: [],
+              in_stock: true,
+              eta_minutes: 18,
+              expiry_months: null,
+              keywords: [],
+              sample_reviews: [
+                { author: "Customer", text: "Good product." },
+                { author: "Buyer", text: "As expected." },
+              ],
+              quantity: addition.quantity || 1,
+              ai_reasoning: addition.ai_reasoning || "Added based on your request",
+              alternatives: [],
+            };
+            cart.push(newProduct);
+          }
+        }
+      }
+    }
+
+    set({ cart, modificationError: (diff as any).error || null });
   },
   clearCart: () => set({ cart: [], regionalProducts: [], occasionTitle: "", parsedIntent: null }),
   purchaseHistory: loadPurchaseHistory(),

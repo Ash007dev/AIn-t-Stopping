@@ -1,37 +1,47 @@
 "use client";
 
+const ICONS: Record<string, React.ReactNode> = {
+  intent: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/>
+    </svg>
+  ),
+  cooking: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6z"/><line x1="6" y1="17" x2="18" y2="17"/>
+    </svg>
+  ),
+  addon: (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+  ),
+};
+
 interface ModeCardProps {
+  type: "intent" | "cooking" | "addon";
   title: string;
   description: string;
-  icon: string;
-  gradient: string; // Kept for prop compatibility but ignored in Amazon theme
-  onSelect: () => void;
+  onClick: () => void;
 }
 
-export default function ModeCard({ title, description, icon, onSelect }: ModeCardProps) {
+export default function ModeCard({ type, title, description, onClick }: ModeCardProps) {
   return (
     <button
-      onClick={onSelect}
-      className="group w-full p-5 bg-amazon-card-light dark:bg-amazon-card-dark border border-amazon-border-light dark:border-amazon-border-dark rounded-card hover:shadow-medium transition-shadow text-left focus:outline-none focus:ring-2 focus:ring-amazon"
+      onClick={onClick}
+      id={`mode-card-${type}`}
+      className="group flex items-start gap-4 p-5 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] rounded-2xl hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-lg transition-all duration-200 text-left w-full"
     >
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 flex-shrink-0 bg-[#F0F2F2] dark:bg-[#2B3645] rounded-full flex items-center justify-center text-2xl group-hover:scale-105 transition-transform">
-          {icon}
-        </div>
-        <div className="flex-1 min-w-0 pt-1">
-          <h3 className="text-base font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-1 group-hover:text-amazon transition-colors">
-            {title}
-          </h3>
-          <p className="text-sm text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark leading-snug">
-            {description}
-          </p>
-        </div>
-        <div className="flex-shrink-0 pt-2 text-[#007185] dark:text-[#5EB6C6]">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
+      <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-900/20 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400 transition-colors">
+        {ICONS[type]}
       </div>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 group-hover:text-orange-700 dark:group-hover:text-orange-400 transition-colors">{title}</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{description}</p>
+      </div>
+      <svg className="flex-shrink-0 w-5 h-5 text-gray-300 dark:text-gray-600 group-hover:text-orange-400 mt-0.5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 18l6-6-6-6"/>
+      </svg>
     </button>
   );
 }

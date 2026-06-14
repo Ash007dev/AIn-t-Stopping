@@ -56,7 +56,7 @@ export interface ParsedIntent {
 }
 
 export interface CartDiff {
-  add: { product: Product; quantity: number }[];
+  add: any[];
   remove: string[];
   modify: { id: string; quantity: number }[];
 }
@@ -84,4 +84,19 @@ export interface PurchaseRecord {
   cartSnapshot: CartProduct[];
   createdAt: string;
   orderId: string;
+}
+
+export interface AISuggestion {
+  name: string;
+  brand: string;
+  category: string;
+  suggested_price: number;
+  serving_size: number;
+  quantity: number;
+  ai_reasoning: string;
+  keywords: string[];
+  occasion_tags: string[];
+  is_bestseller: boolean;
+  suggested_rating: number;
+  suggested_review_count: number;
 }

@@ -7,13 +7,20 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as ModifyCartRequest;
     const { modificationText, currentCart } = body;
 
-    if (!modificationText || modificationText.trim().length === 0)
-      return NextResponse.json({ error: "Modification text is required" }, { status: 400 });
+    if (!modificationText?.trim()) {
+      return NextResponse.json({ add: [], remove: [], modify: [], error: "No modification text provided" });
+    }
+    if (!currentCart || currentCart.length === 0) {
+      return NextResponse.json({ add: [], remove: [], modify: [], error: "Cart is empty" });
+    }
 
     const diff = await invokeModificationHandler(modificationText, currentCart);
     return NextResponse.json(diff);
   } catch (e) {
-    console.error("[modify]", e);
-    return NextResponse.json({ error: "AI service unavailable" }, { status: 503 });
+    console.error("[/api/modify]", e);
+    return NextResponse.json(
+      { add: [], remove: [], modify: [], error: "Service temporarily unavailable. Please try again." },
+      { status: 500 }
+    );
   }
 }

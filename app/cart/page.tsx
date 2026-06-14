@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import { CartDiff } from "@/lib/types";
-import { computeCartTotal, getMaxEta } from "@/lib/cart-utils";
+import { computeCartTotal, getMaxEta, formatPrice } from "@/lib/cart-utils";
 import { resolveRegion } from "@/lib/region-map";
 import ProductCard from "@/components/ProductCard";
 import RegionalCard from "@/components/RegionalCard";
@@ -104,7 +104,7 @@ export default function CartPage() {
 
             <div className="border-t border-amazon-border-light dark:border-amazon-border-dark mt-6 pt-4 flex justify-end">
               <div className="text-lg">
-                Subtotal ({cart.length} items): <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">₹{total.toFixed(2)}</span>
+                Subtotal ({cart.length} items): <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{formatPrice(total)}</span>
               </div>
             </div>
           </div>
@@ -126,33 +126,33 @@ export default function CartPage() {
 
         {/* Sidebar Checkout (Right) */}
         <div className="w-full lg:w-[300px] flex-shrink-0">
-          <div className="bg-white dark:bg-amazon-card-dark rounded-card p-5 shadow-sm border border-amazon-border-light dark:border-amazon-border-dark sticky top-32">
-            <div className="flex items-center gap-2 mb-4">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-amazon-success-light dark:text-amazon-success-dark">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <div className="sticky top-20 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] rounded-2xl p-5">
+            {/* Free delivery badge */}
+            <div className="flex items-center gap-2 text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-lg px-3 py-2 mb-4 text-sm font-medium">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="20 6 9 17 4 12"/>
               </svg>
-              <span className="text-sm text-amazon-success-light dark:text-amazon-success-dark font-medium">Eligible for FREE Delivery</span>
+              Eligible for FREE Delivery
             </div>
-            
-            <div className="text-lg mb-4">
-              Subtotal ({cart.length} items): <br/>
-              <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark text-xl">₹{total.toFixed(2)}</span>
+
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal ({cart.length} items)</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-gray-100">{formatPrice(total)}</span>
             </div>
+            <p className="text-xs text-gray-400 mb-5">Incl. all taxes · Free delivery</p>
 
             <button
               onClick={() => router.push("/checkout")}
-              className="w-full py-2.5 rounded-button text-sm bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] border border-[#FCD200] shadow-subtle transition-all font-medium mb-4"
+              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-3 px-4 rounded-xl text-sm transition-colors"
             >
               Proceed to Buy
             </button>
-            
-            <div className="text-xs text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark flex flex-col gap-2">
-              <p>Estimated fastest delivery: <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{maxEta} minutes</span></p>
-              <p className="border-t border-amazon-border-light dark:border-amazon-border-dark pt-2">
-                This order contains AI-curated products. Please review quantities before purchase.
-              </p>
-            </div>
+            <p className="text-xs text-gray-400 text-center mt-3">
+              Estimated fastest delivery: <span className="font-semibold text-gray-600 dark:text-gray-300">{maxEta} minutes</span>
+            </p>
+            <p className="text-xs text-gray-400 text-center mt-2">
+              This order contains AI-curated products. Please review quantities before purchase.
+            </p>
           </div>
         </div>
 

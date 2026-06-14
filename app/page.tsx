@@ -10,22 +10,16 @@ const MODES = [
     key: "intent" as const,
     title: "Shopping by Intent",
     description: "Describe an occasion — movie night, birthday party, study session — and we'll build the perfect cart.",
-    icon: "🎯",
-    gradient: "", // Deprecated in Amazon theme
   },
   {
     key: "cooking" as const,
     title: "Cooking / Fresh",
     description: "Name a recipe and serving count. We'll pick exact ingredients at the right quantities.",
-    icon: "👨‍🍳",
-    gradient: "",
   },
   {
     key: "addon" as const,
     title: "Frictionless Add-on",
     description: "Add one product — we'll suggest 2-5 complementary items you might need.",
-    icon: "⚡",
-    gradient: "",
   },
 ];
 
@@ -34,7 +28,6 @@ export default function Home() {
   const setMode = useAppStore((s) => s.setMode);
   const purchaseHistory = useAppStore((s) => s.purchaseHistory);
   const setPrefillIntent = useAppStore((s) => s.setPrefillIntent);
-
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -43,24 +36,33 @@ export default function Home() {
     if (!profile) router.replace("/setup");
   }, [router]);
 
+  const setCartResult = useAppStore((s) => s.setCartResult);
+
   const handleModeSelect = (mode: "intent" | "cooking" | "addon") => {
     setMode(mode);
     router.push("/intent");
   };
 
-  const handleHistoryChip = (occasionTitle: string) => {
-    setPrefillIntent(occasionTitle);
-    router.push("/intent");
+  const handleHistoryChip = (record: typeof purchaseHistory[0]) => {
+    // Actually repopulate the exact cart snapshot
+    setCartResult({
+      cart: record.cartSnapshot,
+      regionalProducts: [],
+      occasionTitle: record.occasionTitle,
+      parsedIntent: { occasion: record.occasionTitle, person_count: 1, time_context: "", dietary: [], exclusions: [] }
+    });
+    setMode("intent"); // Default fallback
+    router.push("/cart");
   };
 
   return (
     <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 max-w-5xl mx-auto flex flex-col pt-12">
       {/* Header */}
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           How would you like to shop today?
         </h1>
-        <p className="text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark text-sm">
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
           Select a shopping mode below. Our AI assistant will curate the best Amazon products for your needs.
         </p>
       </div>
@@ -70,37 +72,36 @@ export default function Home() {
         {MODES.map((mode) => (
           <ModeCard
             key={mode.key}
+            type={mode.key}
             title={mode.title}
             description={mode.description}
-            icon={mode.icon}
-            gradient={mode.gradient}
-            onSelect={() => handleModeSelect(mode.key)}
+            onClick={() => handleModeSelect(mode.key)}
           />
         ))}
       </div>
 
-      {/* Recent orders */}
+      {/* Buy it again */}
       {isMounted && purchaseHistory.length > 0 && (
-        <div className="pt-8 border-t border-amazon-border-light dark:border-amazon-border-dark">
-          <h2 className="text-lg font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-4">
-            Buy it again
-          </h2>
-          <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-4">
-            {purchaseHistory.slice(0, 4).map((record) => (
+        <div className="mt-10">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Buy it again</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {purchaseHistory.slice(0, 3).map((record, i) => (
               <button
-                key={record.orderId}
-                onClick={() => handleHistoryChip(record.occasionTitle)}
-                className="flex-shrink-0 w-[140px] h-[100px] p-3 rounded-md border border-[#D5D9D9] dark:border-[#3A4553] bg-white dark:bg-amazon-card-dark hover:bg-[#F7F8FA] dark:hover:bg-[#2B3645] transition-colors flex flex-col items-center justify-center text-center gap-2"
+                key={record.orderId || i}
+                onClick={() => handleHistoryChip(record)}
+                className="flex items-center gap-3 p-4 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] rounded-xl hover:border-orange-300 dark:hover:border-orange-500 hover:shadow-sm transition-all text-left"
               >
-                <div className="w-8 h-8 rounded-full bg-[#E7F4F5] dark:bg-[#1E2E3E] text-amazon-blue dark:text-amazon-blueDark flex items-center justify-center">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="1 4 1 10 7 10"></polyline>
-                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                <div className="w-9 h-9 rounded-lg bg-gray-100 dark:bg-[#2B3645] flex items-center justify-center flex-shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.41"/>
                   </svg>
                 </div>
-                <span className="text-xs font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark line-clamp-2 leading-tight">
-                  {record.occasionTitle}
-                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{record.occasionTitle}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    {record.cartSnapshot?.length ?? 0} items · {new Date(record.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                  </p>
+                </div>
               </button>
             ))}
           </div>

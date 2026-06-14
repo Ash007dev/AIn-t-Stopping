@@ -1,5 +1,5 @@
 // lib/agents/quantity-calibrator.ts
-import { invokeGeminiAgent } from "./gemini-client";
+import { invokeAI } from "./gemini-client";
 
 export function calculateQuantity(personCount: number, servingSize: number): number {
   if (servingSize <= 0) { console.warn("[qty-cal] Invalid serving_size"); return 1; }
@@ -13,7 +13,7 @@ export async function invokeQuantityCalibrator(
   const SYSTEM_PROMPT = `You are a quantity calculator. Given person_count and a list of products with serving_size, return a JSON array of { id, quantity } where quantity = Math.ceil(person_count / serving_size). Return ONLY valid JSON array. No other text.`;
   const userMessage = JSON.stringify({ person_count: personCount, products });
   try {
-    const raw = await invokeGeminiAgent(SYSTEM_PROMPT, userMessage, "flash", 1024);
+    const raw = await invokeAI(SYSTEM_PROMPT, userMessage, "flash", 1024);
     const start = raw.indexOf('[');
     const end = raw.lastIndexOf(']');
     if (start === -1 || end === -1) {

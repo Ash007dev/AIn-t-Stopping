@@ -2,11 +2,20 @@
 import { CartProduct } from "./types";
 
 export function computeCartTotal(items: CartProduct[]): number {
-  return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  if (!items || items.length === 0) return 0;
+  return items.reduce((sum, item) => {
+    const price = typeof item.price === "number" ? item.price : parseFloat(String(item.price)) || 0;
+    const qty = typeof item.quantity === "number" ? item.quantity : parseInt(String(item.quantity)) || 1;
+    return sum + price * qty;
+  }, 0);
+}
+
+export function formatPrice(amount: number): string {
+  return `₹${amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 export function getMaxEta(items: CartProduct[]): number {
-  if (items.length === 0) return 0;
+  if (!items || items.length === 0) return 0;
   return Math.max(...items.map((i) => i.eta_minutes));
 }
 

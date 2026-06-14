@@ -1,38 +1,15 @@
 // lib/agents/gemini-client.ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
-
-const MODEL_CANDIDATES = {
-  pro: ["gemini-3.1-pro", "gemini-3.0-pro", "gemini-2.5-pro", "gemini-pro"],
-  flash: ["gemini-3.1-flash", "gemini-3.0-flash", "gemini-2.5-flash", "gemini-flash"],
-};
-
 const GROQ_MODELS = {
   pro: "llama-3.3-70b-versatile",
   flash: "llama-3.1-8b-instant",
 };
 
-const resolvedModels: Partial<Record<"pro" | "flash", string>> = {};
-
-async function resolveGeminiModel(tier: "pro" | "flash"): Promise<string> {
-  if (resolvedModels[tier]) return resolvedModels[tier]!;
-  let lastError: any = null;
-  for (const candidate of MODEL_CANDIDATES[tier]) {
-    try {
-      const model = genAI.getGenerativeModel({ model: candidate });
-      await model.generateContent("ping");
-      resolvedModels[tier] = candidate;
-      console.log(`[gemini-client] Resolved Gemini ${tier} model: ${candidate}`);
-      return candidate;
-    } catch (e: any) {
-      console.error(`[gemini-client] Failed Gemini ${candidate}:`, e.message || e);
-      lastError = e;
-    }
-  }
-  throw new Error(`No available Gemini ${tier} model found. Last error: ${lastError?.message || 'Unknown'}`);
-}
+const GEMINI_MODELS = {
+  pro: "gemini-2.5-pro",
+  flash: "gemini-2.5-flash",
+};
 
 async function invokeGroqFallback(
   systemPrompt: string,
@@ -40,6 +17,7 @@ async function invokeGroqFallback(
   tier: "pro" | "flash",
   maxOutputTokens: number
 ): Promise<string> {
+  const GROQ_API_KEY = process.env.GROQ_API_KEY;
   if (!GROQ_API_KEY) {
     throw new Error("GROQ_API_KEY is missing, cannot fallback.");
   }
@@ -81,27 +59,39 @@ export async function invokeGeminiAgent(
   systemPrompt: string,
   userMessage: string,
   tier: "pro" | "flash" = "flash",
-  maxOutputTokens = 1024
+  maxOutputTokens = 1024,
+  isRetry = false
 ): Promise<string> {
-  // Primary: Try Gemini
   try {
-    const modelName = await resolveGeminiModel(tier);
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) throw new Error("GEMINI_API_KEY is missing");
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const modelName = GEMINI_MODELS[tier];
+    
     const model = genAI.getGenerativeModel({
       model: modelName,
-      generationConfig: { maxOutputTokens },
+      generationConfig: { 
+        maxOutputTokens,
+        responseMimeType: "application/json"
+      },
     });
+    
     const prompt = `${systemPrompt}\n\n---\n\n${userMessage}`;
     const result = await model.generateContent(prompt);
     return result.response.text();
   } catch (geminiError: any) {
     console.error(`[gemini-client] Gemini Primary Failed: ${geminiError.message || geminiError}`);
     
-    // Fallback: Try Groq
+    // Fallback: Try Groq immediately without retry ping delays
     try {
       return await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
     } catch (groqError: any) {
       console.error(`[gemini-client] Groq Fallback Failed: ${groqError.message || groqError}`);
-      throw new Error(`Both Primary (Gemini) and Fallback (Groq) failed. Gemini: ${geminiError.message}. Groq: ${groqError.message}`);
+      throw new Error(`Both Primary (Gemini) and Fallback (Groq) failed. Gemini: ${geminiError?.message || 'Unknown'}. Groq: ${groqError?.message || 'Unknown'}`);
     }
   }
 }
+
+// Alias for new code
+export const invokeAI = invokeGeminiAgent;
