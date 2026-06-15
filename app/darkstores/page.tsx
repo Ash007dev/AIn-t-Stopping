@@ -177,7 +177,7 @@ export default function DarkStoresPage() {
                 </span>
               </div>
 
-              {stores.map((store, index) => (
+              {stores.map(store => (
                 <button
                   key={store.id}
                   onClick={() => setSelectedStoreId(store.id)}
@@ -191,7 +191,7 @@ export default function DarkStoresPage() {
                     <Warehouse size={18} />
                   </span>
                   <span className="absolute left-1/2 top-11 -translate-x-1/2 whitespace-nowrap rounded-md bg-white px-2 py-1 text-[10px] font-bold text-[#0F1111] shadow-md">
-                    {index + 1}. {store.eta_minutes} min
+                    {store.eta_minutes} min ETA
                   </span>
                 </button>
               ))}
@@ -252,13 +252,6 @@ export default function DarkStoresPage() {
               </div>
             </section>
 
-            <section className="rounded-2xl bg-[#232F3E] p-4 sm:p-5 text-white shadow-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#FFB84D]">SDM-ready architecture</p>
-              <p className="mt-2 text-[15px] font-bold">Distance + inventory + capacity + returns</p>
-              <p className="mt-1 text-[12px] leading-5 text-[#D5DBDB]">
-                This prototype now demonstrates the decision layer behind quick commerce, not only a list of nearby stores.
-              </p>
-            </section>
           </div>
         </div>
       </div>
