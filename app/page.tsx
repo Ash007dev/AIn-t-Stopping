@@ -1,230 +1,239 @@
 // app/page.tsx - Home / Mode Selection
 "use client";
-import { useEffect, useState, useRef, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
-import ModeCard from "@/components/ModeCard";
+import { Card, Chip, Pill } from "@/components/ui";
+import { Sparkles, ChefHat, Zap, MapPin, ChevronDown, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { resolveRegion } from "@/lib/region-map";
 
-interface ReplenishableItem {
-  id: string;
-  name: string;
-  brand: string;
-  price: number;
-  image_url: string;
-  category: string;
-  eta_minutes: number;
-  in_stock: boolean;
-  dark_store?: string;
-  return_policy?: string;
-}
-
-const MODES = [
-  {
-    key: "intent" as const,
-    title: "Shopping by Intent",
-    description: "Describe an occasion - movie night, birthday party, study session - and we'll build the perfect cart.",
-  },
-  {
-    key: "cooking" as const,
-    title: "Cooking / Fresh",
-    description: "Name a recipe and serving count. We'll pick exact ingredients at the right quantities.",
-  },
-  {
-    key: "addon" as const,
-    title: "Frictionless Add-on",
-    description: "Add one product - we'll suggest 2-5 complementary items you might need.",
-  },
+const SCENARIOS = [
+  { label: "🎬 Movie night for 5", slug: "movie-night" },
+  { label: "🥗 Breakfast for 8", slug: "breakfast" },
+  { label: "🍝 Aglio olio for 3", slug: "aglio-olio" },
+  { label: "🎉 Diwali for 20", slug: "diwali" },
+  { label: "📚 Study session", slug: "study-session" },
 ];
 
 function HomeContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const setMode = useAppStore((s) => s.setMode);
-  const purchaseHistory = useAppStore((s) => s.purchaseHistory);
-  const setCartResult = useAppStore((s) => s.setCartResult);
-  const [isMounted, setIsMounted] = useState(false);
-  const [replenishables, setReplenishables] = useState<ReplenishableItem[]>([]);
-  const historyRef = useRef<HTMLDivElement>(null);
+  const [deliveryLocation, setDeliveryLocation] = useState("Coimbatore, Tamil Nadu");
 
   useEffect(() => {
-    setIsMounted(true);
-    const profile = localStorage.getItem("household_profile");
-    if (!profile) router.replace("/setup");
-
-    fetch('/api/replenishables')
-      .then(r => r.json())
-      .then(data => setReplenishables(data.replenishables || []))
-      .catch(() => {});
-  }, [router]);
-
-  // Scroll to Buy It Again when ?section=history
-  useEffect(() => {
-    if (searchParams.get("section") === "history" && historyRef.current) {
-      setTimeout(() => {
-        historyRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 300);
+    const profileStr = localStorage.getItem("household_profile");
+    if (!profileStr) {
+      router.replace("/setup");
+      return;
     }
-  }, [searchParams, isMounted]);
+    try {
+      const profile = JSON.parse(profileStr);
+      if (profile.pinCode) {
+        const city = resolveRegion(profile.pinCode);
+        if (city) {
+          const stateSuffix =
+            city === "Coimbatore" || city === "Chennai"
+              ? ", Tamil Nadu"
+              : city === "Bangalore"
+              ? ", Karnataka"
+              : city === "Mumbai" || city === "Pune"
+              ? ", Maharashtra"
+              : city === "Delhi"
+              ? ", NCR"
+              : "";
+          setDeliveryLocation(`${city}${stateSuffix}`);
+        }
+      }
+    } catch {}
+  }, [router]);
 
   const handleModeSelect = (mode: "intent" | "cooking" | "addon") => {
     setMode(mode);
-    router.push("/intent");
-  };
-
-  const handlePredictiveSelect = () => {
-    setMode("predictive");
-    router.push("/intent?mode=predictive");
-  };
-
-  const handleHistoryChip = (record: typeof purchaseHistory[0]) => {
-    setCartResult({
-      cart: record.cartSnapshot,
-      regionalProducts: [],
-      occasionTitle: record.occasionTitle,
-      parsedIntent: { occasion: record.occasionTitle, person_count: 1, time_context: "", dietary: [], exclusions: [] }
-    });
-    setMode("intent");
-    router.push("/cart");
-  };
-
-  const handleQuickAdd = (item: ReplenishableItem) => {
-    setCartResult({
-      cart: [{
-        ...item,
-        category: item.category as import("@/lib/types").ProductCategory,
-        quantity: 1,
-        ai_reasoning: "Quick add - one tap reorder",
-        alternatives: [],
-        is_suggestion: false,
-        rating: 4.5,
-        review_count: 5000,
-        is_bestseller: true,
-        serving_size: 1,
-        occasion_tags: [],
-        region_tags: [],
-        expiry_months: null,
-        keywords: [],
-        sample_reviews: [
-          { author: "Customer", text: "Great product." },
-          { author: "Buyer", text: "Fast delivery." },
-        ] as [{ author: string; text: string }, { author: string; text: string }],
-      }],
-      regionalProducts: [],
-      occasionTitle: `Quick order - ${item.name}`,
-      parsedIntent: { occasion: "replenishable", person_count: 1, time_context: null, dietary: [], exclusions: [] }
-    });
-    router.push('/cart');
+    if (mode === "addon") {
+      router.push("/frictionless");
+    } else {
+      router.push(`/intent?mode=${mode}`);
+    }
   };
 
   return (
-    <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 max-w-5xl mx-auto flex flex-col pt-12">
-      {/* Header */}
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          How would you like to shop today?
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
-          Select a shopping mode below. Our AI assistant will curate the best Amazon products for your needs.
+    <main className="min-h-screen bg-bg-primary flex flex-col justify-between">
+      {/* Hero Section */}
+      <section className="min-h-[85vh] flex flex-col justify-center items-center px-4 pt-16 pb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex flex-col items-center text-center max-w-4xl mx-auto"
+        >
+          {/* Eyebrow badge */}
+          <div className="mb-6">
+            <Pill variant="default" className="gap-2 px-3 py-1 bg-[#161616] border-[#222222]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E8170A] animate-pulse-dot" />
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary">
+                AI-Powered &bull; Under 6 seconds &bull; HackOn S6.0
+              </span>
+            </Pill>
+          </div>
+
+          {/* Headline */}
+          <h1 className="font-display text-[36px] sm:text-[48px] md:text-[56px] font-extrabold leading-tight text-text-primary mb-6">
+            Tell us the occasion.<br />
+            We&apos;ll <span className="text-accent-primary">handle</span> the shopping.
+          </h1>
+
+          {/* Subheadline */}
+          <p className="text-[16px] md:text-[18px] text-text-secondary max-w-2xl mb-8 leading-relaxed">
+            Describe a movie night, a recipe, or just one product &mdash; IntentCart builds your complete Amazon Now cart in seconds.
+          </p>
+
+          {/* Delivery address bar */}
+          <div className="flex items-center justify-between bg-[#111111] border border-border-default rounded-full px-5 py-2.5 w-full max-w-[480px] text-sm shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center gap-2 text-text-primary">
+              <MapPin size={16} className="text-accent-primary" />
+              <span className="font-medium text-text-secondary">
+                Delivering to: <span className="text-text-primary font-semibold">{deliveryLocation}</span>
+              </span>
+              <ChevronDown size={14} className="text-text-muted" />
+            </div>
+            <Link
+              href="/setup"
+              className="text-accent-primary hover:text-accent-hover font-semibold transition-colors text-xs uppercase tracking-wider"
+            >
+              Change
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Mode Cards Grid */}
+      <section className="w-full max-w-5xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1: Shopping by Intent */}
+          <Card
+            interactive
+            accentHover
+            className="p-6 flex flex-col justify-between h-full min-h-[300px]"
+            onClick={() => handleModeSelect("intent")}
+          >
+            <div>
+              <div className="w-12 h-12 rounded-full bg-[rgba(232,23,10,0.12)] flex items-center justify-center mb-6">
+                <Sparkles size={24} className="text-accent-primary" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-text-primary mb-2">Shopping by Intent</h3>
+              <p className="text-text-secondary text-sm mb-6 leading-relaxed">
+                Describe an occasion &mdash; movie night, Diwali party, study session. We build the complete cart.
+              </p>
+            </div>
+            <div className="mt-auto">
+              <div className="mb-6">
+                <span className="inline-block bg-bg-elevated border border-border-bright text-[11px] font-medium text-text-secondary px-3 py-1 rounded-full animate-none">
+                  Movie night for 5 tonight &rarr;
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-accent-primary font-semibold text-sm hover:text-accent-hover transition-colors">
+                <span>Start</span> <ArrowRight size={16} />
+              </div>
+            </div>
+          </Card>
+
+          {/* Card 2: Cooking Mode (Featured) */}
+          <Card
+            interactive
+            className="p-6 flex flex-col justify-between h-full min-h-[300px] !border-accent-primary !shadow-[0_0_24px_rgba(232,23,10,0.15)] md:scale-[1.03] hover:!shadow-[0_0_32px_rgba(232,23,10,0.25)] hover:!-translate-y-1 transition-all duration-200 cursor-pointer relative"
+            onClick={() => handleModeSelect("cooking")}
+          >
+            <div className="absolute top-3 right-3">
+              <Pill variant="orange">⚡ Most Popular</Pill>
+            </div>
+            <div>
+              <div className="w-12 h-12 rounded-full bg-[rgba(255,153,0,0.12)] flex items-center justify-center mb-6">
+                <ChefHat size={24} className="text-accent-orange" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-text-primary mb-2">Cooking Mode</h3>
+              <p className="text-text-secondary text-sm mb-6 leading-relaxed">
+                Name a dish and serving count. We pick the exact ingredients at the right quantities.
+              </p>
+            </div>
+            <div className="mt-auto">
+              <div className="mb-6">
+                <span className="inline-block bg-bg-elevated border border-border-bright text-[11px] font-medium text-text-secondary px-3 py-1 rounded-full animate-none">
+                  Aglio olio for 3 &rarr;
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-accent-primary font-semibold text-sm hover:text-accent-hover transition-colors">
+                <span>Cook something</span> <ArrowRight size={16} />
+              </div>
+            </div>
+          </Card>
+
+          {/* Card 3: Frictionless Add-on */}
+          <Card
+            interactive
+            accentHover
+            className="p-6 flex flex-col justify-between h-full min-h-[300px]"
+            onClick={() => handleModeSelect("addon")}
+          >
+            <div>
+              <div className="w-12 h-12 rounded-full bg-[rgba(232,23,10,0.12)] flex items-center justify-center mb-6">
+                <Zap size={24} className="text-accent-primary" />
+              </div>
+              <h3 className="font-display text-xl font-bold text-text-primary mb-2">Frictionless Add-on</h3>
+              <p className="text-text-secondary text-sm mb-6 leading-relaxed">
+                Add one product. We suggest everything that goes with it, pre-quantified.
+              </p>
+            </div>
+            <div className="mt-auto">
+              <div className="mb-6">
+                <span className="inline-block bg-bg-elevated border border-border-bright text-[11px] font-medium text-text-secondary px-3 py-1 rounded-full animate-none">
+                  I&apos;m adding spaghetti &rarr;
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-accent-primary font-semibold text-sm hover:text-accent-hover transition-colors">
+                <span>Add a product</span> <ArrowRight size={16} />
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* Quick Launch Chips */}
+      <section className="w-full max-w-5xl mx-auto px-4 mt-8 mb-16 text-center">
+        <p className="text-xs text-text-muted uppercase tracking-wider mb-4 font-semibold">
+          Quick-Launch Scenarios
         </p>
-      </div>
-
-      {/* Mode cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-        {MODES.map((mode) => (
-          <ModeCard
-            key={mode.key}
-            type={mode.key}
-            title={mode.title}
-            description={mode.description}
-            onClick={() => handleModeSelect(mode.key)}
-          />
-        ))}
-      </div>
-
-      {/* 4th mode: Predictive & Confident */}
-      <button
-        id="mode-card-predictive"
-        onClick={handlePredictiveSelect}
-        className="group flex items-start gap-4 p-5 bg-white dark:bg-[#1A2332] border border-indigo-100 dark:border-indigo-900/40 rounded-2xl hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all duration-200 text-left w-full mb-10"
-      >
-        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-colors">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-          </svg>
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide w-full max-w-2xl mx-auto justify-start md:justify-center">
+          {SCENARIOS.map((sc) => (
+            <Chip
+              key={sc.slug}
+              onClick={() => router.push(`/cart?scenario=${sc.slug}`)}
+              className="flex-shrink-0"
+            >
+              {sc.label}
+            </Chip>
+          ))}
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-0.5">
-            <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">Not sure what you need?</h3>
-            <span className="text-xs bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 font-medium px-2 py-0.5 rounded-full">AI guides you</span>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">New baby, new home, someone sick - tell us your situation and we will build the right kit.</p>
-        </div>
-        <svg className="flex-shrink-0 w-5 h-5 text-gray-300 dark:text-gray-600 group-hover:text-indigo-400 mt-0.5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
+      </section>
 
-      {/* Running Low? section */}
-      {isMounted && replenishables.length > 0 && (
-        <div className="mb-10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Running Low?</h2>
-            <span className="text-xs text-gray-400">Tap to add instantly</span>
-          </div>
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-            {replenishables.map(item => (
-              <button
-                key={item.id}
-                onClick={() => handleQuickAdd(item)}
-                className="flex-shrink-0 w-32 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] hover:border-orange-300 dark:hover:border-orange-500 rounded-xl p-3 text-left hover:shadow-sm transition-all"
-              >
-                <div className="w-full h-16 bg-gray-50 dark:bg-[#0F1923] rounded-lg flex items-center justify-center mb-2">
-                  <img src={item.image_url || "/placeholder-product.png"} alt={item.name}
-                    className="max-w-full max-h-full object-contain" />
-                </div>
-                <p className="text-xs font-medium text-gray-800 dark:text-gray-200 line-clamp-2 leading-tight">{item.name}</p>
-                <p className="text-xs text-orange-600 dark:text-orange-400 font-semibold mt-1">Rs.{item.price}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{item.eta_minutes} min</p>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Buy it again */}
-      {isMounted && purchaseHistory.length > 0 && (
-        <div ref={historyRef} className="mb-10">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Buy it again</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {purchaseHistory.slice(0, 3).map((record, i) => (
-              <button
-                key={record.orderId || i}
-                onClick={() => handleHistoryChip(record)}
-                className="flex items-center gap-3 p-4 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] rounded-xl hover:border-orange-300 dark:hover:border-orange-500 hover:shadow-sm transition-all text-left"
-              >
-                <div className="w-9 h-9 rounded-lg bg-gray-100 dark:bg-[#2B3645] flex items-center justify-center flex-shrink-0">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.41"/>
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{record.occasionTitle}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    {record.cartSnapshot?.length ?? 0} items · {new Date(record.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
-                  </p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Footer */}
+      <footer className="w-full py-8 text-center text-[12px] text-text-muted border-t border-[#161616] mt-auto">
+        &copy; 2026 IntentCart &bull; HackOn with Amazon Season 6.0 &bull; Built on AWS Bedrock + Kiro
+      </footer>
     </main>
   );
 }
 
 export default function Home() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-gray-400">Loading...</p></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-bg-primary">
+          <p className="text-text-secondary text-sm">Loading...</p>
+        </div>
+      }
+    >
       <HomeContent />
     </Suspense>
   );
