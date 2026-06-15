@@ -1,5 +1,6 @@
 // components/ProductCard.tsx - Pixel-perfect Amazon Fresh product card
 'use client';
+import { useState } from 'react';
 import { useAppStore } from '@/store/useAppStore';
 import StarRating from './StarRating';
 import { getProductImage, getProductEmoji, getProductTint } from '@/lib/productImage';
@@ -13,6 +14,7 @@ interface ProductCardProps {
 export default function ProductCard({ product, highlightBorder = false }: ProductCardProps) {
   const cart = useAppStore(s => s.cart);
   const applyDiff = useAppStore(s => s.applyDiff);
+  const [imgFailed, setImgFailed] = useState(false);
 
   const cartItem = cart.find(i => i.id === product.id);
   const quantity = cartItem?.quantity || 0;
@@ -73,13 +75,14 @@ export default function ProductCard({ product, highlightBorder = false }: Produc
 
       {/* Product image */}
       <div className="flex items-center justify-center p-3 h-44" style={{ backgroundColor: getProductTint(product) }}>
-        {getProductImage(product) ? (
+        {getProductImage(product) && !imgFailed ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={getProductImage(product) as string}
             alt={product.name}
             loading="lazy"
-            className="max-h-36 max-w-full object-contain"
+            onError={() => setImgFailed(true)}
+            className="max-h-36 max-w-full object-contain mix-blend-multiply"
           />
         ) : (
           <span className="text-[72px] leading-none select-none" role="img" aria-label={product.name}>

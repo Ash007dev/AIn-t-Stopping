@@ -123,6 +123,91 @@ const CATEGORY_EMOJI: Record<string, string> = {
   'cleaning supplies': '🧼',
 };
 
+// Real product photos (Spoonacular ingredient CDN). All filenames are verified to exist.
+// Ordered most-specific → most-general; first substring hit wins.
+const SP = 'https://img.spoonacular.com/ingredients_250x250/';
+const PHOTO_RULES: { keys: string[]; file: string }[] = [
+  // Vegetables (specific first)
+  { keys: ['sweet potato'], file: 'sweet-potato.png' },
+  { keys: ['potato', 'aloo'], file: 'potatoes-yukon-gold.png' },
+  { keys: ['cauliflower'], file: 'cauliflower.jpg' },
+  { keys: ['broccoli'], file: 'broccoli.jpg' },
+  { keys: ['cabbage'], file: 'cabbage.jpg' },
+  { keys: ['lettuce'], file: 'iceberg-lettuce.jpg' },
+  { keys: ['coriander', 'cilantro'], file: 'cilantro.png' },
+  { keys: ['mint', 'pudina'], file: 'mint.jpg' },
+  { keys: ['spinach', 'methi', 'palak', 'fenugreek', 'greens'], file: 'spinach.jpg' },
+  { keys: ['onion'], file: 'red-onion.png' },
+  { keys: ['tomato'], file: 'tomato.png' },
+  { keys: ['garlic'], file: 'garlic.png' },
+  { keys: ['ginger'], file: 'ginger.png' },
+  { keys: ['carrot'], file: 'carrots.jpg' },
+  { keys: ['corn', 'maize'], file: 'corn.png' },
+  { keys: ['chilli', 'chili'], file: 'jalapeno-pepper.png' },
+  { keys: ['capsicum', 'bell pepper'], file: 'green-pepper.jpg' },
+  { keys: ['brinjal', 'eggplant', 'aubergine'], file: 'eggplant.png' },
+  { keys: ['cucumber', 'zucchini', 'gourd'], file: 'cucumber.jpg' },
+  { keys: ['mushroom'], file: 'mushrooms.png' },
+  { keys: ['peas', 'beans', 'bean'], file: 'peas.jpg' },
+  // Fruits
+  { keys: ['apple'], file: 'apple.jpg' },
+  { keys: ['banana'], file: 'bananas.jpg' },
+  { keys: ['mango'], file: 'mango.jpg' },
+  { keys: ['orange', 'nagpur', 'mosambi', 'sweet lime'], file: 'orange.png' },
+  { keys: ['grape'], file: 'red-grapes.jpg' },
+  { keys: ['watermelon', 'muskmelon', 'melon'], file: 'watermelon.png' },
+  { keys: ['pineapple'], file: 'pineapple.jpg' },
+  { keys: ['papaya'], file: 'papaya.jpg' },
+  { keys: ['guava'], file: 'guava.jpg' },
+  { keys: ['pomegranate', 'anar'], file: 'pomegranate.jpg' },
+  { keys: ['strawberry', 'berry'], file: 'strawberries.jpg' },
+  { keys: ['kiwi'], file: 'kiwi.png' },
+  { keys: ['peach', 'plum', 'apricot'], file: 'peach.png' },
+  { keys: ['pear'], file: 'pear.jpg' },
+  { keys: ['coconut'], file: 'coconut.jpg' },
+  { keys: ['lemon'], file: 'lemon.png' },
+  { keys: ['lime'], file: 'lime.jpg' },
+  // Dairy & eggs (buttermilk/curd before butter & milk)
+  { keys: ['egg'], file: 'egg.png' },
+  { keys: ['paneer', 'tofu'], file: 'paneer.png' },
+  { keys: ['cheese'], file: 'cheddar-cheese.jpg' },
+  { keys: ['curd', 'yogurt', 'yoghurt', 'lassi', 'buttermilk'], file: 'plain-yogurt.jpg' },
+  { keys: ['butter'], file: 'butter.png' },
+  { keys: ['milk'], file: 'milk.png' },
+  // Meat & fish
+  { keys: ['chicken', 'mutton', 'meat'], file: 'whole-chicken.jpg' },
+  { keys: ['fish', 'prawn', 'seafood', 'salmon'], file: 'salmon.png' },
+  // Staples / cooking
+  { keys: ['spaghetti'], file: 'spaghetti.jpg' },
+  { keys: ['pasta', 'macaroni', 'penne', 'fusilli'], file: 'fusilli.jpg' },
+  { keys: ['noodle', 'maggi', 'ramen'], file: 'egg-noodles.jpg' },
+  { keys: ['bread', 'bun', 'pav', 'loaf'], file: 'white-bread.jpg' },
+  { keys: ['atta', 'flour', 'maida', 'wheat', 'besan'], file: 'flour.png' },
+  { keys: ['basmati', 'rice', 'poha'], file: 'uncooked-white-rice.png' },
+  { keys: ['oil', 'ghee'], file: 'vegetable-oil.jpg' },
+  { keys: ['sugar', 'jaggery'], file: 'sugar-in-bowl.png' },
+  { keys: ['salt'], file: 'salt.jpg' },
+  { keys: ['ketchup', 'sauce', 'jam', 'spread'], file: 'ketchup.png' },
+  { keys: ['honey'], file: 'honey.png' },
+  // Snacks
+  { keys: ['doritos', 'nacho'], file: 'tortilla-chips.jpg' },
+  { keys: ['chips', 'lays', 'kurkure', 'wafer'], file: 'potato-chips.jpg' },
+  { keys: ['chocolate', 'choco', 'kitkat', 'dairy milk'], file: 'dark-chocolate.jpg' },
+  { keys: ['biscuit', 'cookie', 'cracker', 'rusk'], file: 'shortbread-cookies.jpg' },
+  // Drinks
+  { keys: ['juice'], file: 'orange-juice.jpg' },
+  { keys: ['coffee'], file: 'coffee.png' },
+  { keys: ['water'], file: 'water.png' },
+];
+
+function photoFor(p: ImgProduct): string | null {
+  const hay = `${p.name || ''} ${(p.keywords || []).join(' ')}`.toLowerCase();
+  for (const r of PHOTO_RULES) {
+    if (r.keys.some(k => hay.includes(k))) return SP + r.file;
+  }
+  return null;
+}
+
 /** Returns a recognisable emoji that represents the product. */
 export function getProductEmoji(p: ImgProduct): string {
   const hay = `${p.name || ''} ${(p.keywords || []).join(' ')}`.toLowerCase();
@@ -136,7 +221,7 @@ export function getProductEmoji(p: ImgProduct): string {
 /** Returns a real remote image if the product has one, otherwise null (use emoji). */
 export function getProductImage(p: ImgProduct): string | null {
   if (p.image_url && p.image_url.startsWith('http')) return p.image_url;
-  return null;
+  return photoFor(p);
 }
 
 /** Soft background tint per category, for the emoji tile. */
