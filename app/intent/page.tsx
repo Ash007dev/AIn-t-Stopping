@@ -1,231 +1,505 @@
-// app/intent/page.tsx - Intent Input Page
+// app/intent/page.tsx — IntentCart Intent Input Screen
 "use client";
-import { useState, useEffect, Suspense } from "react";
+
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft, Sparkles, ChefHat, Mic, MicOff } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+
+import { Button, Pill, Chip } from "@/components/ui";
 import { useAppStore } from "@/store/useAppStore";
 import { HouseholdProfile } from "@/lib/types";
-import IntentInput from "@/components/IntentInput";
-import PipelineProgress from "@/components/PipelineProgress";
 
-export default function IntentPage() {
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+/** Maps chip label → mockScenario slug used by the cart page */
+const CHIP_TO_SLUG: Record<string, string> = {
+  "Movie night":          "movie-night",
+  "Party for 20":         "diwali",
+  "Study session":        "study-session",
+  "Breakfast for guests": "breakfast",
+  "Diwali celebration":   "diwali",
+  "Aglio olio":           "aglio-olio",
+  "Dal tadka":            "movie-night",   // fallback — no dal scenario yet
+  "Pancakes":             "breakfast",
+  "Ramen":                "movie-night",
+  "Caesar salad":         "movie-night",
+};
+
+const INTENT_CHIPS = [
+  { emoji: "🎬", label: "Movie night" },
+  { emoji: "🎉", label: "Party for 20", personCount: 20 },
+  { emoji: "📚", label: "Study session" },
+  { emoji: "🌅", label: "Breakfast for guests" },
+  { emoji: "🕯️", label: "Diwali celebration", personCount: 20 },
+];
+
+const COOKING_CHIPS = [
+  { emoji: "🍝", label: "Aglio olio" },
+  { emoji: "🍛", label: "Dal tadka" },
+  { emoji: "🥞", label: "Pancakes" },
+  { emoji: "🍜", label: "Ramen" },
+  { emoji: "🥗", label: "Caesar salad" },
+];
+
+const TIME_OPTIONS = ["Tonight", "Tomorrow morning", "This weekend"] as const;
+type TimeOption = typeof TIME_OPTIONS[number];
+
+const DIET_OPTIONS = ["No restriction", "Vegetarian", "Jain"] as const;
+type DietOption = typeof DIET_OPTIONS[number];
+
+/** Expand chip label into a full sentence */
+function chipToSentence(label: string, count: number): string {
+  const map: Record<string, (n: number) => string> = {
+    "Movie night":          (n) => `Movie night for ${n} people tonight`,
+    "Party for 20":         (n) => `Party for ${n} people`,
+    "Study session":        (n) => `Study session snacks for ${n} people`,
+    "Breakfast for guests": (n) => `Breakfast for ${n} guests tomorrow morning`,
+    "Diwali celebration":   (n) => `Diwali celebration for ${n} people`,
+    "Aglio olio":           (n) => `Aglio olio for ${n} people`,
+    "Dal tadka":            (n) => `Dal tadka for ${n} people`,
+    "Pancakes":             (n) => `Pancakes for ${n} people`,
+    "Ramen":                (n) => `Ramen for ${n} people`,
+    "Caesar salad":         (n) => `Caesar salad for ${n} people`,
+  };
+  return map[label]?.(count) ?? `${label} for ${count} people`;
+}
+
+// ─── Waveform (visual-only, CSS keyframe bars) ────────────────────────────────
+
+const BAR_DELAYS = [0, 0.15, 0.07, 0.22, 0.1];
+
+function Waveform() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-gray-400">Loading...</p></div>}>
-      <IntentPageContent />
-    </Suspense>
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      className="flex items-center justify-center gap-[3px] py-3"
+    >
+      {BAR_DELAYS.map((delay, i) => (
+        <span
+          key={i}
+          className="w-[3px] rounded-full bg-[#E8170A]"
+          style={{
+            animation: `waveBar 0.7s ease-in-out ${delay}s infinite alternate`,
+            height: 6,
+          }}
+        />
+      ))}
+    </motion.div>
   );
 }
 
-const PLACEHOLDERS: Record<string, string> = {
-  intent: "e.g., Movie night for 5 people tonight",
-  cooking: "e.g., Aglio olio for 3 people",
-  addon: "e.g., Spaghetti",
-  predictive: "Select a situation below",
-};
-
-const SITUATIONS = [
-  { id: "new_baby", label: "New baby at home", icon: "👶", desc: "Newborn essentials kit" },
-  { id: "new_home", label: "Just moved in", icon: "🏠", desc: "Kitchen and cleaning basics" },
-  { id: "home_office", label: "Setting up home office", icon: "💻", desc: "WFH setup essentials" },
-  { id: "sick_person", label: "Someone sick at home", icon: "🤒", desc: "OTC comfort items" },
-  { id: "college_first_week", label: "First week of college", icon: "🎓", desc: "Hostel survival kit" },
-];
+// ─── Main component (inner — uses useSearchParams) ────────────────────────────
 
 function IntentPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const mode = useAppStore((s) => s.selectedMode);
-  const isPipelineRunning = useAppStore((s) => s.isPipelineRunning);
+  const rawMode = searchParams.get("mode") ?? "intent";
+  const mode: "intent" | "cooking" = rawMode === "cooking" ? "cooking" : "intent";
+
+  const setMode     = useAppStore((s) => s.setMode);
   const setPipelineRunning = useAppStore((s) => s.setPipelineRunning);
   const setCartResult = useAppStore((s) => s.setCartResult);
-  const setMode = useAppStore((s) => s.setMode);
   const prefillIntent = useAppStore((s) => s.prefillIntent);
   const setPrefillIntent = useAppStore((s) => s.setPrefillIntent);
 
-  const [intentText, setIntentText] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [selectedSituation, setSelectedSituation] = useState<string | null>(null);
+  const [text, setText] = useState("");
+  const [personCount, setPersonCount] = useState(5);
+  const [selectedChip, setSelectedChip] = useState<string | null>(null);
+  const [time, setTime] = useState<TimeOption>("Tonight");
+  const [diet, setDiet] = useState<DietOption>("No restriction");
+  const [isRecording, setIsRecording] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const recognitionRef = useRef<any>(null);
 
-  // Detect predictive mode from URL params
+  const chips = mode === "cooking" ? COOKING_CHIPS : INTENT_CHIPS;
+
+  // Sync mode into Zustand
   useEffect(() => {
-    const urlMode = searchParams.get("mode");
-    if (urlMode === "predictive" && mode !== "predictive") {
-      setMode("predictive");
-    }
-  }, [searchParams, mode, setMode]);
+    setMode(mode);
+  }, [mode, setMode]);
 
+  // Handle prefill from store (e.g. reorder)
   useEffect(() => {
     if (prefillIntent) {
-      setIntentText(prefillIntent);
+      setText(prefillIntent);
       setPrefillIntent(null);
     }
   }, [prefillIntent, setPrefillIntent]);
 
-  const handleSubmit = async () => {
-    if (mode === "predictive" && !selectedSituation) return;
-    if (mode !== "predictive" && !intentText.trim()) return;
-    setError(null);
-    setPipelineRunning(true);
+  // ── Mic / Web Speech API ──────────────────────────────────────────────────
+  const handleMic = () => {
+    if (isRecording) {
+      recognitionRef.current?.stop();
+      setIsRecording(false);
+      return;
+    }
 
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) {
+      // Visual-only fallback
+      setIsRecording(true);
+      setTimeout(() => setIsRecording(false), 3000);
+      return;
+    }
+
+    const recognition = new SR() as any;
+    recognition.lang = "en-IN";
+    recognition.interimResults = false;
+    recognition.onresult = (e: any) => {
+      setText(e.results[0][0].transcript);
+    };
+    recognition.onend = () => setIsRecording(false);
+    recognition.onerror = () => setIsRecording(false);
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsRecording(true);
+  };
+
+  // ── Chip select ───────────────────────────────────────────────────────────
+  const handleChipClick = (chip: { emoji: string; label: string; personCount?: number }) => {
+    setSelectedChip(chip.label);
+    if (chip.personCount) setPersonCount(chip.personCount);
+    const count = chip.personCount ?? personCount;
+    setText(chipToSentence(chip.label, count));
+  };
+
+  // ── Submit ────────────────────────────────────────────────────────────────
+  const handleSubmit = async () => {
+    const intent = text.trim();
+    if (!intent) return;
+    setLoading(true);
+
+    // Derive mock scenario slug for immediate navigation (while real API is slow/rate-limited)
+    const slug = CHIP_TO_SLUG[selectedChip ?? ""] ?? "movie-night";
+
+    // Build query params for future backend use
+    const params = new URLSearchParams({
+      scenario:  slug,
+      persons:   String(personCount),
+      time:      time,
+      diet:      diet,
+      intent:    intent,
+    });
+
+    // Attempt real API call; fall back to mock cart on failure
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000);
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
     try {
       let profile: HouseholdProfile;
       try {
         profile = JSON.parse(localStorage.getItem("household_profile") || "{}");
       } catch {
-        profile = { pinCode: "110001", servingCount: 2, dietary: "No restriction", budget: null };
+        profile = { pinCode: "641112", servingCount: personCount, dietary: diet as HouseholdProfile["dietary"], budget: null };
       }
 
-      const effectiveText = mode === "predictive" 
-        ? (SITUATIONS.find(s => s.id === selectedSituation)?.label || intentText)
-        : intentText;
+      setPipelineRunning(true);
 
       const res = await fetch("/api/generate-cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          intentText: effectiveText,
-          householdProfile: profile,
-          mode: mode || "intent",
+          intentText: intent,
+          householdProfile: {
+            ...profile,
+            servingCount: personCount,
+            dietary: diet as HouseholdProfile["dietary"],
+          },
+          mode,
         }),
         signal: controller.signal,
       });
 
       clearTimeout(timeout);
 
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.error || "Failed to generate cart");
+      if (res.ok) {
+        const result = await res.json();
+        setCartResult(result);
         setPipelineRunning(false);
+        router.push(`/cart?${params.toString()}`);
         return;
       }
-
-      const result = await res.json();
-      setCartResult(result);
-      setPipelineRunning(false);
-      router.push("/cart");
-    } catch (e: unknown) {
-      clearTimeout(timeout);
-      setPipelineRunning(false);
-      if (e instanceof Error && e.name === "AbortError") {
-        setError("Request timed out. Please try again.");
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
+    } catch {
+      // rate-limit / network error — fall through to mock
     }
+
+    clearTimeout(timeout);
+    setPipelineRunning(false);
+    // Navigate to mock cart (LoadingScreen will play, then show mock data)
+    router.push(`/cart?${params.toString()}`);
   };
 
-  const placeholder = PLACEHOLDERS[mode || "intent"] || PLACEHOLDERS.intent;
-  const isPredictive = mode === "predictive";
-
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-xl">
-        {/* Back button */}
-        <button
-          onClick={() => router.push("/")}
-          className="flex items-center gap-1 text-[13px] font-medium text-[#007185] dark:text-[#5EB6C6] hover:text-[#C7511F] dark:hover:text-[#E47911] hover:underline mb-8"
-        >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-          Back to Mode Selection
-        </button>
+    <>
+      {/* Waveform keyframe injection */}
+      <style>{`
+        @keyframes waveBar {
+          from { height: 4px; }
+          to   { height: 20px; }
+        }
+      `}</style>
 
-        {/* Pipeline progress */}
-        {isPipelineRunning ? (
-          <PipelineProgress />
-        ) : (
-          <div className="animate-fade-in">
-            {/* Header */}
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">
-                {isPredictive
-                  ? "What's your situation?"
-                  : mode === "cooking" ? "What are you cooking?" : mode === "addon" ? "What do you need?" : "What's the occasion?"}
-              </h1>
-              {isPredictive && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                  Select your situation - we will figure out exactly what you need.
-                </p>
+      <main
+        className="min-h-screen flex items-start justify-center px-4 pt-8 pb-24"
+        style={{ background: "#0a0a0a" }}
+      >
+        <div className="w-full max-w-[640px] flex flex-col gap-7">
+
+          {/* ── Back link ── */}
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-[14px] text-[#666666] hover:text-[#A0A0A0] transition-colors w-fit"
+          >
+            <ArrowLeft size={14} />
+            Back
+          </Link>
+
+          {/* ── Mode pill ── */}
+          <div>
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+              style={{
+                background: "rgba(232,23,10,0.1)",
+                border: "1px solid rgba(232,23,10,0.3)",
+                color: "#E8170A",
+              }}
+            >
+              {mode === "cooking" ? (
+                <><ChefHat size={12} /> Cooking Mode</>
+              ) : (
+                <><Sparkles size={12} /> Shopping by Intent</>
               )}
+            </span>
+          </div>
+
+          {/* ── Heading ── */}
+          <div className="flex flex-col gap-1">
+            <h1
+              className="text-2xl sm:text-3xl font-bold text-white leading-tight"
+              style={{ fontFamily: "Sora, sans-serif" }}
+            >
+              {mode === "cooking" ? "What are you cooking?" : "What's the occasion?"}
+            </h1>
+            <p className="text-sm text-[#666666]">
+              {mode === "cooking"
+                ? "Tell us the recipe — we'll pick the exact ingredients."
+                : "Describe the moment. We'll handle the cart."}
+            </p>
+          </div>
+
+          {/* ── Big text input ── */}
+          <div className="flex flex-col gap-0">
+            <div className="relative">
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder={
+                  mode === "cooking"
+                    ? "e.g. Aglio olio for 3 people..."
+                    : "e.g. Movie night for 5 people tonight..."
+                }
+                rows={3}
+                className="w-full resize-none text-white placeholder-[#444] outline-none pr-14 leading-relaxed"
+                style={{
+                  background: "#111111",
+                  border: "1px solid #333333",
+                  borderRadius: "16px",
+                  padding: "18px 52px 18px 18px",
+                  fontSize: "20px",
+                  fontWeight: 500,
+                  minHeight: "80px",
+                  transition: "border-color 0.15s, box-shadow 0.15s",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = "#E8170A";
+                  e.currentTarget.style.boxShadow = "0 0 0 3px rgba(232,23,10,0.15)";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = "#333333";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmit();
+                  }
+                }}
+              />
+
+              {/* Mic button inside input */}
+              <button
+                type="button"
+                onClick={handleMic}
+                className="absolute right-3 top-3 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
+                style={{
+                  background: isRecording ? "#E8170A" : "#1a1a1a",
+                  border: `1px solid ${isRecording ? "#E8170A" : "#333333"}`,
+                }}
+                aria-label={isRecording ? "Stop recording" : "Start voice input"}
+              >
+                {isRecording && (
+                  <span
+                    className="absolute inset-0 rounded-full animate-ping opacity-30"
+                    style={{ background: "#E8170A" }}
+                  />
+                )}
+                {isRecording
+                  ? <MicOff size={15} className="text-white" />
+                  : <Mic size={15} className="text-[#A0A0A0]" />
+                }
+              </button>
             </div>
 
-            {/* Predictive mode: situation selector */}
-            {isPredictive ? (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {SITUATIONS.map(situation => (
-                    <button
-                      key={situation.id}
-                      onClick={() => {
-                        setIntentText(situation.label);
-                        setSelectedSituation(situation.id);
-                      }}
-                      className={`flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all ${
-                        selectedSituation === situation.id
-                          ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 dark:border-indigo-400"
-                          : "border-gray-200 dark:border-[#3A4553] hover:border-indigo-300 dark:hover:border-indigo-600 bg-white dark:bg-[#1A2332]"
-                      }`}
-                    >
-                      <span className="text-2xl">{situation.icon}</span>
-                      <div>
-                        <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{situation.label}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">{situation.desc}</p>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-400 text-center mt-2">
-                  For medicine suggestions: always consult a doctor. We only show common OTC comfort items.
-                </p>
-                <button
-                  onClick={handleSubmit}
-                  disabled={!selectedSituation || isPipelineRunning}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-200 dark:disabled:bg-[#2B3645] text-white disabled:text-gray-400 py-3 rounded-xl font-semibold text-sm transition-colors"
-                >
-                  {isPipelineRunning ? "Building your kit..." : "Build my kit"}
-                </button>
-              </div>
-            ) : (
-              <>
-                {/* Standard intent input */}
-                <IntentInput
-                  value={intentText}
-                  onChange={setIntentText}
-                  onSubmit={handleSubmit}
-                  placeholder={placeholder}
-                  disabled={isPipelineRunning}
-                />
-
-                {/* Quick examples */}
-                <div className="mt-10">
-                  <p className="text-sm font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-3">Popular Searches</p>
-                  <div className="flex flex-wrap gap-2">
-                    {["Movie night for 5", "Aglio olio for 3", "Birthday party for 20 kids", "Quick breakfast for 2"].map((ex) => (
-                      <button
-                        key={ex}
-                        onClick={() => setIntentText(ex)}
-                        className="px-3 py-1.5 rounded-full text-[13px] font-medium bg-[#F7F8FA] dark:bg-[#2B3645] border border-[#D5D9D9] dark:border-[#3A4553] text-amazon-text-primary-light dark:text-amazon-text-primary-dark hover:bg-[#E3E6E6] dark:hover:bg-[#3A4553] shadow-subtle transition-colors"
-                      >
-                        {ex}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
-
-            {/* Error */}
-            {error && (
-              <div className="mt-4 px-4 py-3 bg-[#FDF4F4] dark:bg-[#3B1D1D] border-l-4 border-[#C40000] dark:border-[#FF6B6B] text-sm text-[#C40000] dark:text-[#FF6B6B] font-medium">
-                {error}
-              </div>
-            )}
+            {/* Waveform below input */}
+            <AnimatePresence>
+              {isRecording && <Waveform />}
+            </AnimatePresence>
           </div>
-        )}
-      </div>
-    </main>
+
+          {/* ── Person count stepper ── */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-5">
+              <button
+                type="button"
+                onClick={() => setPersonCount((c) => Math.max(1, c - 1))}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xl font-bold transition-all duration-150"
+                style={{ border: "1px solid #333333", background: "#111111" }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#E8170A")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#333333")}
+                aria-label="Decrease person count"
+              >
+                −
+              </button>
+
+              <div className="text-center w-12">
+                <motion.span
+                  key={personCount}
+                  initial={{ scale: 0.8, opacity: 0.5 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.15 }}
+                  className="text-white font-bold block"
+                  style={{ fontSize: "40px", lineHeight: 1 }}
+                >
+                  {personCount}
+                </motion.span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setPersonCount((c) => Math.min(50, c + 1))}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xl font-bold transition-all duration-150"
+                style={{ border: "1px solid #333333", background: "#111111" }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#E8170A")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#333333")}
+                aria-label="Increase person count"
+              >
+                +
+              </button>
+            </div>
+            <p className="text-xs text-[#666666] text-center">
+              Quantities will be calculated for this many people
+            </p>
+          </div>
+
+          {/* ── Quick chips ── */}
+          <div>
+            <p className="text-[11px] font-semibold text-[#666666] uppercase tracking-wider mb-2.5">
+              Quick picks
+            </p>
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              {chips.map((chip) => (
+                <Chip
+                  key={chip.label}
+                  selected={selectedChip === chip.label}
+                  onClick={() => handleChipClick(chip)}
+                  className="shrink-0"
+                >
+                  {chip.emoji} {chip.label}
+                </Chip>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Time context ── */}
+          <div>
+            <p className="text-[11px] font-semibold text-[#666666] uppercase tracking-wider mb-2.5">
+              When?
+            </p>
+            <div className="flex gap-2 flex-wrap">
+              {TIME_OPTIONS.map((opt) => (
+                <Chip
+                  key={opt}
+                  selected={time === opt}
+                  onClick={() => setTime(opt)}
+                >
+                  {opt}
+                </Chip>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Dietary ── */}
+          <div>
+            <p className="text-[11px] font-semibold text-[#666666] uppercase tracking-wider mb-2.5">
+              Diet?
+            </p>
+            <div className="flex gap-2 flex-wrap">
+              {DIET_OPTIONS.map((opt) => (
+                <Chip
+                  key={opt}
+                  selected={diet === opt}
+                  onClick={() => setDiet(opt)}
+                >
+                  {opt}
+                </Chip>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Build My Cart button ── */}
+          <Button
+            variant="primary"
+            loading={loading}
+            disabled={!text.trim() || loading}
+            onClick={handleSubmit}
+            className="w-full justify-center font-bold text-[18px]"
+            style={{
+              height: "56px",
+              borderRadius: "14px",
+              fontSize: "18px",
+              fontWeight: 700,
+            }}
+          >
+            {loading ? "Building your cart..." : "Build My Cart →"}
+          </Button>
+
+          {/* ── Hint ── */}
+          <p className="text-[11px] text-[#444444] text-center">
+            Press Enter or tap the button · AI-curated · typically takes 3–6 seconds
+          </p>
+        </div>
+      </main>
+    </>
+  );
+}
+
+// ─── Page export (Suspense boundary for useSearchParams) ──────────────────────
+
+export default function IntentPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-[#666666] text-sm">Loading…</p>
+        </div>
+      }
+    >
+      <IntentPageContent />
+    </Suspense>
   );
 }
