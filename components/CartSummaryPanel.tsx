@@ -7,11 +7,12 @@ import { computeCartTotal, getMaxEta } from '@/lib/cart-utils';
 export default function CartSummaryPanel() {
   const router = useRouter();
   const cart = useAppStore(s => s.cart);
-  const main = cart.filter(i => !i.is_suggestion);
+  const main = cart;
   const subtotal = computeCartTotal(main);
   const tax = Math.round(subtotal * 0.05);
   const total = subtotal + tax;
   const eta = getMaxEta(main) || 16;
+  const itemCount = main.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
     <div className="border border-[#D5D9D9] rounded p-4 bg-white sticky top-[140px]">
@@ -41,7 +42,7 @@ export default function CartSummaryPanel() {
       {/* Totals */}
       <div className="border-t border-[#D5D9D9] pt-3 space-y-1 mb-3">
         <div className="flex justify-between text-[13px] text-[#565959]">
-          <span>Subtotal ({main.length} items):</span>
+          <span>Subtotal ({itemCount} item{itemCount !== 1 ? 's' : ''}):</span>
           <span>₹{subtotal.toFixed(0)}</span>
         </div>
         <div className="flex justify-between text-[13px] text-[#565959]">

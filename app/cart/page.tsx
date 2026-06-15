@@ -16,6 +16,7 @@ export default function CartPage() {
   const cart = useAppStore(s => s.cart);
   const occasionTitle = useAppStore(s => s.occasionTitle);
   const applyDiff = useAppStore(s => s.applyDiff);
+  const addSuggestionToCart = useAppStore(s => s.addSuggestionToCart);
   const modificationError = useAppStore(s => s.modificationError);
   const setModificationError = useAppStore(s => s.setModificationError);
 
@@ -48,8 +49,9 @@ export default function CartPage() {
     );
   }
 
-  const eta = getMaxEta(mainItems) || 16;
-  const total = computeCartTotal(mainItems);
+  const eta = getMaxEta(cart) || 16;
+  const total = computeCartTotal(cart);
+  const billedCount = cart.reduce((sum, i) => sum + i.quantity, 0);
   const sourceGroups = groupCartByDarkStore(mainItems);
   const sourceIds = Object.keys(sourceGroups);
   const primaryStore = getDarkStoreInfo(sourceIds[0] || 'DS-Central');
@@ -85,7 +87,7 @@ export default function CartPage() {
       {/* Sticky top bar */}
       <div className="sticky top-[88px] z-40 bg-white border-b border-[#D5D9D9]
                       flex items-center gap-3 px-4 py-2">
-        <button onClick={() => router.back()}
+        <button onClick={() => router.push('/')}
                 className="text-[#007185] text-[14px] font-medium flex-shrink-0">
           ← Edit
         </button>
@@ -104,7 +106,7 @@ export default function CartPage() {
         </div>
 
         <span className="text-[13px] text-[#565959] flex-shrink-0 hidden sm:block">
-          {mainItems.length} items · ₹{total.toFixed(0)}
+          {billedCount} item{billedCount !== 1 ? 's' : ''} · ₹{total.toFixed(0)}
         </span>
       </div>
 
@@ -158,9 +160,16 @@ export default function CartPage() {
                   {suggestions.map(item => (
                     <div
                       key={item.id}
-                      className="bg-white border border-[#D5D9D9] rounded-xl overflow-hidden shadow-sm"
+                      className="bg-white border border-[#D5D9D9] rounded-xl overflow-hidden shadow-sm flex flex-col"
                     >
                       <ProductCard product={item} />
+                      <button
+                        onClick={() => addSuggestionToCart(item.id)}
+                        className="m-2 mt-0 py-2 rounded-lg bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111]
+                                   text-[13px] font-bold border border-[#FCD200] transition-colors"
+                      >
+                        + Add to cart
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -179,7 +188,7 @@ export default function CartPage() {
       <ModificationBar onModify={handleModification} error={modificationError} />
 
       {/* Mobile sticky bottom cart bar */}
-      <StickyCartBar total={total} itemCount={mainItems.length} eta={eta} />
+      <StickyCartBar total={total} itemCount={billedCount} eta={eta} />
 
     </main>
   );

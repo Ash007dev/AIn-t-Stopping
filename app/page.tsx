@@ -88,7 +88,8 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
 
-  const nearbyStores = getNearbyDarkStores(customerLocation, pinCode).slice(0, 3);
+  const effectivePin = isMounted ? pinCode : '641002';
+  const nearbyStores = getNearbyDarkStores(isMounted ? customerLocation : null, effectivePin).slice(0, 3);
 
   useEffect(() => {
     setIsMounted(true);
@@ -233,7 +234,7 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#FFB84D]">Live fulfillment network</p>
-                <p className="mt-1 text-[20px] font-bold text-white">{nearbyStores.length} hubs near {pinCode}</p>
+                <p className="mt-1 text-[20px] font-bold text-white">{nearbyStores.length} hubs near {effectivePin}</p>
               </div>
               <ChevronRight size={20} className="text-white/60" />
             </div>

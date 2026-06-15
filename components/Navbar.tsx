@@ -1,6 +1,6 @@
 // components/Navbar.tsx - Pixel-perfect Amazon Now header
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingCart, Mic, Home, X, User, BarChart3, LocateFixed, MapPin } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import Link from 'next/link';
@@ -28,6 +28,9 @@ export default function Navbar() {
   const [pinInput, setPinInput] = useState(pinCode);
   const [query, setQuery] = useState('');
   const [locating, setLocating] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   const isHome = pathname === '/';
 
@@ -143,7 +146,7 @@ export default function Navbar() {
             href="/admin"
             aria-label="Open admin dashboard"
             className="hidden sm:flex flex-shrink-0 h-9 items-center gap-1.5 rounded-md px-2
-                       text-[12px] font-semibold text-[#232F3E] hover:bg-[#F0F2F2] transition-colors"
+                       text-[12px] font-semibold text-[#FF9900] hover:bg-[#FF9900]/10 transition-colors"
           >
             <BarChart3 size={18} strokeWidth={1.7} />
             Admin
@@ -203,7 +206,7 @@ export default function Navbar() {
             <span className="font-semibold text-[#0F1111]">
               {maxEta ? `${maxEta} mins` : 'Express'}
             </span>
-            {' '}&middot; Deliver to {customerLocation?.source === 'device' ? 'current location' : pinCode}
+            {' '}&middot; Deliver to {mounted ? (customerLocation?.source === 'device' ? 'current location' : pinCode) : '641002'}
             <span className="text-[#007185] ml-1">Change</span>
           </button>
           <Link href="/darkstores" className="flex items-center gap-1 text-[11px] font-semibold text-[#007185] whitespace-nowrap">

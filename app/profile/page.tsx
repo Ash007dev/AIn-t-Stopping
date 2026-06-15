@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
 import type { Address, PaymentMethod } from '@/store/useAppStore';
+import { INDIAN_STATES, citiesForState } from '@/lib/india-locations';
 import Navbar from '@/components/Navbar';
 import ThemeToggle from '@/components/ThemeToggle';
 import {
@@ -57,7 +58,9 @@ export default function ProfilePage() {
     setAddrModal(true);
   }
   function saveAddr() {
-    if (!addrForm.fullName || !addrForm.line1 || !addrForm.pincode) return;
+    if (!addrForm.fullName || !addrForm.line1 || addrForm.pincode.length < 6) return;
+    if (!addrForm.state || !addrForm.city) return;
+    if (addrForm.phone.length !== 10) return;
     if (editId) updateAddress(editId, addrForm);
     else addAddress(addrForm);
     setAddrModal(false);
@@ -320,14 +323,29 @@ export default function ProfilePage() {
                 placeholder="House no, building, street" className="col-span-2 border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900]" />
               <input value={addrForm.line2} onChange={e => setAddrForm({ ...addrForm, line2: e.target.value })}
                 placeholder="Area, landmark (optional)" className="col-span-2 border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900]" />
-              <input value={addrForm.city} onChange={e => setAddrForm({ ...addrForm, city: e.target.value })}
-                placeholder="City" className="border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900]" />
-              <input value={addrForm.state} onChange={e => setAddrForm({ ...addrForm, state: e.target.value })}
-                placeholder="State" className="border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900]" />
+              <select value={addrForm.state}
+                onChange={e => setAddrForm({ ...addrForm, state: e.target.value, city: '' })}
+                className={`border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900] ${addrForm.state ? 'text-[#0F1111]' : 'text-[#8C9296]'}`}>
+                <option value="">Select state</option>
+                {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+              <select value={addrForm.city}
+                onChange={e => setAddrForm({ ...addrForm, city: e.target.value })}
+                disabled={!addrForm.state}
+                className={`border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900] disabled:bg-[#F0F2F2] disabled:cursor-not-allowed ${addrForm.city ? 'text-[#0F1111]' : 'text-[#8C9296]'}`}>
+                <option value="">{addrForm.state ? 'Select city' : 'Select state first'}</option>
+                {citiesForState(addrForm.state).map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
               <input value={addrForm.pincode} onChange={e => setAddrForm({ ...addrForm, pincode: e.target.value.replace(/\D/g, '').slice(0, 6) })}
-                placeholder="Pincode" className="border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900]" />
-              <input value={addrForm.phone} onChange={e => setAddrForm({ ...addrForm, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
-                placeholder="Phone" className="border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900]" />
+                placeholder="Pincode" inputMode="numeric" className="border border-[#D5D9D9] bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900]" />
+              <div>
+                <input value={addrForm.phone} onChange={e => setAddrForm({ ...addrForm, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+                  placeholder="10-digit phone" inputMode="numeric"
+                  className={`w-full border bg-white rounded-lg h-10 px-3 text-[14px] outline-none focus:border-[#FF9900] ${addrForm.phone.length > 0 && addrForm.phone.length !== 10 ? 'border-[#CC0C39]' : 'border-[#D5D9D9]'}`} />
+                {addrForm.phone.length > 0 && addrForm.phone.length !== 10 && (
+                  <p className="text-[11px] text-[#CC0C39] mt-1">Enter a valid 10-digit number</p>
+                )}
+              </div>
             </div>
 
             <label className="flex items-center gap-2 mt-3 text-[13px] text-[#0F1111] cursor-pointer">

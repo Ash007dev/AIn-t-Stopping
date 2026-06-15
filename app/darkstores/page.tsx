@@ -1,7 +1,7 @@
 // app/darkstores/page.tsx - Location-aware fulfillment network
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   CheckCircle2,
@@ -86,10 +86,15 @@ export default function DarkStoresPage() {
   const pinCode = useAppStore(s => s.pinCode);
   const customerLocation = useAppStore(s => s.customerLocation);
   const setCustomerLocation = useAppStore(s => s.setCustomerLocation);
-  const [locationState, setLocationState] = useState<LocationState>(
-    customerLocation?.source === 'device' ? 'ready' : 'idle'
-  );
+  const [locationState, setLocationState] = useState<LocationState>('idle');
   const [selectedStoreId, setSelectedStoreId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (customerLocation?.source === 'device') setLocationState('ready');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const effectiveLocation = customerLocation || getLocationForPinCode(pinCode);
   const stores = useMemo(
@@ -99,6 +104,26 @@ export default function DarkStoresPage() {
   const selectedStore = stores.find(store => store.id === selectedStoreId) || stores[0];
   const activeStores = stores.filter(store => store.in_service_area);
   const fastestEta = activeStores[0]?.eta_minutes || stores[0]?.eta_minutes || 18;
+
+  // Avoid hydration mismatch: location comes from localStorage, so render a
+  // stable placeholder on the server / first client paint, then the real page.
+  if (!mounted) {
+    return (
+      <main className="bg-[#F0F2F2] min-h-screen pb-12">
+        <Navbar />
+        <section className="bg-gradient-to-br from-[#131A22] via-[#232F3E] to-[#37475A] text-white">
+          <div className="max-w-screen-xl mx-auto px-4 py-8">
+            <div className="h-4 w-16 rounded bg-white/10" />
+            <div className="mt-4 h-9 w-2/3 rounded bg-white/10" />
+            <div className="mt-3 h-4 w-1/2 rounded bg-white/10" />
+          </div>
+        </section>
+        <div className="max-w-screen-xl mx-auto px-4 py-7">
+          <div className="h-[420px] rounded-2xl border border-[#D5D9D9] bg-white animate-pulse" />
+        </div>
+      </main>
+    );
+  }
 
   function useDeviceLocation() {
     if (!navigator.geolocation) {
