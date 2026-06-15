@@ -23,6 +23,64 @@ import {
 
 type LocationState = 'idle' | 'locating' | 'ready' | 'denied';
 
+const MAP_BOUNDS = {
+  west: 76.94,
+  south: 10.985,
+  east: 77.045,
+  north: 11.04,
+};
+const MAP_ZOOM = 13;
+
+function longitudeToTileX(longitude: number) {
+  return ((longitude + 180) / 360) * 2 ** MAP_ZOOM;
+}
+
+function latitudeToTileY(latitude: number) {
+  const radians = latitude * Math.PI / 180;
+  return (
+    (1 - Math.log(Math.tan(radians) + 1 / Math.cos(radians)) / Math.PI) /
+    2 *
+    2 ** MAP_ZOOM
+  );
+}
+
+const MAP_TILE_BOUNDS = {
+  left: longitudeToTileX(MAP_BOUNDS.west),
+  right: longitudeToTileX(MAP_BOUNDS.east),
+  top: latitudeToTileY(MAP_BOUNDS.north),
+  bottom: latitudeToTileY(MAP_BOUNDS.south),
+};
+
+const MAP_TILES = Array.from(
+  {
+    length:
+      (Math.ceil(MAP_TILE_BOUNDS.right) - Math.floor(MAP_TILE_BOUNDS.left)) *
+      (Math.ceil(MAP_TILE_BOUNDS.bottom) - Math.floor(MAP_TILE_BOUNDS.top)),
+  },
+  (_, index) => {
+    const columns = Math.ceil(MAP_TILE_BOUNDS.right) - Math.floor(MAP_TILE_BOUNDS.left);
+    return {
+      x: Math.floor(MAP_TILE_BOUNDS.left) + index % columns,
+      y: Math.floor(MAP_TILE_BOUNDS.top) + Math.floor(index / columns),
+    };
+  }
+);
+
+function getMapPosition(latitude: number, longitude: number) {
+  const x =
+    ((longitudeToTileX(longitude) - MAP_TILE_BOUNDS.left) /
+      (MAP_TILE_BOUNDS.right - MAP_TILE_BOUNDS.left)) *
+    100;
+  const y =
+    ((latitudeToTileY(latitude) - MAP_TILE_BOUNDS.top) /
+      (MAP_TILE_BOUNDS.bottom - MAP_TILE_BOUNDS.top)) *
+    100;
+  return {
+    left: `${Math.min(95, Math.max(5, x))}%`,
+    top: `${Math.min(92, Math.max(8, y))}%`,
+  };
+}
+
 export default function DarkStoresPage() {
   const router = useRouter();
   const pinCode = useAppStore(s => s.pinCode);
@@ -154,18 +212,31 @@ export default function DarkStoresPage() {
               </a>
             </div>
 
-            <div className="relative h-[330px] sm:h-[420px] overflow-hidden bg-[#E9EFE8] dark-store-map">
-              <div className="map-road map-road-one" />
-              <div className="map-road map-road-two" />
-              <div className="map-road map-road-three" />
-              <div className="map-road map-road-four" />
-              <span className="map-label left-[7%] top-[14%]">RS Puram</span>
-              <span className="map-label left-[50%] top-[9%]">Gandhipuram</span>
-              <span className="map-label right-[8%] top-[28%]">Peelamedu</span>
-              <span className="map-label right-[12%] bottom-[12%]">Singanallur</span>
+            <div className="relative h-[330px] sm:h-[420px] overflow-hidden bg-[#E9EFE8]">
+              <div className="absolute inset-0 overflow-hidden" aria-label="OpenStreetMap showing nearby fulfillment hubs">
+                {MAP_TILES.map(tile => (
+                  // Map tiles must keep their exact coordinates and bypass image optimization.
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={`${tile.x}-${tile.y}`}
+                    src={`https://tile.openstreetmap.org/${MAP_ZOOM}/${tile.x}/${tile.y}.png`}
+                    alt=""
+                    draggable={false}
+                    className="absolute max-w-none select-none"
+                    style={{
+                      left: `${((tile.x - MAP_TILE_BOUNDS.left) / (MAP_TILE_BOUNDS.right - MAP_TILE_BOUNDS.left)) * 100}%`,
+                      top: `${((tile.y - MAP_TILE_BOUNDS.top) / (MAP_TILE_BOUNDS.bottom - MAP_TILE_BOUNDS.top)) * 100}%`,
+                      width: `${100 / (MAP_TILE_BOUNDS.right - MAP_TILE_BOUNDS.left)}%`,
+                      height: `${100 / (MAP_TILE_BOUNDS.bottom - MAP_TILE_BOUNDS.top)}%`,
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="pointer-events-none absolute inset-0 bg-[#146EB4]/[0.03]" />
 
               <div
-                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 left-[46%] top-[54%]"
+                style={getMapPosition(effectiveLocation.latitude, effectiveLocation.longitude)}
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
                 aria-label="Your delivery location"
               >
                 <span className="absolute inset-0 -m-4 rounded-full bg-[#146EB4]/20 animate-ping" />
@@ -181,7 +252,7 @@ export default function DarkStoresPage() {
                 <button
                   key={store.id}
                   onClick={() => setSelectedStoreId(store.id)}
-                  style={{ left: `${store.map_x}%`, top: `${store.map_y}%` }}
+                  style={getMapPosition(store.latitude, store.longitude)}
                   className="absolute z-10 -translate-x-1/2 -translate-y-1/2 group"
                   aria-label={`Select ${store.name}`}
                 >
@@ -195,6 +266,9 @@ export default function DarkStoresPage() {
                   </span>
                 </button>
               ))}
+              <span className="absolute bottom-1.5 right-2 z-20 rounded bg-white/90 px-1.5 py-0.5 text-[9px] text-[#565959] shadow-sm">
+                Map data © OpenStreetMap contributors
+              </span>
             </div>
 
             <div className="p-4 sm:p-5 border-t border-[#D5D9D9]">

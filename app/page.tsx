@@ -7,6 +7,7 @@ import {
   Baby,
   BatteryCharging,
   Brain,
+  Camera,
   ChevronRight,
   Clock,
   Droplets,
@@ -80,10 +81,12 @@ export default function Home() {
   const purchaseHistory = useAppStore(s => s.purchaseHistory);
   const pinCode = useAppStore(s => s.pinCode);
   const customerLocation = useAppStore(s => s.customerLocation);
+  const setScannedImageBase64 = useAppStore(s => s.setScannedImageBase64);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
   const [categoryTitle, setCategoryTitle] = useState(CATEGORY_TITLES.top);
   const [isMounted, setIsMounted] = useState(false);
+  const [scanError, setScanError] = useState<string | null>(null);
 
   const nearbyStores = getNearbyDarkStores(customerLocation, pinCode).slice(0, 3);
 
@@ -129,6 +132,31 @@ export default function Home() {
     router.push(`/intent?mode=addon&preset=${encodeURIComponent(name)}&count=1&time=Now&diet=No+restriction`);
   }
 
+  function handleImageScan(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      setScanError('Upload a JPEG, PNG, or WebP image.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setScanError('Image must be under 5 MB.');
+      return;
+    }
+
+    setScanError(null);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setScannedImageBase64(reader.result as string);
+      setMode('cooking');
+      router.push('/intent?mode=cooking&preset=Create+a+recipe+or+shopping+list+from+this+image&count=3&time=Now&diet=No+restriction');
+    };
+    reader.onerror = () => setScanError('Could not read that image. Please try another file.');
+    reader.readAsDataURL(file);
+  }
+
   return (
     <main className="bg-[#F0F2F2] min-h-screen pb-16">
       <Navbar />
@@ -151,24 +179,39 @@ export default function Home() {
               Speak naturally. Amazon Intent builds the cart, finds nearby stock, and splits fulfillment only when another dark store can deliver faster.
             </p>
 
-            <div className="mt-5 flex flex-col sm:flex-row gap-3">
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[1fr_190px_190px] gap-3">
               <button
                 onClick={() => router.push('/nowspeak')}
-                className="cta-glow min-h-14 w-full sm:flex-1 rounded-xl bg-gradient-to-r from-[#FFB84D] to-[#FF9900] px-5 text-[15px] font-bold text-[#131A22] transition-all hover:from-[#FF9900] hover:to-[#E47911] active:scale-[0.99] flex items-center justify-center gap-3"
+                className="cta-glow min-h-14 w-full rounded-xl bg-gradient-to-r from-[#FFB84D] to-[#FF9900] px-5 text-[15px] font-bold text-[#131A22] transition-all hover:from-[#FF9900] hover:to-[#E47911] active:scale-[0.99] flex items-center justify-center gap-3"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#131A22]/15">
                   <Mic size={19} />
                 </span>
                 Speak now
               </button>
+              <label
+                className="min-h-14 w-full cursor-pointer rounded-xl border border-white/20 bg-white/10 px-4 text-[14px] font-bold text-white transition-colors hover:bg-white/15 flex items-center justify-center gap-2"
+              >
+                <Camera size={18} className="text-[#FFB84D]" />
+                Scan image
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={handleImageScan}
+                />
+              </label>
               <button
                 onClick={() => router.push('/darkstores')}
-                className="min-h-14 w-full sm:w-[210px] rounded-xl border border-white/20 bg-white/10 px-5 text-[14px] font-bold text-white transition-colors hover:bg-white/15 flex items-center justify-center gap-2"
+                className="min-h-14 w-full rounded-xl border border-white/20 bg-white/10 px-4 text-[14px] font-bold text-white transition-colors hover:bg-white/15 flex items-center justify-center gap-2"
               >
                 <MapPinned size={18} className="text-[#FFB84D]" />
                 Nearby stores
               </button>
             </div>
+            {scanError && (
+              <p className="mt-2 text-[12px] font-medium text-[#FFD814]" role="alert">{scanError}</p>
+            )}
 
             <div className="mt-4 flex max-w-full gap-2 overflow-x-auto hide-scrollbar pb-1">
               {QUICK_LAUNCHES.map(chip => (
