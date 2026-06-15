@@ -1,4 +1,4 @@
-// app/page.tsx — Home page (Amazon Fresh professional)
+// app/page.tsx - Home page (Amazon Fresh professional)
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -8,8 +8,10 @@ import CategoryNav from '@/components/CategoryNav';
 import ProductCard from '@/components/ProductCard';
 import { Mic, ChevronRight, Zap, UtensilsCrossed, Plus, Brain, Truck, Clock, Leaf, Sparkles } from 'lucide-react';
 import type { Product } from '@/lib/types';
+import { getProductsForShelf, type ProductShelf } from '@/lib/product-shelves';
+import { getOrderSubtotal } from '@/lib/order-utils';
 
-// Quick-launch labels — plain text, NO emojis
+// Quick-launch labels - plain text, NO emojis
 const QUICK_LAUNCHES = [
   { label: 'Movie night for 5',  mode: 'intent',     preset: 'Movie night for 5 people tonight' },
   { label: 'Breakfast for 8',    mode: 'intent',     preset: 'Breakfast for 8 guests tomorrow morning' },
@@ -49,57 +51,43 @@ export default function Home() {
 
   useEffect(() => {
     setIsMounted(true);
-    import('@/data/products.json').then(mod => {
-      const products = (mod.default as unknown) as Product[];
-      setAllProducts(products);
-      setTrendingProducts(products.filter(p => p.is_bestseller).slice(0, 8));
-    }).catch(() => {});
+    const controller = new AbortController();
+
+    fetch('/api/catalog', { signal: controller.signal })
+      .then(response => {
+        if (!response.ok) throw new Error('Catalog request failed');
+        return response.json() as Promise<Product[]>;
+      })
+      .then(products => {
+        setAllProducts(products);
+        setTrendingProducts(getProductsForShelf(products, 'top'));
+      })
+      .catch(error => {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        console.error('Unable to load the product catalog', error);
+      });
+
+    return () => controller.abort();
   }, []);
 
-  function handleCategorySelect(catId: string) {
+  function handleCategorySelect(shelf: ProductShelf) {
     if (!allProducts.length) return;
 
-    let filtered: Product[] = [];
-    let title = 'Top Picks for You';
+    const titles: Record<ProductShelf, string> = {
+      top: 'Top Picks for You',
+      vegetables: 'Fresh Vegetables',
+      fruits: 'Fresh Fruits',
+      dairy: 'Dairy & Eggs',
+      drinks: 'Cold Drinks & Juices',
+      oils: 'Oils & Ghee',
+      'rice-dal': 'Rice, Dal & Staples',
+      breakfast: 'Breakfast Essentials',
+      chocolates: 'Chocolates & Sweets',
+      baby: 'Baby Care',
+    };
 
-    switch (catId) {
-      case 'top':
-        filtered = allProducts.filter(p => p.is_bestseller).slice(0, 8);
-        title = 'Top Picks for You';
-        break;
-      case 'veg':
-      case 'frt':
-        filtered = allProducts.filter(p => p.category === 'fresh produce').slice(0, 8);
-        title = catId === 'veg' ? 'Fresh Vegetables' : 'Fresh Fruits';
-        break;
-      case 'dai':
-        filtered = allProducts.filter(p => p.category === 'dairy').slice(0, 8);
-        title = 'Dairy & Eggs';
-        break;
-      case 'drk':
-        filtered = allProducts.filter(p => p.category === 'beverages').slice(0, 8);
-        title = 'Cold Drinks & Juices';
-        break;
-      case 'oil':
-      case 'ric':
-      case 'brk':
-        filtered = allProducts.filter(p => p.category === 'pantry staples').slice(0, 8);
-        title = 'Pantry Staples';
-        break;
-      case 'chc':
-        filtered = allProducts.filter(p => p.category === 'snacks').slice(0, 8);
-        title = 'Chocolates & Sweets';
-        break;
-      case 'bby':
-        filtered = allProducts.filter(p => p.category === 'cleaning supplies').slice(0, 8);
-        title = 'Baby & Home Care';
-        break;
-      default:
-        filtered = allProducts.filter(p => p.is_bestseller).slice(0, 8);
-    }
-
-    setTrendingProducts(filtered);
-    setCategoryTitle(title);
+    setTrendingProducts(getProductsForShelf(allProducts, shelf));
+    setCategoryTitle(titles[shelf]);
   }
 
   function handleQuickLaunch(chip: typeof QUICK_LAUNCHES[0]) {
@@ -132,7 +120,7 @@ export default function Home() {
             What do you need today?
           </h1>
           <p className="text-[#C5D0DB] text-[14px] mb-5 max-w-md">
-            Just tell us in your words — AI builds your cart in seconds and delivers in minutes.
+            Just tell us in your words - AI builds your cart in seconds and delivers in minutes.
           </p>
 
           {/* Voice CTA */}
@@ -145,7 +133,7 @@ export default function Home() {
             <span className="w-8 h-8 rounded-full bg-[#131A22]/15 flex items-center justify-center">
               <Mic size={18} />
             </span>
-            Speak to Order — NowSpeak
+            Speak to Order - NowSpeak
           </button>
 
           {/* Quick chips */}
@@ -184,13 +172,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Modes Section — Professional cards */}
-      <section className="px-4 py-5">
+      {/* Modes Section - Professional cards */}
+      <section className="px-4 py-5 max-w-screen-xl mx-auto">
         <h2 className="text-[17px] font-bold text-[#0F1111] mb-0.5">
           How would you like to shop?
         </h2>
         <p className="text-[12px] text-[#565959] mb-3">Pick a way and let AI do the heavy lifting</p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {MODES.map(mode => (
             <button
               key={mode.id}
@@ -217,19 +205,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Everyday Essentials — SDM advice: replenishable goods */}
+      {/* Everyday Essentials - SDM advice: replenishable goods */}
       <section className="px-4 py-5 bg-white border-y border-[#D5D9D9]">
+        <div className="max-w-screen-xl mx-auto">
         <div className="flex items-center justify-between mb-3">
           <div>
             <h2 className="text-[17px] font-bold text-[#0F1111]">Everyday Essentials</h2>
-            <p className="text-[12px] text-[#565959]">Quick replenish — one-tap add</p>
+            <p className="text-[12px] text-[#565959]">Quick replenish - one-tap add</p>
           </div>
           <span className="flex items-center gap-1 text-[11px] font-semibold text-[#FF9900] bg-[#FF9900]/10 px-2.5 py-1 rounded-full">
             <Zap size={13} /> Fast add
           </span>
         </div>
 
-        <div className="grid grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
           {ESSENTIALS.map(item => (
             <button
               key={item.name}
@@ -253,17 +242,18 @@ export default function Home() {
             </button>
           ))}
         </div>
+        </div>
       </section>
 
       {/* Category Navigation */}
       <div className="bg-white pt-4">
-        <h2 className="text-[17px] font-bold text-[#0F1111] px-4 mb-1">Shop by category</h2>
+        <h2 className="max-w-screen-xl mx-auto text-[17px] font-bold text-[#0F1111] px-4 mb-1">Shop by category</h2>
       </div>
       <CategoryNav onSelect={handleCategorySelect} />
 
       {/* Trending Products */}
       {trendingProducts.length > 0 && (
-        <section className="px-4 py-5">
+        <section className="px-4 py-5 max-w-screen-xl mx-auto">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-[17px] font-bold text-[#0F1111] flex items-center gap-1.5">
               <Sparkles size={16} className="text-[#FF9900]" />
@@ -284,6 +274,7 @@ export default function Home() {
 
       {/* Recent Orders - real data from store */}
       <section className="px-4 py-4 bg-white border-y border-[#D5D9D9]">
+        <div className="max-w-screen-xl mx-auto">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-[17px] font-bold text-[#0F1111]">Your recent orders</h2>
           <button
@@ -316,7 +307,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-[14px] font-bold text-[#0F1111]">
-                    ₹{Math.round(order.total || 0) || (idx * 150 + 450)}
+                    ₹{Math.round(getOrderSubtotal(order))}
                   </span>
                   <ChevronRight size={16} className="text-[#8C9296]" />
                 </div>
@@ -324,10 +315,11 @@ export default function Home() {
             ))}
           </div>
         )}
+        </div>
       </section>
 
       {/* NowSpeak promo */}
-      <section className="px-4 py-5">
+      <section className="px-4 py-5 max-w-screen-xl mx-auto">
         <button
           onClick={() => router.push('/nowspeak')}
           className="lift w-full relative overflow-hidden bg-gradient-to-r from-[#232F3E] to-[#37475A] rounded-xl p-5
@@ -340,7 +332,7 @@ export default function Home() {
           <div className="text-left flex-1 relative">
             <p className="text-[15px] font-bold text-white">NowSpeak Voice Assistant</p>
             <p className="text-[12px] text-[#C5D0DB] mt-0.5">
-              Just talk naturally — &quot;I need snacks for a movie night&quot;
+              Just talk naturally - &quot;I need snacks for a movie night&quot;
             </p>
           </div>
           <ChevronRight size={20} className="text-white/70 flex-shrink-0 relative" />

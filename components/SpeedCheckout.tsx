@@ -1,4 +1,4 @@
-// components/SpeedCheckout.tsx — Slide-up checkout drawer with biometric + confirmed phases
+// components/SpeedCheckout.tsx - Slide-up checkout drawer with biometric + confirmed phases
 "use client";
 
 import { useState } from "react";

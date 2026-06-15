@@ -1,4 +1,4 @@
-// components/CartSummaryPanel.tsx — Desktop right sidebar (Amazon exact)
+// components/CartSummaryPanel.tsx - Desktop right sidebar (Amazon exact)
 'use client';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
@@ -70,7 +70,7 @@ export default function CartSummaryPanel() {
         <span className="font-bold text-[#0F1111]">{eta} minutes</span>
       </div>
 
-      {/* Proceed button — Amazon yellow */}
+      {/* Proceed button - Amazon yellow */}
       <button
         onClick={() => router.push('/checkout')}
         className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-bold

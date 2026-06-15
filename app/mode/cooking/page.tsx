@@ -1,4 +1,4 @@
-// app/mode/cooking/page.tsx — Recipe Mode dedicated screen
+// app/mode/cooking/page.tsx - Recipe Mode dedicated screen
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -70,7 +70,7 @@ export default function CookingModePage() {
         </button>
         <h1 className="text-white text-[24px] font-bold">Recipe Mode</h1>
         <p className="text-white/80 text-[14px] mt-1">
-          Name a dish — we get all the ingredients
+          Name a dish - we get all the ingredients
         </p>
       </div>
 

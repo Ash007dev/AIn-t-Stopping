@@ -1,4 +1,4 @@
-// lib/user-memory.ts — Persistent user memory for personalized cart curation
+// lib/user-memory.ts - Persistent user memory for personalized cart curation
 // Tracks: removed items, preferred brands, past occasions, disliked products
 
 export interface UserMemory {

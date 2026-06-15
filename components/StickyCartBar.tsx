@@ -1,4 +1,4 @@
-// components/StickyCartBar.tsx — Mobile sticky bottom cart bar (Amazon exact)
+// components/StickyCartBar.tsx - Mobile sticky bottom cart bar (Amazon exact)
 'use client';
 import { useRouter } from 'next/navigation';
 

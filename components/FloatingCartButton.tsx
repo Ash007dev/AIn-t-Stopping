@@ -1,4 +1,4 @@
-// components/FloatingCartButton.tsx — Floating cart button, bottom-right
+// components/FloatingCartButton.tsx - Floating cart button, bottom-right
 'use client';
 import { ShoppingCart } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -16,7 +16,7 @@ export default function FloatingCartButton() {
     return s + price * i.quantity;
   }, 0);
 
-  // Hide on cart page, checkout, or nowspeak — and when cart is empty
+  // Hide on cart page, checkout, or nowspeak - and when cart is empty
   if (itemCount === 0 || pathname === '/cart' || pathname === '/checkout' || pathname === '/nowspeak') {
     return null;
   }

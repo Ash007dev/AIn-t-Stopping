@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { loadCatalog } from "@/lib/catalog";
 
-// The top replenishable goods for quick commerce — hardcoded for speed (no AI needed)
+// The top replenishable goods for quick commerce - hardcoded for speed (no AI needed)
 const REPLENISHABLE_IDS = [
   "dair-amul-milk-500",
   "stpl-britannia-bread",

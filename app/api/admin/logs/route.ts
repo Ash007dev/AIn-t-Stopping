@@ -1,4 +1,4 @@
-// app/api/admin/logs/route.ts — Admin API for AI logs, pipeline traces, and metrics
+// app/api/admin/logs/route.ts - Admin API for AI logs, pipeline traces, and metrics
 import { NextResponse } from "next/server";
 import { getLogs, getPipelineTraces, getMetrics } from "@/lib/ai-logger";
 

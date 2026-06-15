@@ -1,4 +1,4 @@
-// app/mode/intent/page.tsx — Shop by Occasion dedicated screen
+// app/mode/intent/page.tsx - Shop by Occasion dedicated screen
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -43,7 +43,7 @@ export default function IntentModePage() {
         </button>
         <h1 className="text-white text-[24px] font-bold">Shop by Occasion</h1>
         <p className="text-white/80 text-[14px] mt-1">
-          Tell us the event — we build the perfect cart
+          Tell us the event - we build the perfect cart
         </p>
       </div>
 

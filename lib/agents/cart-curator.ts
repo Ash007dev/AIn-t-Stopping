@@ -3,6 +3,7 @@ import { ParsedIntent, Product, CartProduct, ProductCategory, AISuggestion } fro
 import { invokeAI, setAgentContext } from "./gemini-client";
 import Fuse from "fuse.js";
 import { getMemoryContext } from "@/lib/user-memory";
+import { buildLocalSuggestions } from "./local-generator";
 
 /**
  * Build the dynamic SYSTEM PROMPT based on mode.
@@ -28,7 +29,7 @@ function buildSystemPrompt(mode: string, budget: number | null, region: string |
   return `You are a product curator for Amazon Now, an Indian quick-commerce platform.
 Your job is to build a cart that gets delivered in 10-20 minutes from a nearby dark store.
 
-CRITICAL RULES — FOLLOW EXACTLY:
+CRITICAL RULES - FOLLOW EXACTLY:
 
 0. IMAGE SCANNING RULES:
    ${hasImage ? '- AN IMAGE HAS BEEN PROVIDED. Extract all necessary ingredients, items, or products shown in the image or required to make the dish shown in the image.\n   - Base your generated cart heavily on the visual context.' : '- No image provided.'}
@@ -46,7 +47,7 @@ CRITICAL RULES — FOLLOW EXACTLY:
    - Total cart size: 1-2 people → 3-4 products. 3-5 people → 5-6 products.
      6-10 people → 6-8 products. 10+ people → 7-10 products. HARD CAP at 10.
 
-3. PACKAGING SIZES — use realistic Indian retail sizes:
+3. PACKAGING SIZES - use realistic Indian retail sizes:
    - Oil: 500ml or 1L (not 5L for quick commerce)
    - Milk: 500ml or 1L (not 5L)
    - Pasta/Rice: 500g or 1kg max
@@ -54,10 +55,10 @@ CRITICAL RULES — FOLLOW EXACTLY:
    - Bread: 400g loaf
    - Butter: 100g or 200g
 
-4. REPLENISHABLE GOODS — these are the core of quick commerce:
+4. REPLENISHABLE GOODS - these are the core of quick commerce:
    Milk, bread, eggs, butter, cooking oil, salt, sugar, tea/coffee, onion, tomato,
    lemon, green chillies, coriander, phone chargers, power banks, hand sanitizer,
-   toilet paper, dishwash liquid, detergent pods — know the common replenishables.
+   toilet paper, dishwash liquid, detergent pods - know the common replenishables.
    When the occasion suggests a replenishable (morning routine, cooking, cleaning),
    prefer well-known high-velocity brands that people actually reorder.
 
@@ -103,11 +104,11 @@ ${dietaryInstruction}
        Adhesive, Dettol Sanitizer 200ml, Britannia Milk Bikis 250g, Nescafe Sachets 10-pack.
      * "sick_person": Nimulid MD Paracetamol 500mg 10-tab, Vicks VapoRub 50g, Strepsils 24-count,
        Dabur Honey 250g, Brooke Bond Tulsi Tea 25 bags, Electral Powder 4-pack, Dettol Soap 2-pack.
-       NOTE: Always add disclaimer — "Consult a doctor. These are common OTC comfort items."
+       NOTE: Always add disclaimer - "Consult a doctor. These are common OTC comfort items."
      * "college_first_week": Dettol Handwash, Britannia Bread, Amul Butter, Maggi 12-pack,
        Parle-G 800g, Nescafe Classic 50g jar, Colgate 150g, Dove Shampoo 340ml, Harpic 500ml.
 
-6. AI REASONING FORMAT (for every product — this appears in the "Why this?" section):
+6. AI REASONING FORMAT (for every product - this appears in the "Why this?" section):
    Format: "[Brand] chosen - [ranking/review stat]. [serving info]. [why for this occasion]."
    Example: "Amul Taza 500ml chosen - #1 selling milk brand, 4.6 stars from 45,000+ reviews.
    One 500ml pack is the right size for 1-2 people's morning tea. Essential for your breakfast kit."
@@ -162,6 +163,10 @@ async function invokeCartCuratorAI(
   mode: string,
   imageBase64?: string | null
 ): Promise<AISuggestion[]> {
+  if (!imageBase64) {
+    return buildLocalSuggestions(parsed, mode);
+  }
+
   const systemPrompt = buildSystemPrompt(mode, budget, region, parsed.dietary || [], !!imageBase64);
 
   const userMessage = JSON.stringify({
@@ -174,7 +179,13 @@ async function invokeCartCuratorAI(
   });
 
   setAgentContext("cart-curator");
-  const raw = await invokeAI(systemPrompt, userMessage, "pro", 3000, imageBase64);
+  let raw: string;
+  try {
+    raw = await invokeAI(systemPrompt, userMessage, "pro", 8192, imageBase64);
+  } catch (error) {
+    console.error("[cart-curator] Vision generation failed, using local cart fallback", error);
+    return buildLocalSuggestions(parsed, mode);
+  }
 
   // Extract JSON array
   const start = raw.indexOf("[");
@@ -183,7 +194,12 @@ async function invokeCartCuratorAI(
     throw new Error(`No JSON array found in AI response: ${raw.substring(0, 200)}`);
   }
 
-  return JSON.parse(raw.substring(start, end + 1)) as AISuggestion[];
+  const suggestions = JSON.parse(raw.substring(start, end + 1)) as unknown;
+  if (!Array.isArray(suggestions)) {
+    throw new Error("AI response was valid JSON but not a product array.");
+  }
+
+  return suggestions as AISuggestion[];
 }
 
 /**

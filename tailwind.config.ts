@@ -11,12 +11,59 @@ const config: Config = {
     extend: {
       colors: {
         amazon: {
-          orange: "var(--amazon-orange)",
-          "orange-dk": "var(--amazon-orange-dk)",
-          blue: "var(--amazon-blue)",
-          "blue-dk": "var(--amazon-blue-dk)",
-          yellow: "var(--amazon-yellow)",
-          "yellow-dk": "var(--amazon-yellow-dk)",
+          DEFAULT: "#FF9900",
+          orange: "#FF9900",
+          "orange-dk": "#E47911",
+          blue: "#007185",
+          "blue-dk": "#004B6E",
+          blueDark: "#67B8E3",
+          yellow: "#FFD814",
+          "yellow-dk": "#F7CA00",
+          background: {
+            light: "#FFFFFF",
+            dark: "#0F1111",
+          },
+          secondaryBg: {
+            light: "#F0F2F2",
+            dark: "#131A22",
+          },
+          surface: {
+            dark: "#1F2937",
+          },
+          card: {
+            light: "#FFFFFF",
+            dark: "#1A1C1E",
+          },
+          border: {
+            light: "#D5D9D9",
+            dark: "#374151",
+          },
+          text: {
+            primary: {
+              light: "#0F1111",
+              dark: "#F3F4F4",
+            },
+            secondary: {
+              light: "#37475A",
+              dark: "#D5DBDB",
+            },
+            muted: {
+              light: "#565959",
+              dark: "#A7ADB2",
+            },
+          },
+          success: {
+            light: "#067D62",
+            dark: "#46C995",
+          },
+          error: {
+            light: "#CC0C39",
+            dark: "#FF8A9D",
+          },
+          warning: {
+            light: "#B45309",
+            dark: "#FBBF24",
+          },
         },
         bg: {
           light: "var(--bg-light)",

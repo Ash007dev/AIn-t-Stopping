@@ -1,4 +1,4 @@
-// components/ThemeToggle.tsx — light/dark theme switch
+// components/ThemeToggle.tsx - light/dark theme switch
 'use client';
 import { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';

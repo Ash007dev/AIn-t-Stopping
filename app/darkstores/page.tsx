@@ -1,14 +1,14 @@
-// app/darkstores/page.tsx — Dark Stores based on pincode
+// app/darkstores/page.tsx - Dark Stores based on pincode
 'use client';
 import { useAppStore } from '@/store/useAppStore';
 import Navbar from '@/components/Navbar';
 import { MapPin, Clock, Package } from 'lucide-react';
 
 const DARK_STORES = [
-  { id: 'ds-01', name: 'Amazon Fresh Hub — RS Puram',    distance: '1.2 km', eta: '12 min', categories: ['Groceries', 'Dairy', 'Snacks', 'Beverages'] },
-  { id: 'ds-02', name: 'Amazon Fresh Hub — Gandhipuram', distance: '2.8 km', eta: '18 min', categories: ['Groceries', 'Fruits', 'Vegetables', 'Pantry'] },
-  { id: 'ds-03', name: 'Amazon Fresh Hub — Saibaba Colony', distance: '3.5 km', eta: '22 min', categories: ['Electronics', 'Baby', 'Personal Care'] },
-  { id: 'ds-04', name: 'Amazon Fresh Hub — Peelamedu',   distance: '5.1 km', eta: '28 min', categories: ['Groceries', 'Cleaning', 'Pet Supplies'] },
+  { id: 'ds-01', name: 'Amazon Fresh Hub - RS Puram',    distance: '1.2 km', eta: '12 min', categories: ['Groceries', 'Dairy', 'Snacks', 'Beverages'] },
+  { id: 'ds-02', name: 'Amazon Fresh Hub - Gandhipuram', distance: '2.8 km', eta: '18 min', categories: ['Groceries', 'Fruits', 'Vegetables', 'Pantry'] },
+  { id: 'ds-03', name: 'Amazon Fresh Hub - Saibaba Colony', distance: '3.5 km', eta: '22 min', categories: ['Electronics', 'Baby', 'Personal Care'] },
+  { id: 'ds-04', name: 'Amazon Fresh Hub - Peelamedu',   distance: '5.1 km', eta: '28 min', categories: ['Groceries', 'Cleaning', 'Pet Supplies'] },
 ];
 
 export default function DarkStoresPage() {

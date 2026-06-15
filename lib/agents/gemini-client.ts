@@ -8,9 +8,57 @@ const GROQ_MODELS = {
 };
 
 const GEMINI_MODELS = {
-  pro: "gemini-2.5-pro",
+  pro: "gemini-2.5-flash",
   flash: "gemini-2.5-flash",
 };
+const GEMINI_FALLBACK_MODEL = "gemini-2.0-flash";
+
+async function invokeGemini(
+  systemPrompt: string,
+  userMessage: string,
+  modelName: string,
+  maxOutputTokens: number,
+  imageBase64?: string | null
+): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is missing.");
+  }
+
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({
+    model: modelName,
+    systemInstruction: systemPrompt,
+  });
+  const parts: Part[] = [{ text: userMessage }];
+
+  if (imageBase64) {
+    const base64Data = imageBase64.includes("base64,")
+      ? imageBase64.split("base64,")[1]
+      : imageBase64;
+
+    parts.push({
+      inlineData: {
+        data: base64Data,
+        mimeType: imageBase64.match(/data:([^;]+);/)?.[1] || "image/jpeg",
+      },
+    });
+  }
+
+  console.log(
+    `[gemini-client] Invoking Google Gemini ${modelName}${imageBase64 ? " with image" : ""}`
+  );
+  const response = await model.generateContent({
+    contents: [{ role: "user", parts }],
+    generationConfig: {
+      maxOutputTokens,
+      temperature: 0.2,
+      responseMimeType: "application/json",
+    },
+  });
+
+  return response.response.text();
+}
 
 async function invokeGroqFallback(
   systemPrompt: string,
@@ -56,7 +104,7 @@ async function invokeGroqFallback(
   return data.choices[0].message.content;
 }
 
-// Track which agent is calling — set by callers before invoking
+// Track which agent is calling - set by callers before invoking
 let _currentAgentContext: AILogEntry["agent"] = "cart-curator";
 
 export function setAgentContext(agent: AILogEntry["agent"]) {
@@ -74,48 +122,13 @@ export async function invokeGeminiAgent(
   let usedModel = GEMINI_MODELS[tier];
 
   try {
-    let output: string;
-
-    if (imageBase64) {
-      // IMAGE SCANNING MUST USE GEMINI
-      const API_KEY = process.env.GEMINI_API_KEY;
-      if (!API_KEY) throw new Error("GEMINI_API_KEY is missing.");
-
-      const genAI = new GoogleGenerativeAI(API_KEY);
-      usedModel = GEMINI_MODELS[tier];
-      const model = genAI.getGenerativeModel({
-        model: usedModel,
-        systemInstruction: systemPrompt,
-      });
-
-      const parts: Part[] = [{ text: userMessage }];
-
-      // Clean base64 string if it has data url prefix
-      const base64Data = imageBase64.includes('base64,')
-        ? imageBase64.split('base64,')[1]
-        : imageBase64;
-
-      parts.push({
-        inlineData: {
-          data: base64Data,
-          mimeType: imageBase64.match(/data:([^;]+);/)?.[1] || "image/jpeg"
-        }
-      });
-
-      console.log(`[gemini-client] Invoking Google Gemini ${usedModel} with Image...`);
-      const response = await model.generateContent({
-        contents: [{ role: "user", parts }],
-        generationConfig: {
-          maxOutputTokens,
-          temperature: 0.2,
-        },
-      });
-      output = response.response.text();
-    } else {
-      // FORCE GROQ ONLY MODE FOR TEXT AS REQUESTED
-      usedModel = GROQ_MODELS[tier];
-      output = await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
-    }
+    const output = await invokeGemini(
+      systemPrompt,
+      userMessage,
+      usedModel,
+      maxOutputTokens,
+      imageBase64
+    );
 
     // Log successful call
     logAgentCall({
@@ -132,8 +145,37 @@ export async function invokeGeminiAgent(
   } catch (geminiError: unknown) {
     const geminiMsg = geminiError instanceof Error ? geminiError.message : String(geminiError);
     console.error(`[gemini-client] Gemini Primary Failed: ${geminiMsg}`);
-    
-    // Fallback: Try Groq immediately
+
+    try {
+      usedModel = GEMINI_FALLBACK_MODEL;
+      const output = await invokeGemini(
+        systemPrompt,
+        userMessage,
+        usedModel,
+        maxOutputTokens,
+        imageBase64
+      );
+
+      logAgentCall({
+        agent: _currentAgentContext,
+        status: "fallback",
+        latencyMs: Date.now() - startTime,
+        input: userMessage.substring(0, 500),
+        output: output.substring(0, 1000),
+        model: usedModel,
+        tokenEstimate: Math.round((systemPrompt.length + userMessage.length + output.length) / 4),
+        metadata: { primaryError: geminiMsg },
+      });
+
+      return output;
+    } catch (geminiFallbackError: unknown) {
+      const fallbackMsg = geminiFallbackError instanceof Error
+        ? geminiFallbackError.message
+        : String(geminiFallbackError);
+      console.error(`[gemini-client] Gemini Fallback Failed: ${fallbackMsg}`);
+    }
+
+    // Final fallback: use Groq when Gemini is unavailable.
     try {
       usedModel = GROQ_MODELS[tier];
       const output = await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);

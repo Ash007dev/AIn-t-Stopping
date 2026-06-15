@@ -1,4 +1,4 @@
-// components/VoiceButton.tsx — Sarvam AI powered voice input
+// components/VoiceButton.tsx - Sarvam AI powered voice input
 "use client";
 import { useState, useRef, useCallback } from "react";
 

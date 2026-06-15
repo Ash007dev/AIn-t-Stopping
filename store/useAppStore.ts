@@ -2,6 +2,7 @@
 "use client";
 import { create } from "zustand";
 import { CartProduct, CartDiff, ParsedIntent, Product, GenerateCartResponse, PurchaseRecord } from "@/lib/types";
+import { normalizePurchaseRecord } from "@/lib/order-utils";
 
 interface AppStore {
   theme: "light" | "dark";
@@ -88,7 +89,9 @@ function saveProfile(p: UserProfile) {
 function loadPurchaseHistory(): PurchaseRecord[] {
   if (typeof window === "undefined") return [];
   try {
-    return JSON.parse(localStorage.getItem("purchase_history") ?? "[]");
+    const parsed = JSON.parse(localStorage.getItem("purchase_history") ?? "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((record, index) => normalizePurchaseRecord(record, index));
   } catch {
     return [];
   }
@@ -244,14 +247,30 @@ export const useAppStore = create<AppStore>((set, get) => ({
     if (newAddr.isDefault) addresses.forEach(x => (x.isDefault = false));
     addresses.push(newAddr);
     const profile = { ...get().profile, addresses };
-    set({ profile });
+    set({
+      profile,
+      pinCode: newAddr.isDefault ? newAddr.pincode : get().pinCode,
+    });
     saveProfile(profile);
+    if (newAddr.isDefault && newAddr.pincode) {
+      try { localStorage.setItem("user_pincode", newAddr.pincode); } catch {}
+    }
   },
   updateAddress: (id, a) => {
-    const addresses = get().profile.addresses.map(x => (x.id === id ? { ...x, ...a } : x));
+    let addresses = get().profile.addresses.map(x => (x.id === id ? { ...x, ...a } : x));
+    const updated = addresses.find(x => x.id === id);
+    if (updated?.isDefault) {
+      addresses = addresses.map(x => ({ ...x, isDefault: x.id === id }));
+    }
     const profile = { ...get().profile, addresses };
-    set({ profile });
+    set({
+      profile,
+      pinCode: updated?.isDefault && updated.pincode ? updated.pincode : get().pinCode,
+    });
     saveProfile(profile);
+    if (updated?.isDefault && updated.pincode) {
+      try { localStorage.setItem("user_pincode", updated.pincode); } catch {}
+    }
   },
   removeAddress: (id) => {
     const addresses = get().profile.addresses.filter(x => x.id !== id);
@@ -263,8 +282,12 @@ export const useAppStore = create<AppStore>((set, get) => ({
   setDefaultAddress: (id) => {
     const addresses = get().profile.addresses.map(x => ({ ...x, isDefault: x.id === id }));
     const profile = { ...get().profile, addresses };
-    set({ profile });
+    const defaultAddress = addresses.find(x => x.isDefault);
+    set({ profile, pinCode: defaultAddress?.pincode || get().pinCode });
     saveProfile(profile);
+    if (defaultAddress?.pincode) {
+      try { localStorage.setItem("user_pincode", defaultAddress.pincode); } catch {}
+    }
   },
   addPayment: (p) => {
     const payments = [...get().profile.payments];

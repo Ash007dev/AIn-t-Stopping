@@ -1,4 +1,4 @@
-// app/cart/page.tsx — Smart Cart page (Amazon Now pixel-perfect)
+// app/cart/page.tsx - Smart Cart page (Amazon Now pixel-perfect)
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -70,7 +70,7 @@ export default function CartPage() {
       setTimeout(() => setHighlighted([]), 2500);
       applyDiff(diff);
     } catch {
-      setModificationError('Could not process. Try rephrasing — e.g. "Remove the Pepsi"');
+      setModificationError('Could not process. Try rephrasing - e.g. "Remove the Pepsi"');
     }
   }
 

@@ -1,4 +1,4 @@
-// lib/productImage.ts — resolves a clean, always-correct visual for any product.
+// lib/productImage.ts - resolves a clean, always-correct visual for any product.
 // The dataset ships every product with the same "/placeholder-product.png" and there is
 // no reliable free service that returns the exact packshot for 1008 arbitrary items,
 // so we map each product to a recognisable emoji/illustration based on its name,

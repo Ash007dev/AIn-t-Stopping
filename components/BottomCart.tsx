@@ -1,4 +1,4 @@
-// components/BottomCart.tsx — Sticky bottom bar showing cart summary + Proceed button
+// components/BottomCart.tsx - Sticky bottom bar showing cart summary + Proceed button
 "use client";
 
 import { ShoppingCart } from "lucide-react";

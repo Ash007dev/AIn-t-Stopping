@@ -1,4 +1,4 @@
-// lib/ai-logger.ts — Centralized AI traceability & logging system
+// lib/ai-logger.ts - Centralized AI traceability & logging system
 // Stores all AI agent interactions for the admin dashboard
 
 export interface AILogEntry {

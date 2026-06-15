@@ -1,28 +1,29 @@
-// components/CategoryNav.tsx — Amazon Now illustrated category icons
+// components/CategoryNav.tsx - Amazon Now illustrated category icons
 'use client';
 import { useState } from 'react';
+import type { ProductShelf } from '@/lib/product-shelves';
 
 import { Star, Carrot, Egg, Apple, CupSoda, Droplet, Wheat, Coffee, Candy, Baby } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'top', label: 'Top Picks',    color: '#FFB900', Icon: Star },
-  { id: 'veg', label: 'Vegetables',   color: '#4CAF50', Icon: Carrot },
-  { id: 'dai', label: 'Dairy & Eggs', color: '#2196F3', Icon: Egg },
-  { id: 'frt', label: 'Fruits',       color: '#FF5722', Icon: Apple },
-  { id: 'drk', label: 'Drinks',       color: '#9C27B0', Icon: CupSoda },
-  { id: 'oil', label: 'Oils & Ghee',  color: '#FF9800', Icon: Droplet },
-  { id: 'ric', label: 'Rice & Dal',   color: '#795548', Icon: Wheat },
-  { id: 'brk', label: 'Breakfast',    color: '#00BCD4', Icon: Coffee },
-  { id: 'chc', label: 'Chocolates',   color: '#E91E63', Icon: Candy },
-  { id: 'bby', label: 'Baby',         color: '#3F51B5', Icon: Baby },
-];
+  { id: 'top', label: 'Top Picks', color: '#FFB900', Icon: Star },
+  { id: 'vegetables', label: 'Vegetables', color: '#4CAF50', Icon: Carrot },
+  { id: 'dairy', label: 'Dairy & Eggs', color: '#2196F3', Icon: Egg },
+  { id: 'fruits', label: 'Fruits', color: '#FF5722', Icon: Apple },
+  { id: 'drinks', label: 'Drinks', color: '#9C27B0', Icon: CupSoda },
+  { id: 'oils', label: 'Oils & Ghee', color: '#FF9800', Icon: Droplet },
+  { id: 'rice-dal', label: 'Rice & Dal', color: '#795548', Icon: Wheat },
+  { id: 'breakfast', label: 'Breakfast', color: '#00BCD4', Icon: Coffee },
+  { id: 'chocolates', label: 'Chocolates', color: '#E91E63', Icon: Candy },
+  { id: 'baby', label: 'Baby', color: '#3F51B5', Icon: Baby },
+] as const;
 
-export default function CategoryNav({ onSelect }: { onSelect?: (id: string) => void }) {
-  const [active, setActive] = useState('top');
+export default function CategoryNav({ onSelect }: { onSelect?: (id: ProductShelf) => void }) {
+  const [active, setActive] = useState<ProductShelf>('top');
 
   return (
     <div className="overflow-x-auto hide-scrollbar border-b border-[#D5D9D9] bg-white">
-      <div className="flex items-start px-2 py-2 gap-1 min-w-max">
+      <div className="flex items-start px-2 sm:px-4 py-2 gap-1 min-w-max max-w-screen-xl mx-auto">
         {CATEGORIES.map(cat => (
           <button
             key={cat.id}
@@ -30,7 +31,7 @@ export default function CategoryNav({ onSelect }: { onSelect?: (id: string) => v
             className="flex flex-col items-center px-3 py-2 min-w-[72px] rounded
                        hover:bg-[#F0F2F2] transition-colors"
           >
-            {/* Icon — colored initial block (replace with real PNGs from /public/icons/ before demo) */}
+            {/* Icon - colored initial block (replace with real PNGs from /public/icons/ before demo) */}
             <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-1"
                  style={{ backgroundColor: cat.color + '20' }}>
                <cat.Icon color={cat.color} size={24} />

@@ -1,4 +1,4 @@
-// components/SkeletonCard.tsx — Loading skeleton matching ProductCard dimensions
+// components/SkeletonCard.tsx - Loading skeleton matching ProductCard dimensions
 export default function SkeletonCard() {
   return (
     <div className="bg-white flex flex-col">

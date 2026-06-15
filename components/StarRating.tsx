@@ -1,4 +1,4 @@
-// components/StarRating.tsx — Amazon exact star rating
+// components/StarRating.tsx - Amazon exact star rating
 export default function StarRating({ rating, size = 14 }: { rating: number; size?: number }) {
   const stars = Array.from({ length: 5 }, (_, i) => {
     const fill = Math.min(Math.max(rating - i, 0), 1);

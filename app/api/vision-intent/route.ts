@@ -1,4 +1,4 @@
-// app/api/vision-intent/route.ts — Use Gemini Vision to extract shopping intent from an image
+// app/api/vision-intent/route.ts - Use Gemini Vision to extract shopping intent from an image
 import { NextResponse } from "next/server";
 
 interface GeminiVisionResponse {

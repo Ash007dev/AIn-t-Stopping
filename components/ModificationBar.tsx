@@ -1,4 +1,4 @@
-// components/ModificationBar.tsx — Cart modification bar with voice + text
+// components/ModificationBar.tsx - Cart modification bar with voice + text
 'use client';
 import { useState } from 'react';
 import VoiceButton from './VoiceButton';
@@ -76,7 +76,7 @@ export default function ModificationBar({ onModify, error }: ModificationBarProp
 
       {/* Input row */}
       <div className="flex items-center gap-2 px-4 pb-3 pt-1">
-        {/* Voice button — uses existing Sarvam STT */}
+        {/* Voice button - uses existing Sarvam STT */}
         <VoiceButton
           onTranscript={(t) => handleSubmit(t)}
           disabled={loading}

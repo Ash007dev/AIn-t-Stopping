@@ -1,4 +1,4 @@
-// components/BottomNav.tsx — Fixed bottom navigation bar (Amazon-style)
+// components/BottomNav.tsx - Fixed bottom navigation bar (Amazon-style)
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";

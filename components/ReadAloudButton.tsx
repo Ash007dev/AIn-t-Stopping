@@ -1,4 +1,4 @@
-// components/ReadAloudButton.tsx — Sarvam AI TTS "Read Aloud" button
+// components/ReadAloudButton.tsx - Sarvam AI TTS "Read Aloud" button
 "use client";
 import { useState, useRef } from "react";
 

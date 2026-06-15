@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     if (parsed.error) {
       if (trace) finalizePipelineTrace(trace.id, { status: "error" });
-      return NextResponse.json({ error: parsed.error }, { status: 400 });
+      return NextResponse.json({ error: parsed.error }, { status: 503 });
     }
 
     // Step 1b: If AI needs clarification, return the question to the frontend
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     const region = resolveRegion(householdProfile.pinCode);
 
-    // Step 2: Determine effective mode — mode_override from intent parser takes priority
+    // Step 2: Determine effective mode - mode_override from intent parser takes priority
     const effectiveMode = parsed.mode_override || body.mode;
 
     // Step 3: AI-first dynamic cart generation

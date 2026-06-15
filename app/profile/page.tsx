@@ -1,4 +1,4 @@
-// app/profile/page.tsx — Account: profile, addresses, payment, appearance
+// app/profile/page.tsx - Account: profile, addresses, payment, appearance
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -7,8 +7,8 @@ import type { Address, PaymentMethod } from '@/store/useAppStore';
 import Navbar from '@/components/Navbar';
 import ThemeToggle from '@/components/ThemeToggle';
 import {
-  User, MapPin, CreditCard, Package, Plus, Pencil, Trash2, X,
-  Check, Moon, ChevronRight, Smartphone, Wallet,
+  MapPin, CreditCard, Package, Plus, Pencil, Trash2, X,
+  Check, Moon, ChevronRight, Smartphone, Wallet, Phone, BarChart3,
 } from 'lucide-react';
 
 const EMPTY_ADDRESS: Omit<Address, 'id'> = {
@@ -66,7 +66,7 @@ export default function ProfilePage() {
     if (payType === 'card') {
       const last4 = payForm.card.replace(/\D/g, '').slice(-4);
       if (last4.length < 4) return;
-      addPayment({ type: 'card', label: `Card •••• ${last4}`, detail: payForm.name || payForm.expiry });
+      addPayment({ type: 'card', label: `Card ending in ${last4}`, detail: payForm.name || payForm.expiry });
     } else if (payType === 'upi') {
       if (!payForm.upi.includes('@')) return;
       addPayment({ type: 'upi', label: payForm.upi, detail: 'UPI' });
@@ -94,7 +94,7 @@ export default function ProfilePage() {
             </div>
             <div className="min-w-0 flex-1">
               <h1 className="text-[20px] font-bold text-[#0F1111] truncate">
-                {profile.name || 'Welcome 👋'}
+                {profile.name || 'Your Amazon Intent account'}
               </h1>
               <p className="text-[13px] text-[#565959] truncate">
                 {profile.email || 'Add your details to personalise your account'}
@@ -184,7 +184,11 @@ export default function ProfilePage() {
                     <p className="text-[12px] text-[#565959] leading-snug">
                       {a.line1}{a.line2 ? `, ${a.line2}` : ''}, {a.city} {a.state} - {a.pincode}
                     </p>
-                    <p className="text-[12px] text-[#565959] mt-0.5">📞 {a.phone}</p>
+                    {a.phone && (
+                      <p className="text-[12px] text-[#565959] mt-1 flex items-center gap-1">
+                        <Phone size={12} /> {a.phone}
+                      </p>
+                    )}
                     <div className="flex items-center gap-3 mt-2">
                       {!a.isDefault && (
                         <button onClick={() => setDefaultAddress(a.id)} className="text-[12px] text-[#007185] font-medium hover:underline">
@@ -265,10 +269,24 @@ export default function ProfilePage() {
           <div className="flex-1 text-left">
             <p className="text-[15px] font-bold text-[#0F1111]">Your orders</p>
             <p className="text-[12px] text-[#565959]">
-              {mounted ? `${purchaseHistory.length} order${purchaseHistory.length === 1 ? '' : 's'}` : '—'} placed
+              {mounted ? `${purchaseHistory.length} order${purchaseHistory.length === 1 ? '' : 's'}` : 'Loading'} placed
             </p>
           </div>
           <ChevronRight size={18} className="text-[#8C9296]" />
+        </button>
+
+        <button
+          onClick={() => router.push('/admin')}
+          className="w-full bg-[#232F3E] border border-[#131A22] rounded-2xl p-4 shadow-sm flex items-center gap-3 hover:bg-[#37475A] transition-colors"
+        >
+          <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+            <BarChart3 size={19} className="text-[#FF9900]" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-[15px] font-bold text-white">Admin dashboard</p>
+            <p className="text-[12px] text-[#D5DBDB]">View live metrics, orders, and product performance</p>
+          </div>
+          <ChevronRight size={18} className="text-white/70" />
         </button>
       </div>
 

@@ -1,4 +1,4 @@
-// app/intent/page.tsx — Intent processing page with skeleton loading
+// app/intent/page.tsx - Intent processing page with skeleton loading
 'use client';
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -95,7 +95,7 @@ function IntentPageContent() {
         setPipelineRunning(false);
         setScannedImageBase64(null); // Clear image after success
         router.push('/cart');
-        return; // Success — exit
+        return; // Success - exit
       } catch {
         if (attempt === 2) {
           // Final attempt failed

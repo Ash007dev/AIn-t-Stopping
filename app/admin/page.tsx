@@ -1,4 +1,4 @@
-// app/admin/page.tsx — Admin Dashboard for AI Traceability, Logging & Metrics
+// app/admin/page.tsx - Admin Dashboard for AI Traceability, Logging & Metrics
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
@@ -143,9 +143,9 @@ export default function AdminDashboard() {
     <main className="min-h-screen bg-amazon-secondaryBg-light dark:bg-amazon-secondaryBg-dark text-amazon-text-primary-light dark:text-amazon-text-primary-dark pb-12">
       {/* Header */}
       <div className="bg-amazon-background-light dark:bg-amazon-background-dark border-b border-amazon-border-light dark:border-amazon-border-dark shadow-subtle relative z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-4">
-            <Link href="/" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-amazon-secondaryBg-light dark:hover:bg-amazon-surface-dark transition-colors text-amazon-text-muted-light dark:text-amazon-text-muted-dark">
+            <Link href="/" aria-label="Back to storefront" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-amazon-secondaryBg-light dark:hover:bg-amazon-surface-dark transition-colors text-amazon-text-muted-light dark:text-amazon-text-muted-dark">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>
             </Link>
             <div>
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
               <p className="text-sm text-amazon-text-muted-light dark:text-amazon-text-muted-dark font-medium">AI Traceability & Metrics</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
             <button
               onClick={() => setAutoRefresh(!autoRefresh)}
               className={`flex items-center gap-2 px-4 py-2 rounded-button text-sm font-bold transition-all border ${
@@ -175,9 +175,9 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8">
         {/* Metric cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard label="Total Requests" value={metrics?.totalRequests || 0} />
           <MetricCard label="Success Rate" value={`${metrics?.successRate || 0}%`} color="success" />
           <MetricCard label="Avg Latency" value={`${((metrics?.avgLatencyMs || 0) / 1000).toFixed(1)}s`} color="blue" />
@@ -185,12 +185,12 @@ export default function AdminDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-amazon-border-light dark:border-amazon-border-dark">
+        <div className="flex overflow-x-auto border-b border-amazon-border-light dark:border-amazon-border-dark">
           {(["overview", "pipelines", "logs"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all border-b-2 ${
+              className={`px-4 sm:px-6 py-3 text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2 ${
                 activeTab === tab
                   ? "border-amazon text-amazon"
                   : "border-transparent text-amazon-text-muted-light dark:text-amazon-text-muted-dark hover:text-amazon-text-primary-light dark:hover:text-amazon-text-primary-dark"

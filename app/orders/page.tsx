@@ -1,7 +1,8 @@
-// app/orders/page.tsx — Order history page
+// app/orders/page.tsx - Order history page
 'use client';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
+import { formatOrderDate, getOrderSubtotal } from '@/lib/order-utils';
 import Navbar from '@/components/Navbar';
 
 export default function OrdersPage() {
@@ -15,7 +16,7 @@ export default function OrdersPage() {
       <div className="max-w-3xl mx-auto px-4 py-6">
         <div className="flex items-center gap-3 mb-4">
           <button onClick={() => router.back()} className="text-[#007185] text-[14px] font-medium flex-shrink-0">
-            ← Back
+            &larr; Back
           </button>
           <h1 className="text-[22px] font-bold text-[#0F1111]">Your Orders</h1>
         </div>
@@ -46,14 +47,12 @@ export default function OrdersPage() {
                       {order.occasionTitle || 'Order'}
                     </p>
                     <p className="text-[12px] text-[#8C9296] mt-0.5">
-                      {order.orderId} · {new Date(order.date).toLocaleDateString('en-IN', {
-                        day: 'numeric', month: 'short', year: 'numeric'
-                      })}
+                      {order.orderId} &middot; {formatOrderDate(order)}
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-[15px] font-bold text-[#0F1111]">
-                      ₹{Math.round(order.total / 100)}
+                      &#8377;{Math.round(getOrderSubtotal(order))}
                     </p>
                     <p className="text-[12px] text-[#007600] font-medium">
                       Delivered
@@ -63,8 +62,8 @@ export default function OrdersPage() {
 
                 <div className="flex items-center gap-2 text-[13px] text-[#565959]">
                   <span>{order.itemCount || order.items?.length || 0} items</span>
-                  <span className="text-[#D5D9D9]">·</span>
-                  <span className="text-[#007185]">View details →</span>
+                  <span className="text-[#D5D9D9]">&middot;</span>
+                  <span className="text-[#007185]">View details &rarr;</span>
                 </div>
               </button>
             ))}

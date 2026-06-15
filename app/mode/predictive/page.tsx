@@ -1,4 +1,4 @@
-// app/mode/predictive/page.tsx — Guide Me dedicated screen
+// app/mode/predictive/page.tsx - Guide Me dedicated screen
 'use client';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
@@ -10,7 +10,7 @@ const SITUATIONS = [
   { id: 'new_home',           label: 'Just Moved In',          desc: 'Kitchen basics, cleaning supplies, groceries starter kit', Icon: Home,          color: '#007185', items: '~20 items', est: '₹3,000' },
   { id: 'home_office',        label: 'WFH Setup',              desc: 'Snacks, coffee, energy drinks, desk essentials',  Icon: Laptop,          color: '#232F3E', items: '~12 items', est: '₹1,500' },
   { id: 'sick_person',        label: 'Someone Sick',           desc: 'Soups, ORS, tissues, comfort food, medicines',    Icon: Thermometer,     color: '#CC0C39', items: '~10 items', est: '₹800' },
-  { id: 'college_first_week', label: 'College First Week',     desc: 'Hostel survival kit — instant noodles to toiletries', Icon: GraduationCap, color: '#4CAF50', items: '~18 items', est: '₹2,000' },
+  { id: 'college_first_week', label: 'College First Week',     desc: 'Hostel survival kit - instant noodles to toiletries', Icon: GraduationCap, color: '#4CAF50', items: '~18 items', est: '₹2,000' },
   { id: 'fitness_start',      label: 'Starting Fitness',       desc: 'Protein, oats, fruits, supplements, gym snacks', Icon: Heart,            color: '#E91E63', items: '~12 items', est: '₹1,800' },
   { id: 'new_pet',            label: 'New Pet',                desc: 'Pet food, bowls, treats, cleanup supplies',       Icon: Dog,              color: '#795548', items: '~10 items', est: '₹1,500' },
 ];
@@ -44,7 +44,7 @@ export default function PredictiveModePage() {
 
       <div className="max-w-2xl mx-auto px-4 py-5">
         <p className="text-[13px] text-[#565959] mb-4">
-          Select your situation — AI builds a complete kit with the best products:
+          Select your situation - AI builds a complete kit with the best products:
         </p>
 
         <div className="space-y-3">

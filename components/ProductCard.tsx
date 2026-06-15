@@ -1,4 +1,4 @@
-// components/ProductCard.tsx — Pixel-perfect Amazon Fresh product card
+// components/ProductCard.tsx - Pixel-perfect Amazon Fresh product card
 'use client';
 import { useAppStore } from '@/store/useAppStore';
 import StarRating from './StarRating';
@@ -144,7 +144,7 @@ export default function ProductCard({ product, highlightBorder = false }: Produc
           </p>
         )}
 
-        {/* Add / stepper button — circular orange */}
+        {/* Add / stepper button - circular orange */}
         <div className="flex justify-center mt-auto pt-1">
           {quantity === 0 ? (
             <button

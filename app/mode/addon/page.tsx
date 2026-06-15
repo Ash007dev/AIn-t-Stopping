@@ -1,4 +1,4 @@
-// app/mode/addon/page.tsx — Add-on mode dedicated screen
+// app/mode/addon/page.tsx - Add-on mode dedicated screen
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';

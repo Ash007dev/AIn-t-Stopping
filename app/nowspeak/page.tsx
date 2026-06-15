@@ -1,4 +1,4 @@
-// app/nowspeak/page.tsx — Full-screen voice + text chat (NowSpeak)
+// app/nowspeak/page.tsx - Full-screen voice + text chat (NowSpeak)
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
@@ -108,7 +108,7 @@ export default function NowSpeakPage() {
               What do you need?
             </h2>
             <p className="text-[#565959] text-[13px] max-w-[260px] leading-relaxed">
-              Speak or type your need — we deliver in 30 minutes.
+              Speak or type your need - we deliver in 30 minutes.
             </p>
 
             {/* Quick prompts */}

@@ -1,4 +1,4 @@
-// components/ImageUploadButton.tsx — Upload image for AI vision-based cart generation
+// components/ImageUploadButton.tsx - Upload image for AI vision-based cart generation
 "use client";
 import { useState, useRef } from "react";
 
@@ -89,7 +89,7 @@ export default function ImageUploadButton({
       <button
         onClick={handleClick}
         disabled={disabled || isProcessing}
-        title="Upload a photo — AI will figure out what you need"
+        title="Upload a photo - AI will figure out what you need"
         className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 ${
           isProcessing
             ? "bg-purple-500 text-white cursor-wait animate-pulse"

@@ -1,6 +1,7 @@
 // lib/agents/intent-parser.ts
 import { ParsedIntent, HouseholdProfile } from "@/lib/types";
 import { invokeAI, setAgentContext } from "./gemini-client";
+import { parseLocalIntent } from "./local-generator";
 
 export function resolvePersonCount(parsed: ParsedIntent, profileServingCount: number): number {
   if (parsed.person_count && parsed.person_count >= 1) return parsed.person_count;
@@ -13,6 +14,10 @@ export function deduplicateDietary(arr: string[]): string[] {
 }
 
 export async function invokeIntentParser(intentText: string, profile: HouseholdProfile, imageBase64?: string | null): Promise<ParsedIntent> {
+  if (!imageBase64) {
+    return parseLocalIntent(intentText, profile);
+  }
+
   const SYSTEM_PROMPT = `You are an intent parser for a grocery shopping app. Parse the user's shopping request and extract structured data.
 
 Return ONLY valid JSON with exactly these fields:
@@ -39,7 +44,7 @@ IMAGE SCANNING RULES:
 - Set the 'occasion' field to the name of the dish or the context of the list (e.g. "Pizza Recipe", "Grocery List").
 - Ignore intentText if it just says "Create a recipe based on this image" and rely heavily on the visual context.
 
-ADAPTIVE CLARIFYING QUESTIONS — set clarifying_question when:
+ADAPTIVE CLARIFYING QUESTIONS - set clarifying_question when:
 - The request is dangerously vague (e.g., "I need medicine", "I need stuff", "buy things").
   → clarifying_question: "What symptoms are you experiencing? (e.g., fever, cold, headache)"
 - The request is missing critical context (e.g., "party" without person count or type).
@@ -48,7 +53,7 @@ ADAPTIVE CLARIFYING QUESTIONS — set clarifying_question when:
   → clarifying_question: "What type of food? Are you cooking a specific dish or stocking up?"
 - NOTE: If the intent is CLEAR ENOUGH to act on (e.g., "movie night for 5", "birthday party for 20 kids"), do NOT set clarifying_question. Only ask when genuinely ambiguous.
 
-PREDICTIVE MODE DETECTION — set mode_override when these life situations are detected:
+PREDICTIVE MODE DETECTION - set mode_override when these life situations are detected:
 - If user mentions "new baby", "newborn", "just had a baby", "first baby" → occasion = "new_baby", mode_override = "predictive"
 - If user mentions "new home", "moved in", "new house", "shifting" → occasion = "new_home", mode_override = "predictive"
 - If user mentions "home office", "work from home setup", "WFH setup" → occasion = "home_office", mode_override = "predictive"
@@ -77,14 +82,6 @@ PREDICTIVE MODE DETECTION — set mode_override when these life situations are d
   } catch (e: unknown) {
     const errMsg = e instanceof Error ? e.message : String(e);
     console.error("[invokeIntentParser] Error:", errMsg);
-    return {
-      occasion: null,
-      person_count: profile.servingCount || 1,
-      time_context: null,
-      dietary: [],
-      exclusions: [],
-      mode_override: null,
-      error: "Parse failed: " + (errMsg || "Unknown error"),
-    };
+    return parseLocalIntent(intentText, profile);
   }
 }

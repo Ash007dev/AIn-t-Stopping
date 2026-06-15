@@ -1,8 +1,13 @@
-// app/orders/[id]/page.tsx — Order detail page
+// app/orders/[id]/page.tsx - Order detail page
 'use client';
 import { useRouter, useParams } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
 import { getProductImage, getProductEmoji, getProductTint } from '@/lib/productImage';
+import {
+  formatOrderDate,
+  getOrderSubtotal,
+  normalizeUnitPrice,
+} from '@/lib/order-utils';
 import Navbar from '@/components/Navbar';
 
 export default function OrderDetailPage() {
@@ -31,8 +36,9 @@ export default function OrderDetailPage() {
     );
   }
 
-  const tax = Math.round(order.total * 0.05);
-  const grandTotal = order.total + tax;
+  const subtotal = getOrderSubtotal(order);
+  const tax = Math.round(subtotal * 0.05);
+  const grandTotal = subtotal + tax;
 
   return (
     <main className="bg-[#F0F2F2] min-h-screen">
@@ -44,14 +50,12 @@ export default function OrderDetailPage() {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <button onClick={() => router.back()} className="text-[#007185] text-[14px] font-medium flex-shrink-0">
-                ← Back
+                &larr; Back
               </button>
             </div>
             <h1 className="text-[20px] font-bold text-[#0F1111]">Order Details</h1>
             <p className="text-[13px] text-[#565959] mt-0.5">
-              {order.orderId} · {new Date(order.date).toLocaleDateString('en-IN', {
-                day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-              })}
+              {order.orderId} &middot; {formatOrderDate(order, true)}
             </p>
           </div>
           <div className="bg-[#F0FFF0] border border-[#B7DFB7] rounded px-3 py-1.5">
@@ -87,7 +91,7 @@ export default function OrderDetailPage() {
                     <p className="text-[12px] text-[#565959]">Qty: {item.quantity}</p>
                   </div>
                   <p className="text-[14px] font-bold text-[#0F1111] flex-shrink-0">
-                    ₹{Math.round((item.price < 1000 ? item.price : item.price / 100) * item.quantity)}
+                    &#8377;{Math.round(normalizeUnitPrice(item.price) * Math.max(1, item.quantity || 1))}
                   </p>
                 </div>
               ))}
@@ -102,7 +106,7 @@ export default function OrderDetailPage() {
           <div className="border-t border-[#D5D9D9] pt-3 space-y-1.5">
             <div className="flex justify-between text-[14px] text-[#565959]">
               <span>Subtotal:</span>
-              <span>₹{Math.round(order.total / 100)}</span>
+              <span>&#8377;{Math.round(subtotal)}</span>
             </div>
             <div className="flex justify-between text-[14px] text-[#565959]">
               <span>Delivery:</span>
@@ -110,11 +114,11 @@ export default function OrderDetailPage() {
             </div>
             <div className="flex justify-between text-[14px] text-[#565959]">
               <span>Tax (5%):</span>
-              <span>₹{Math.round(tax / 100)}</span>
+              <span>&#8377;{tax}</span>
             </div>
             <div className="flex justify-between text-[16px] font-bold text-[#0F1111] border-t border-[#D5D9D9] pt-2 mt-2">
               <span>Total:</span>
-              <span className="text-[#CC0C39]">₹{Math.round(grandTotal / 100)}</span>
+              <span className="text-[#CC0C39]">&#8377;{grandTotal}</span>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-// app/search/page.tsx — product search results
+// app/search/page.tsx - product search results
 'use client';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';

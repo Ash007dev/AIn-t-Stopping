@@ -1,7 +1,7 @@
-// components/Navbar.tsx — Pixel-perfect Amazon Now header
+// components/Navbar.tsx - Pixel-perfect Amazon Now header
 'use client';
 import { useState } from 'react';
-import { ShoppingCart, Mic, Home, X, User } from 'lucide-react';
+import { ShoppingCart, Mic, Home, X, User, BarChart3 } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -58,7 +58,7 @@ export default function Navbar() {
             </button>
           ) : null}
 
-          {/* ETA Badge — dynamic */}
+          {/* ETA Badge - dynamic */}
           <div className="flex-shrink-0 flex items-center gap-1 bg-[#FFD100] text-black
                           font-bold text-[12px] px-2.5 py-1.5 rounded-md whitespace-nowrap">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="black">
@@ -102,7 +102,11 @@ export default function Navbar() {
           </form>
 
           {/* Cart icon */}
-          <Link href="/cart" className="flex-shrink-0 relative ml-auto md:ml-0">
+          <Link
+            href="/cart"
+            aria-label={`Cart with ${itemCount} item${itemCount === 1 ? '' : 's'}`}
+            className="flex-shrink-0 relative ml-auto md:ml-0"
+          >
             <ShoppingCart size={26} className="text-[#0F1111]" strokeWidth={1.5} />
             {itemCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 bg-[#FF9900] text-white text-[10px]
@@ -110,6 +114,16 @@ export default function Navbar() {
                 {itemCount}
               </span>
             )}
+          </Link>
+
+          <Link
+            href="/admin"
+            aria-label="Open admin dashboard"
+            className="hidden sm:flex flex-shrink-0 h-9 items-center gap-1.5 rounded-md px-2
+                       text-[12px] font-semibold text-[#232F3E] hover:bg-[#F0F2F2] transition-colors"
+          >
+            <BarChart3 size={18} strokeWidth={1.7} />
+            Admin
           </Link>
 
           {/* Theme toggle */}
@@ -151,13 +165,13 @@ export default function Navbar() {
               <Mic size={14} className="text-[#0F1111]" />
             </button>
           </form>
-          {/* Mic hint text — Item 13 */}
+          {/* Mic hint text - Item 13 */}
           <p className="text-[10px] text-[#8C9296] text-center">
             Type to search, or tap the mic to speak your order
           </p>
         </div>
 
-        {/* Delivery address bar — changeable pincode */}
+        {/* Delivery address bar - changeable pincode */}
         <div className="bg-[#F0F2F2] border-t border-[#D5D9D9] px-3 py-1.5">
           <button
             onClick={() => { setPinInput(pinCode); setShowPinModal(true); }}
@@ -166,7 +180,7 @@ export default function Navbar() {
             <span className="font-semibold text-[#0F1111]">
               {maxEta ? `${maxEta} mins` : 'Express'}
             </span>
-            {' '}· Deliver to {pinCode}
+            {' '}&middot; Deliver to {pinCode}
             <span className="text-[#007185] ml-1">Change</span>
           </button>
         </div>
