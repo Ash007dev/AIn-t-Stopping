@@ -4,9 +4,10 @@ import { CartProduct } from "./types";
 export function computeCartTotal(items: CartProduct[]): number {
   if (!items || items.length === 0) return 0;
   return items.reduce((sum, item) => {
-    const price = typeof item.price === "number" ? item.price : parseFloat(String(item.price)) || 0;
+    const rawPrice = typeof item.price === "number" ? item.price : parseFloat(String(item.price)) || 0;
+    const actualPrice = rawPrice < 1000 ? rawPrice : Math.round(rawPrice / 100);
     const qty = typeof item.quantity === "number" ? item.quantity : parseInt(String(item.quantity)) || 1;
-    return sum + price * qty;
+    return sum + actualPrice * qty;
   }, 0);
 }
 

@@ -25,7 +25,7 @@ export default function CartPage() {
 
   if (!cart.length) {
     return (
-      <main className="bg-white min-h-screen">
+      <main className="bg-[#F0F2F2] min-h-screen pb-32">
         <Navbar />
         <div className="flex items-center justify-center py-20 px-4">
           <div className="text-center max-w-md">
@@ -72,7 +72,7 @@ export default function CartPage() {
   }
 
   return (
-    <main className="bg-white min-h-screen pb-32 lg:pb-0">
+    <main className="bg-[#F0F2F2] min-h-screen pb-56 lg:pb-0">
       <Navbar />
 
       {/* Sticky top bar */}
@@ -107,7 +107,7 @@ export default function CartPage() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#565959" strokeWidth="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>
           </svg>
-          All items from Amazon Dark Store North — <button onClick={() => router.push('/darkstores')} className="text-[#007185] hover:underline ml-1">View nearby stores</button>
+          All items from Amazon Dark Store North - <button onClick={() => router.push('/darkstores')} className="text-[#007185] hover:underline ml-1">View nearby stores</button>
         </p>
       </div>
 
