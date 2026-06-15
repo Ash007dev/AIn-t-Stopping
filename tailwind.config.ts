@@ -9,7 +9,26 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        sora: ["Sora", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+      },
       colors: {
+        // ── IntentCart dark theme tokens ──────────────────────────────
+        primary: "#0a0a0a",       // bg-primary
+        card: "#111111",          // bg-card
+        elevated: "#1a1a1a",      // bg-elevated (chip/pill default bg)
+        "border-default": "#1f1f1f",
+        "border-bright": "#2a2a2a",
+        "accent-primary": "#E8170A",  // red CTA
+        "accent-hover": "#FF2010",
+        "accent-orange": "#FF9900",   // Amazon orange
+        "accent-green": "#22C55E",
+        "accent-star": "#FBBF24",
+        "text-primary": "#FFFFFF",
+        "text-secondary": "#A0A0A0",
+        "text-muted": "#666666",
+        // ── Legacy Amazon tokens (kept for existing components) ───────
         amazon: {
           DEFAULT: "#FF9900",
           hover: "#E88A00",

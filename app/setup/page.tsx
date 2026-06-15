@@ -164,9 +164,19 @@ export default function SetupPage() {
             <div className="flex flex-col gap-2">
               {DIETARY_OPTIONS.map((opt) => (
                 <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                  {/* Hidden real radio — drives browser click/keyboard behavior */}
+                  <input
+                    type="radio"
+                    name="dietary"
+                    value={opt}
+                    checked={dietary === opt}
+                    onChange={() => setDietary(opt)}
+                    className="sr-only"
+                  />
+                  {/* Custom visual radio */}
                   <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${
-                    dietary === opt 
-                      ? "border-amazon bg-amazon" 
+                    dietary === opt
+                      ? "border-amazon bg-amazon"
                       : "border-[#8D98A6] bg-white dark:bg-[#131A22] group-hover:border-amazon"
                   }`}>
                     {dietary === opt && <div className="w-1.5 h-1.5 bg-white dark:bg-[#0F1111] rounded-full" />}

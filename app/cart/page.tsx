@@ -27,8 +27,16 @@ export default function CartPage() {
   const addSuggestionToCart = useAppStore((s) => s.addSuggestionToCart);
   const [highlightedIds, setHighlightedIds] = useState<Set<string>>(new Set());
 
-  const mainItems = cart.filter((p) => !p.is_suggestion);
-  const suggestedItems = cart.filter((p) => p.is_suggestion);
+  const isAddonMode = parsedIntent?.mode_override === "addon" ||
+    useAppStore.getState().selectedMode === "addon";
+
+  // Only split into suggestions in addon mode; in cooking/intent mode all items are main cart items
+  const mainItems = isAddonMode
+    ? cart.filter((p) => !p.is_suggestion)
+    : cart;                                    // everything is a real cart item
+  const suggestedItems = isAddonMode
+    ? cart.filter((p) => p.is_suggestion)
+    : [];                                      // no suggestions in non-addon mode
 
   const total = computeCartTotal(mainItems);
   const itemCount = mainItems.reduce((sum, i) => sum + i.quantity, 0);

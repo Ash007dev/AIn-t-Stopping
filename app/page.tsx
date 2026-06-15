@@ -1,7 +1,7 @@
 // app/page.tsx - Home / Mode Selection
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import ModeCard from "@/components/ModeCard";
 
@@ -38,11 +38,13 @@ const MODES = [
 
 export default function Home() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const setMode = useAppStore((s) => s.setMode);
   const purchaseHistory = useAppStore((s) => s.purchaseHistory);
   const setCartResult = useAppStore((s) => s.setCartResult);
   const [isMounted, setIsMounted] = useState(false);
   const [replenishables, setReplenishables] = useState<ReplenishableItem[]>([]);
+  const historyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -54,6 +56,15 @@ export default function Home() {
       .then(data => setReplenishables(data.replenishables || []))
       .catch(() => {});
   }, [router]);
+
+  // Scroll to Buy It Again when ?section=history
+  useEffect(() => {
+    if (searchParams.get("section") === "history" && historyRef.current) {
+      setTimeout(() => {
+        historyRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+    }
+  }, [searchParams, isMounted]);
 
   const handleModeSelect = (mode: "intent" | "cooking" | "addon") => {
     setMode(mode);
@@ -182,7 +193,7 @@ export default function Home() {
 
       {/* Buy it again */}
       {isMounted && purchaseHistory.length > 0 && (
-        <div className="mb-10">
+        <div ref={historyRef} className="mb-10">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Buy it again</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {purchaseHistory.slice(0, 3).map((record, i) => (
