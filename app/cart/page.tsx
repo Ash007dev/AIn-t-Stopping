@@ -1,276 +1,164 @@
-// app/cart/page.tsx - Smart Cart Page
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAppStore } from "@/store/useAppStore";
-import { CartDiff } from "@/lib/types";
-import { computeCartTotal, getMaxEta, formatPrice } from "@/lib/cart-utils";
-import { resolveRegion } from "@/lib/region-map";
-import ProductCard from "@/components/ProductCard";
-import RegionalCard from "@/components/RegionalCard";
-import ModificationBar from "@/components/ModificationBar";
-import ReadAloudButton from "@/components/ReadAloudButton";
-import { recordRemovedItem, recordPreferredBrand, recordOccasion } from "@/lib/user-memory";
-
-const DARK_STORE_DISPLAY: Record<string, { name: string; distance: string }> = {
-  "DS-North": { name: "Amazon Dark Store North", distance: "1.2km" },
-  "DS-Central": { name: "Amazon Dark Store Central", distance: "2.8km" },
-  "DS-East": { name: "Amazon Dark Store East", distance: "4.1km" },
-};
+// app/cart/page.tsx — Smart Cart page (Amazon Now pixel-perfect)
+'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAppStore } from '@/store/useAppStore';
+import Navbar from '@/components/Navbar';
+import ProductCard from '@/components/ProductCard';
+import CartSummaryPanel from '@/components/CartSummaryPanel';
+import StickyCartBar from '@/components/StickyCartBar';
+import ModificationBar from '@/components/ModificationBar';
+import { computeCartTotal, getMaxEta } from '@/lib/cart-utils';
 
 export default function CartPage() {
   const router = useRouter();
-  const cart = useAppStore((s) => s.cart);
-  const regionalProducts = useAppStore((s) => s.regionalProducts);
-  const occasionTitle = useAppStore((s) => s.occasionTitle);
-  const parsedIntent = useAppStore((s) => s.parsedIntent);
-  const switchProduct = useAppStore((s) => s.switchProduct);
-  const applyDiff = useAppStore((s) => s.applyDiff);
-  const addSuggestionToCart = useAppStore((s) => s.addSuggestionToCart);
-  const [highlightedIds, setHighlightedIds] = useState<Set<string>>(new Set());
+  const cart = useAppStore(s => s.cart);
+  const occasionTitle = useAppStore(s => s.occasionTitle);
+  const applyDiff = useAppStore(s => s.applyDiff);
+  const modificationError = useAppStore(s => s.modificationError);
+  const setModificationError = useAppStore(s => s.setModificationError);
 
-  const mainItems = cart.filter((p) => !p.is_suggestion);
-  const suggestedItems = cart.filter((p) => p.is_suggestion);
+  const mainItems = cart.filter(i => !i.is_suggestion);
+  const suggestions = cart.filter(i => i.is_suggestion);
 
-  const total = computeCartTotal(mainItems);
-  const itemCount = mainItems.reduce((sum, i) => sum + i.quantity, 0);
-  const maxEta = getMaxEta(mainItems);
+  const [highlighted, setHighlighted] = useState<string[]>([]);
 
-  // Get region for regional section header
-  let regionName: string | null = null;
-  try {
-    const profile = JSON.parse(localStorage.getItem("household_profile") || "{}");
-    regionName = resolveRegion(profile.pinCode || "");
-  } catch {}
-
-  // Compute dark store summary from cart items
-  const darkStoreGroups = new Map<string, number>();
-  for (const item of mainItems) {
-    const storeId = item.dark_store || "DS-Central";
-    darkStoreGroups.set(storeId, (darkStoreGroups.get(storeId) || 0) + 1);
-  }
-  const darkStoreSummary = Array.from(darkStoreGroups.entries()).map(([storeId, count]) => ({
-    store_id: storeId,
-    item_count: count,
-    ...(DARK_STORE_DISPLAY[storeId] || { name: storeId, distance: "?" }),
-  }));
-
-  const handleApplyDiff = (diff: CartDiff) => {
-    // Track removed items in user memory
-    if (diff.remove?.length) {
-      for (const removedId of diff.remove) {
-        const removedProduct = cart.find(p => p.id === removedId);
-        if (removedProduct) {
-          recordRemovedItem(removedProduct.name, removedProduct.category);
-        }
-      }
-    }
-
-    applyDiff(diff);
-    const affectedIds = new Set<string>([
-      ...diff.remove,
-      ...diff.modify.map((m) => m.id),
-      ...diff.add.map((a) => a.product?.id || a.id || ""),
-    ]);
-    setHighlightedIds(affectedIds);
-    setTimeout(() => setHighlightedIds(new Set()), 3000);
-  };
-
-  if (cart.length === 0) {
+  if (!cart.length) {
     return (
-      <main className="min-h-screen flex items-center justify-center px-4 bg-amazon-secondaryBg-light dark:bg-amazon-secondaryBg-dark">
-        <div className="text-center bg-white dark:bg-amazon-card-dark p-10 rounded-card border border-amazon-border-light dark:border-amazon-border-dark shadow-medium max-w-lg w-full">
-          <div className="mb-6">
-            <svg className="w-24 h-24 mx-auto text-amazon-text-muted-light dark:text-amazon-text-muted-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
+      <main className="bg-white min-h-screen">
+        <Navbar />
+        <div className="flex items-center justify-center py-20 px-4">
+          <div className="text-center max-w-md">
+            <h2 className="text-2xl font-bold text-[#0F1111] mb-3">Your cart is empty</h2>
+            <p className="text-[#565959] mb-6">Tell us what you need and we will build the perfect cart for you.</p>
+            <button
+              onClick={() => router.push('/')}
+              className="bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-bold
+                         px-8 py-3 rounded-lg border border-[#FCD200] transition-colors"
+            >
+              Start Shopping
+            </button>
           </div>
-          <h2 className="text-2xl font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-3">Your Amazon Cart is empty</h2>
-          <p className="text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark mb-8">Try searching for an occasion or recipe to get started.</p>
-          <button
-            onClick={() => router.push("/intent")}
-            className="w-full py-2.5 rounded-button font-medium bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] border border-[#FCD200] shadow-subtle transition-all"
-          >
-            Start Shopping
-          </button>
         </div>
       </main>
     );
   }
 
+  const eta = getMaxEta(mainItems) || 16;
+  const total = computeCartTotal(mainItems);
+
+  async function handleModification(text: string) {
+    setModificationError(null);
+    try {
+      const res = await fetch('/api/modify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modificationText: text, currentCart: mainItems }),
+      });
+      const diff = await res.json();
+      if (diff.error) { setModificationError(diff.error); return; }
+
+      const changedIds = [
+        ...(diff.remove || []),
+        ...(diff.modify || []).map((m: { id: string }) => m.id),
+        ...(diff.add || []).map((a: { product?: { id: string }; id?: string }) => a.product?.id || a.id),
+      ].filter(Boolean) as string[];
+      setHighlighted(changedIds);
+      setTimeout(() => setHighlighted([]), 2500);
+      applyDiff(diff);
+    } catch {
+      setModificationError('Could not process. Try rephrasing — e.g. "Remove the Pepsi"');
+    }
+  }
+
   return (
-    <main className="min-h-screen pb-40 bg-amazon-secondaryBg-light dark:bg-amazon-secondaryBg-dark">
-      {/* Modification bar - Sticky Top */}
-      <ModificationBar onApplyDiff={handleApplyDiff} />
+    <main className="bg-white min-h-screen pb-32 lg:pb-0">
+      <Navbar />
 
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 py-6 flex flex-col lg:flex-row gap-6 mt-4">
-        
-        {/* Main Content (Left) */}
-        <div className="flex-1 min-w-0">
-          {/* Predictive mode header */}
-          {parsedIntent?.mode_override === "predictive" && (
-            <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/40 rounded-xl p-4 mb-6 flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" strokeWidth="2.5">
-                  <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-                </svg>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-indigo-900 dark:text-indigo-300">AI-curated essentials kit</p>
-                <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-0.5">
-                  Every item in this kit was chosen specifically for your situation. Remove anything you already have.
-                </p>
-              </div>
-            </div>
-          )}
+      {/* Sticky top bar */}
+      <div className="sticky top-[88px] z-40 bg-white border-b border-[#D5D9D9]
+                      flex items-center gap-3 px-4 py-2">
+        <button onClick={() => router.back()}
+                className="text-[#007185] text-[14px] font-medium flex-shrink-0">
+          ← Edit
+        </button>
 
-          {/* Dark store delivery banner */}
-          {darkStoreSummary.length > 0 && (
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/40 rounded-xl p-4 mb-6">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-blue-900 dark:text-blue-300">
-                    {darkStoreSummary.length === 1
-                      ? `All items from ${darkStoreSummary[0].name}`
-                      : `Consolidated delivery from ${darkStoreSummary.length} nearby stores`}
-                  </p>
-                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">
-                    {darkStoreSummary.length === 1
-                      ? `${darkStoreSummary[0].distance} away - arriving together`
-                      : darkStoreSummary.map(s => `${s.item_count} item${s.item_count > 1 ? 's' : ''} from ${s.distance}`).join(', ') + ' - all arriving together'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+        <span className="text-[15px] font-semibold text-[#0F1111] flex-1 truncate">
+          {occasionTitle || 'Your Cart'}
+        </span>
 
-          <div className="bg-white dark:bg-amazon-card-dark rounded-card p-4 sm:p-6 mb-6 shadow-sm">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-1">
-                  Shopping Cart
-                </h1>
-                <p className="text-sm text-[#007185] dark:text-[#5EB6C6] mb-4">
-                  Generated for: <span className="font-medium text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{occasionTitle}</span>
-                </p>
-              </div>
-              <ReadAloudButton
-                text={`Your cart for ${occasionTitle} has ${itemCount} items: ${mainItems.map(i => `${i.quantity} ${i.name}`).join(', ')}. Total is ${formatPrice(total)}.`}
-              />
-            </div>
-            <div className="border-b border-amazon-border-light dark:border-amazon-border-dark mb-4" />
-            
-            <div className="flex justify-end mb-2">
-              <span className="text-sm text-amazon-text-secondary-light dark:text-amazon-text-secondary-dark">Price</span>
-            </div>
-
-            {/* Product cards */}
-            <div className="space-y-6">
-              {mainItems.map((product, index) => (
-                <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
-                  <ProductCard
-                    product={product}
-                    index={index}
-                    onSwitch={switchProduct}
-                    highlighted={highlightedIds.has(product.id)}
-                  />
-                  {index < mainItems.length - 1 && (
-                    <div className="border-b border-amazon-border-light dark:border-amazon-border-dark mt-6" />
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="border-t border-amazon-border-light dark:border-amazon-border-dark mt-6 pt-4 flex justify-end">
-              <div className="text-lg">
-                Subtotal ({itemCount} items): <span className="font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">{formatPrice(total)}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Suggested Add-ons section */}
-          {suggestedItems.length > 0 && (
-            <div className="bg-white dark:bg-amazon-card-dark rounded-card p-4 sm:p-6 shadow-sm mb-6">
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-xl font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark">
-                  Suggested Add-ons
-                </h2>
-                <span className="text-xs bg-gray-100 dark:bg-[#2B3645] text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">
-                  Customers who bought this also got
-                </span>
-              </div>
-              <div className="space-y-6">
-                {suggestedItems.map((product, index) => (
-                  <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
-                    <ProductCard
-                      product={product}
-                      index={index}
-                      onSwitch={switchProduct}
-                      highlighted={highlightedIds.has(product.id)}
-                      onAdd={() => addSuggestionToCart(product.id)}
-                    />
-                    {index < suggestedItems.length - 1 && (
-                      <div className="border-b border-amazon-border-light dark:border-amazon-border-dark mt-6" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Regional section */}
-          {regionalProducts.length > 0 && regionName && (
-            <div className="bg-white dark:bg-amazon-card-dark rounded-card p-4 sm:p-6 shadow-sm mb-6">
-              <h2 className="text-lg font-bold text-amazon-text-primary-light dark:text-amazon-text-primary-dark mb-1">
-                Frequently bought in {regionName}
-              </h2>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-                {regionalProducts.map((product) => (
-                  <RegionalCard key={product.id} product={product} />
-                ))}
-              </div>
-            </div>
-          )}
+        {/* ETA badge */}
+        <div className="flex-shrink-0 flex items-center gap-1 bg-[#FFD100] text-black
+                        font-bold text-[12px] px-2.5 py-1 rounded-md">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="black">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          {eta} mins
         </div>
 
-        {/* Sidebar Checkout (Right) */}
-        <div className="w-full lg:w-[300px] flex-shrink-0">
-          <div className="sticky top-20 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] rounded-2xl p-5">
-            {/* Free delivery badge */}
-            <div className="flex items-center gap-2 text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-lg px-3 py-2 mb-4 text-sm font-medium">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              Eligible for FREE Delivery
-            </div>
-
-            <div className="flex justify-between items-center mb-1">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal ({itemCount} items)</span>
-              <span className="text-xl font-bold text-gray-900 dark:text-gray-100">{formatPrice(total)}</span>
-            </div>
-            <p className="text-xs text-gray-400 mb-5">Incl. all taxes · Free delivery</p>
-
-            <button
-              onClick={() => router.push("/checkout")}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-3 px-4 rounded-xl text-sm transition-colors"
-            >
-              Proceed to Buy
-            </button>
-            <p className="text-xs text-gray-400 text-center mt-3">
-              Estimated fastest delivery: <span className="font-semibold text-gray-600 dark:text-gray-300">{maxEta} minutes</span>
-            </p>
-            <p className="text-xs text-gray-400 text-center mt-2">
-              This order contains AI-curated products. Please review quantities before purchase.
-            </p>
-          </div>
-        </div>
-
+        <span className="text-[13px] text-[#565959] flex-shrink-0 hidden sm:block">
+          {mainItems.length} items · ₹{total.toFixed(0)}
+        </span>
       </div>
+
+      {/* Dark store banner */}
+      <div className="bg-[#EAF5FF] border-b border-[#C6E4FF] px-4 py-2">
+        <p className="flex items-center gap-1 text-[12px] text-[#004B6E]">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#565959" strokeWidth="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>
+          </svg>
+          All items from Amazon Dark Store North — <button onClick={() => router.push('/darkstores')} className="text-[#007185] hover:underline ml-1">View nearby stores</button>
+        </p>
+      </div>
+
+      {/* Main grid + sidebar */}
+      <div className="max-w-screen-xl mx-auto lg:flex lg:items-start lg:gap-6 lg:px-4 lg:py-4">
+
+        {/* Left: product grid */}
+        <div className="flex-1">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4
+                          gap-[1px] bg-[#D5D9D9] border-x border-[#D5D9D9]">
+            {mainItems.map(item => (
+              <ProductCard
+                key={item.id}
+                product={item}
+                highlightBorder={highlighted.includes(item.id)}
+              />
+            ))}
+          </div>
+
+          {/* Suggested add-ons */}
+          {suggestions.length > 0 && (
+            <section className="mt-4 border-t border-[#D5D9D9] pt-4">
+              <div className="px-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <h3 className="text-[15px] font-bold text-[#0F1111]">Suggested Add-ons</h3>
+                  <span className="text-[12px] text-[#565959] bg-[#F0F2F2] px-2 py-0.5 rounded-full">
+                    Customers who bought this also got
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-[1px] bg-[#D5D9D9] border border-[#D5D9D9]">
+                  {suggestions.map(item => (
+                    <ProductCard key={item.id} product={item} />
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+        </div>
+
+        {/* Right: cart summary (desktop only) */}
+        <div className="hidden lg:block lg:w-[380px] flex-shrink-0">
+          <CartSummaryPanel />
+        </div>
+      </div>
+
+      {/* Modification bar */}
+      <ModificationBar onModify={handleModification} error={modificationError} />
+
+      {/* Mobile sticky bottom cart bar */}
+      <StickyCartBar total={total} itemCount={mainItems.length} eta={eta} />
+
     </main>
   );
 }

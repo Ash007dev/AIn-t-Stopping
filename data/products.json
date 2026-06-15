@@ -1,5 +1,109 @@
 [
   {
+    "id": "mock-1",
+    "name": "Doritos Nacho Cheese Flavour Chips",
+    "brand": "Doritos",
+    "category": "snacks",
+    "price": 9000,
+    "original_price": 12000,
+    "rating": 4.6,
+    "review_count": 12400,
+    "is_bestseller": true,
+    "serving_size": 2,
+    "image_url": "/placeholder-product.png",
+    "in_stock": true,
+    "eta_minutes": 14,
+    "keywords": [
+      "chips",
+      "doritos",
+      "nacho",
+      "cheese"
+    ]
+  },
+  {
+    "id": "mock-2",
+    "name": "Pepsi Soft Drink (500 ml)",
+    "brand": "Pepsi",
+    "category": "beverages",
+    "price": 4000,
+    "original_price": 4000,
+    "rating": 4.3,
+    "review_count": 8500,
+    "is_bestseller": true,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "in_stock": true,
+    "eta_minutes": 14,
+    "keywords": [
+      "pepsi",
+      "drink",
+      "cola"
+    ]
+  },
+  {
+    "id": "mock-3",
+    "name": "iD Fresh Idli & Dosa Batter",
+    "brand": "iD Fresh",
+    "category": "dairy",
+    "price": 9500,
+    "original_price": 10500,
+    "rating": 4.8,
+    "review_count": 22100,
+    "is_bestseller": true,
+    "serving_size": 4,
+    "image_url": "/placeholder-product.png",
+    "in_stock": true,
+    "eta_minutes": 14,
+    "keywords": [
+      "idli",
+      "dosa",
+      "batter",
+      "id fresh"
+    ]
+  },
+  {
+    "id": "mock-4",
+    "name": "Pampers Newborn Diapers (24 Count)",
+    "brand": "Pampers",
+    "category": "baby",
+    "price": 29900,
+    "original_price": 35000,
+    "rating": 4.7,
+    "review_count": 31000,
+    "is_bestseller": true,
+    "serving_size": 1,
+    "image_url": "/placeholder-product.png",
+    "in_stock": true,
+    "eta_minutes": 14,
+    "keywords": [
+      "pampers",
+      "diapers",
+      "newborn",
+      "baby"
+    ]
+  },
+  {
+    "id": "mock-5",
+    "name": "Barilla Spaghetti Pasta",
+    "brand": "Barilla",
+    "category": "snacks",
+    "price": 19500,
+    "original_price": 25000,
+    "rating": 4.5,
+    "review_count": 5400,
+    "is_bestseller": true,
+    "serving_size": 3,
+    "image_url": "/placeholder-product.png",
+    "in_stock": true,
+    "eta_minutes": 14,
+    "keywords": [
+      "pasta",
+      "barilla",
+      "spaghetti",
+      "italian"
+    ]
+  },
+  {
     "id": "prod-s8fh3qf2",
     "name": "Onion",
     "brand": "Generic",

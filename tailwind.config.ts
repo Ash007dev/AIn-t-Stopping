@@ -11,61 +11,49 @@ const config: Config = {
     extend: {
       colors: {
         amazon: {
-          DEFAULT: "#FF9900",
-          hover: "#E88A00",
-          blue: "#007185", // Amazon Link Blue
-          blueDark: "#5EB6C6",
-          background: {
-            light: "#FFFFFF",
-            dark: "#0F1111", // Amazon true dark mode bg
+          orange: "var(--amazon-orange)",
+          "orange-dk": "var(--amazon-orange-dk)",
+          blue: "var(--amazon-blue)",
+          "blue-dk": "var(--amazon-blue-dk)",
+          yellow: "var(--amazon-yellow)",
+          "yellow-dk": "var(--amazon-yellow-dk)",
+        },
+        bg: {
+          light: "var(--bg-light)",
+          card: "var(--bg-card)",
+          hover: "var(--bg-hover)",
+        },
+        text: {
+          primary: "var(--text-primary)",
+          secondary: "var(--text-secondary)",
+          muted: "var(--text-muted)",
+          blue: "var(--text-blue)",
+          red: "var(--text-red)",
+        },
+        border: {
+          light: "var(--border-light)",
+          medium: "var(--border-medium)",
+        },
+        badge: {
+          eta: {
+            bg: "var(--eta-bg)",
+            text: "var(--eta-text)",
+            border: "var(--eta-border)",
           },
-          secondaryBg: {
-            light: "#EAEDED", // Amazon standard grey bg
-            dark: "#19222B",
+          discount: {
+            bg: "var(--discount-bg)",
+            text: "var(--discount-text)",
           },
-          card: {
-            light: "#FFFFFF",
-            dark: "#232F3E", // Amazon header/card dark
-          },
-          surface: {
-            dark: "#2B3645",
-          },
-          border: {
-            light: "#D5D9D9", // Amazon standard border
-            dark: "#3A4553",
-          },
-          text: {
-            primary: {
-              light: "#0F1111",
-              dark: "#FFFFFF",
-            },
-            secondary: {
-              light: "#565959",
-              dark: "#D5D9D9",
-            },
-            muted: {
-              light: "#6B7280",
-              dark: "#AAB7B8",
-            },
-          },
-          success: {
-            light: "#067D62",
-            dark: "#3DDC97",
-          },
-          warning: {
-            light: "#FF9900",
-            dark: "#FFB84D",
-          },
-          error: {
-            light: "#C62828",
-            dark: "#FF6B6B",
-          },
+        },
+        status: {
+          success: "var(--success)",
+          star: "var(--star)",
         },
       },
       borderRadius: {
         button: "8px",
-        card: "12px",
-        input: "8px",
+        card: "4px", // Amazon style
+        input: "4px",
         modal: "16px",
       },
       boxShadow: {
@@ -73,9 +61,6 @@ const config: Config = {
         medium: "0 4px 12px rgba(0,0,0,0.12)",
         large: "0 12px 32px rgba(0,0,0,0.18)",
         "hover-lift": "0 8px 24px rgba(0,0,0,0.15)",
-      },
-      transitionDuration: {
-        200: "200ms",
       },
     },
   },

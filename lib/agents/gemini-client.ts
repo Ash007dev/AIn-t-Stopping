@@ -73,23 +73,9 @@ export async function invokeGeminiAgent(
   let usedModel = GEMINI_MODELS[tier];
 
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error("GEMINI_API_KEY is missing");
-
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const modelName = GEMINI_MODELS[tier];
-    
-    const model = genAI.getGenerativeModel({
-      model: modelName,
-      generationConfig: { 
-        maxOutputTokens,
-        responseMimeType: "application/json"
-      },
-    });
-    
-    const prompt = `${systemPrompt}\n\n---\n\n${userMessage}`;
-    const result = await model.generateContent(prompt);
-    const output = result.response.text();
+    // FORCE GROQ ONLY MODE AS REQUESTED
+    usedModel = GROQ_MODELS[tier];
+    const output = await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
 
     // Log successful call
     logAgentCall({

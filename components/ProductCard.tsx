@@ -1,156 +1,183 @@
-"use client";
-import { CartProduct } from "@/lib/types";
-import StarRating from "./StarRating";
-import AlternativeCard from "./AlternativeCard";
+// components/ProductCard.tsx — Pixel-perfect Amazon Fresh product card
+'use client';
+import { useAppStore } from '@/store/useAppStore';
+import StarRating from './StarRating';
+import type { CartProduct, Product } from '@/lib/types';
 
 interface ProductCardProps {
-  product: CartProduct;
-  index: number;
-  onSwitch: (cardIndex: number, alternativeId: string) => void;
-  highlighted?: boolean;
-  onAdd?: () => void;
+  product: Product | CartProduct;
+  highlightBorder?: boolean;
 }
 
-const DARK_STORE_NAMES: Record<string, string> = {
-  "DS-North": "North Fulfillment Center - 1.2km",
-  "DS-Central": "Central Dark Store - 2.8km",
-  "DS-East": "East Fulfillment Hub - 4.1km",
-};
+export default function ProductCard({ product, highlightBorder = false }: ProductCardProps) {
+  const cart = useAppStore(s => s.cart);
+  const applyDiff = useAppStore(s => s.applyDiff);
 
-export default function ProductCard({ product, index, onSwitch, highlighted, onAdd }: ProductCardProps) {
-  const lineTotal = (typeof product.price === "number" ? product.price : 0) * (typeof product.quantity === "number" ? product.quantity : 1);
+  const cartItem = cart.find(i => i.id === product.id);
+  const quantity = cartItem?.quantity || 0;
+  const isCartProduct = 'ai_reasoning' in product;
+
+  const priceRupees = product.price < 1000 ? product.price : Math.round(product.price / 100);
+  const originalPrice = product.original_price
+    ? (product.original_price < 1000 ? product.original_price : Math.round(product.original_price / 100))
+    : Math.round(priceRupees * 1.25);
+  const discountPct = product.discount_percent || Math.round((1 - priceRupees / originalPrice) * 100);
+
+  function handleAdd() {
+    const newItem: CartProduct = {
+      ...product,
+      quantity: 1,
+      ai_reasoning: '',
+      alternatives: [],
+    } as CartProduct;
+    applyDiff({ add: [{ product: newItem, quantity: 1 }], remove: [], modify: [] });
+  }
+
+  function handleIncrement() {
+    if (cartItem) {
+      applyDiff({ add: [], remove: [], modify: [{ id: product.id, quantity: cartItem.quantity + 1 }] });
+    }
+  }
+
+  function handleDecrement() {
+    if (!cartItem) return;
+    if (cartItem.quantity <= 1) {
+      applyDiff({ add: [], remove: [product.id], modify: [] });
+    } else {
+      applyDiff({ add: [], remove: [], modify: [{ id: product.id, quantity: cartItem.quantity - 1 }] });
+    }
+  }
 
   return (
-    <div
-      className={`rounded-2xl border transition-all duration-200 overflow-hidden bg-white dark:bg-[#1A2332] ${
-        highlighted
-          ? "border-orange-400 shadow-lg ring-2 ring-orange-300 ring-offset-2"
-          : "border-gray-200 dark:border-[#3A4553] hover:shadow-md"
-      }`}
-    >
-      {/* Main content */}
-      <div className="p-5 flex gap-4">
-        {/* Product Image */}
-        <div className="w-28 h-28 flex-shrink-0 bg-gray-50 dark:bg-[#0F1923] rounded-xl border border-gray-100 dark:border-[#2B3645] flex items-center justify-center p-2">
-          <img
-            src={product.image_url}
-            alt={product.name}
-            className="max-w-full max-h-full object-contain mix-blend-multiply"
-          />
+    <div className={`bg-white flex flex-col relative
+      ${highlightBorder ? 'ring-2 ring-[#FF9900] ring-inset' : ''}`}>
+
+      {/* Discount badge */}
+      {discountPct > 0 && (
+        <div className="absolute top-2 left-2 z-10 bg-[#CC0C39] text-white
+                        text-[10px] font-bold px-1.5 py-0.5 rounded-sm leading-tight">
+          {discountPct}% OFF
         </div>
+      )}
 
-        {/* Product Info */}
-        <div className="flex-1 min-w-0 flex flex-col justify-between">
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-base leading-snug line-clamp-2">
-              {product.name}
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{product.brand}</p>
-
-            <div className="flex items-center gap-2 mt-1.5">
-              <StarRating rating={product.rating} />
-              <span className="text-sm text-[#007185] dark:text-[#5EB6C6] cursor-pointer hover:underline">
-                {product.review_count.toLocaleString()} ratings
-              </span>
-              {product.is_bestseller && (
-                <span className="inline-flex items-center gap-0.5 text-xs text-orange-600 dark:text-orange-400 font-medium ml-1">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                  Top Seller
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="mt-3">
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">₹{Math.floor(product.price)}</span>
-              {product.price % 1 > 0 && (
-                <span className="text-sm text-gray-600 dark:text-gray-400">{(product.price % 1).toFixed(2).substring(1)}</span>
-              )}
-            </div>
-            {product.quantity > 1 && (
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                Qty: {product.quantity} · Total: <span className="font-semibold text-gray-700 dark:text-gray-300">₹{lineTotal.toFixed(0)}</span>
-              </p>
-            )}
-            {product.quantity === 1 && (
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Qty: 1</p>
-            )}
-
-            {/* Delivery/stock indicator */}
-            <div className="flex items-center gap-1.5 mt-2">
-              <div className={`w-2 h-2 rounded-full flex-shrink-0 ${product.in_stock ? "bg-green-500" : "bg-red-400"}`} />
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                {product.in_stock ? `In stock · Arrives in ${product.eta_minutes} min` : "Currently unavailable"}
-              </span>
-            </div>
-
-            {/* Dark store badge */}
-            {product.dark_store && (
-              <div className="flex items-center gap-1.5 mt-1.5">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                </svg>
-                <span className="text-xs text-gray-400">Ships from {DARK_STORE_NAMES[product.dark_store] || product.dark_store}</span>
-              </div>
-            )}
-
-            {/* Return policy badge */}
-            {product.return_policy && (
-              <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full mt-1.5 ${
-                product.return_policy === "no_return"
-                  ? "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
-                  : product.return_policy === "free_returns"
-                  ? "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400"
-                  : "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
-              }`}>
-                {product.return_policy === "no_return" && "No returns - perishable"}
-                {product.return_policy === "7_day_return" && "7-day returns eligible"}
-                {product.return_policy === "free_returns" && "Free returns"}
-              </span>
-            )}
-          </div>
+      {/* Bestseller badge */}
+      {product.is_bestseller && (
+        <div className="absolute top-2 right-2 z-10 bg-[#FF9900] text-white
+                        text-[9px] font-bold px-1.5 py-0.5 rounded-sm
+                        uppercase tracking-wide leading-tight whitespace-nowrap">
+          #1 BEST SELLER
         </div>
+      )}
+
+      {/* Product image */}
+      <div className="bg-white flex items-center justify-center p-4 h-44">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={product.image_url?.startsWith('http') || product.image_url?.startsWith('/placeholder') ? product.image_url : '/placeholder-product.png'}
+          alt={product.name}
+          className="max-h-36 max-w-full object-contain"
+          onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-product.png'; }}
+        />
       </div>
 
-      {/* Why this? section */}
-      {product.ai_reasoning && (
-        <div className="px-5 pb-4">
-          <div className="p-3 bg-gray-50 dark:bg-[#0F1923] rounded-lg border-l-[3px] border-orange-400">
-            <div className="flex items-start gap-2">
-              <span className="text-orange-500 text-xs font-semibold uppercase tracking-wide flex-shrink-0 mt-0.5">Why this?</span>
-              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{product.ai_reasoning}</p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Product info */}
+      <div className="flex flex-col flex-1 px-3 pb-3 pt-2 border-t border-[#D5D9D9]">
 
-      {/* Other options or Add Button */}
-      {onAdd ? (
-        <div className="px-5 pb-4">
-          <button
-            onClick={onAdd}
-            className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-semibold py-2.5 px-4 rounded-xl text-sm border border-[#FCD200] transition-colors"
-          >
-            Add to Cart
-          </button>
+        {/* Name */}
+        <p className="text-[13px] font-medium text-[#0F1111] leading-snug line-clamp-2 mb-1">
+          {product.name}
+        </p>
+
+        {/* Weight / variant */}
+        <p className="text-[12px] text-[#565959] mb-2">
+          {product.serving_size ? `Serves ${product.serving_size}` : '200 g'}
+        </p>
+
+        {/* Star rating */}
+        <div className="flex items-center gap-1 mb-2">
+          <StarRating rating={product.rating} size={12} />
+          <span className="text-[11px] text-[#565959]">
+            {product.rating} · {(product.review_count || 0).toLocaleString()}
+          </span>
         </div>
-      ) : (
-        product.alternatives && product.alternatives.length > 0 && (
-          <div className="px-5 pb-4">
-            <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Other options</p>
-            <div className="space-y-2">
-              {product.alternatives.slice(0, 2).map((alt) => (
-                <AlternativeCard
-                  key={alt.id}
-                  product={alt}
-                  onSwitch={() => onSwitch(index, alt.id)}
-                />
-              ))}
+
+        {/* Price row */}
+        <div className="flex items-baseline gap-2 mb-2">
+          <span className="text-[16px] font-bold text-[#CC0C39]">
+            ₹{priceRupees}
+          </span>
+          {originalPrice > priceRupees && (
+            <span className="text-[12px] text-[#8C9296] line-through">
+              ₹{originalPrice}
+            </span>
+          )}
+        </div>
+
+        {/* AI reasoning */}
+        {isCartProduct && (product as CartProduct).ai_reasoning && (
+          <p className="text-[11px] text-[#007185] italic mb-2 line-clamp-2 leading-snug">
+            {(product as CartProduct).ai_reasoning}
+          </p>
+        )}
+
+        {/* In cart indicator */}
+        {quantity > 0 && (
+          <p className="text-[12px] text-[#007600] font-medium mb-2">
+            In cart · x{quantity}
+          </p>
+        )}
+
+        {/* Return policy */}
+        {product.category && (
+          <p className={`text-[10px] mb-2 ${
+            product.category === 'vegetables' || product.category === 'dairy'
+              ? 'text-[#CC0C39]' : 'text-[#007185]'
+          }`}>
+            {product.category === 'vegetables' || product.category === 'dairy'
+              ? 'No returns · perishable' : '7-day returns'}
+          </p>
+        )}
+
+        {/* Add / stepper button — circular orange */}
+        <div className="flex justify-center mt-auto pt-1">
+          {quantity === 0 ? (
+            <button
+              onClick={(e) => { e.stopPropagation(); handleAdd(); }}
+              className="w-9 h-9 bg-[#FF9900] hover:bg-[#E47911] rounded-full
+                         flex items-center justify-center shadow-sm
+                         transition-colors active:scale-95"
+              aria-label={`Add ${product.name} to cart`}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12h14" stroke="white" strokeWidth="2.5"
+                      strokeLinecap="round"/>
+              </svg>
+            </button>
+          ) : (
+            <div className="flex items-center gap-2 bg-[#FF9900] rounded-full px-3 py-1.5">
+              <button
+                onClick={(e) => { e.stopPropagation(); handleDecrement(); }}
+                className="text-white w-5 h-5 flex items-center justify-center
+                           text-[18px] font-light leading-none"
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span className="text-white text-[14px] font-bold min-w-[16px] text-center">
+                {quantity}
+              </span>
+              <button
+                onClick={(e) => { e.stopPropagation(); handleIncrement(); }}
+                className="text-white w-5 h-5 flex items-center justify-center
+                           text-[18px] font-light leading-none"
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
             </div>
-          </div>
-        )
-      )}
+          )}
+        </div>
+      </div>
     </div>
   );
 }

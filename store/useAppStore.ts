@@ -25,6 +25,8 @@ interface AppStore {
   prefillIntent: string | null;
   setPrefillIntent: (v: string | null) => void;
   addSuggestionToCart: (productId: string) => void;
+  pinCode: string;
+  setPinCode: (code: string) => void;
 }
 
 function loadPurchaseHistory(): PurchaseRecord[] {
@@ -41,17 +43,18 @@ function loadTheme(): "light" | "dark" {
   return (localStorage.getItem("app_theme") as "light" | "dark") || "light";
 }
 
+function loadPinCode(): string {
+  if (typeof window === "undefined") return "641002";
+  return localStorage.getItem("user_pincode") || "641002";
+}
+
 export const useAppStore = create<AppStore>((set, get) => ({
-  theme: loadTheme(),
+  theme: "light",
   setTheme: (theme) => {
-    set({ theme });
+    set({ theme: "light" });
     try {
-      localStorage.setItem("app_theme", theme);
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+      localStorage.setItem("app_theme", "light");
+      document.documentElement.classList.remove("dark");
     } catch {}
   },
   selectedMode: null,
@@ -161,5 +164,10 @@ export const useAppStore = create<AppStore>((set, get) => ({
         item.id === productId ? { ...item, is_suggestion: false } : item
       ),
     }));
+  },
+  pinCode: loadPinCode(),
+  setPinCode: (code) => {
+    set({ pinCode: code });
+    try { localStorage.setItem("user_pincode", code); } catch {}
   },
 }));

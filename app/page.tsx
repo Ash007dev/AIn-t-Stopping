@@ -1,264 +1,250 @@
-// app/page.tsx - Home / Mode Selection
-"use client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAppStore } from "@/store/useAppStore";
-import ModeCard from "@/components/ModeCard";
-import VoiceButton from "@/components/VoiceButton";
-import ImageUploadButton from "@/components/ImageUploadButton";
+// app/page.tsx — Home page (Amazon Fresh professional)
+'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAppStore } from '@/store/useAppStore';
+import Navbar from '@/components/Navbar';
+import CategoryNav from '@/components/CategoryNav';
+import ProductCard from '@/components/ProductCard';
+import { Mic, ChevronRight, Zap, UtensilsCrossed, Plus, Brain } from 'lucide-react';
+import type { Product } from '@/lib/types';
 
-interface ReplenishableItem {
-  id: string;
-  name: string;
-  brand: string;
-  price: number;
-  image_url: string;
-  category: string;
-  eta_minutes: number;
-  in_stock: boolean;
-  dark_store?: string;
-  return_policy?: string;
-}
+// Quick-launch labels — plain text, NO emojis
+const QUICK_LAUNCHES = [
+  { label: 'Movie night for 5',  mode: 'intent',     preset: 'Movie night for 5 people tonight' },
+  { label: 'Breakfast for 8',    mode: 'intent',     preset: 'Breakfast for 8 guests tomorrow morning' },
+  { label: 'Aglio olio for 3',   mode: 'cooking',    preset: 'Aglio olio for 3 people' },
+  { label: 'Diwali for 20',      mode: 'intent',     preset: 'Diwali party for 20 people' },
+  { label: 'New baby at home',   mode: 'predictive', preset: 'new_baby' },
+  { label: 'Quick lunch for 2',  mode: 'cooking',    preset: 'Quick lunch for 2' },
+];
+
+// Everyday essentials (SDM advice: replenishable goods)
+const ESSENTIALS = [
+  { name: 'Milk',       sub: '500ml',    price: '₹28' },
+  { name: 'Eggs',       sub: '12 pack',  price: '₹84' },
+  { name: 'Atta',       sub: '5kg',      price: '₹245' },
+  { name: 'Bread',      sub: 'White',    price: '₹40' },
+  { name: 'Rice',       sub: '5kg',      price: '₹320' },
+  { name: 'Oil',        sub: '1L',       price: '₹165' },
+  { name: 'Sugar',      sub: '1kg',      price: '₹42' },
+  { name: 'Tea',        sub: '250g',     price: '₹120' },
+];
 
 const MODES = [
-  {
-    key: "intent" as const,
-    title: "Shopping by Intent",
-    description: "Describe an occasion - movie night, birthday party, study session - and we'll build the perfect cart.",
-  },
-  {
-    key: "cooking" as const,
-    title: "Cooking / Fresh",
-    description: "Name a recipe and serving count. We'll pick exact ingredients at the right quantities.",
-  },
-  {
-    key: "addon" as const,
-    title: "Frictionless Add-on",
-    description: "Add one product - we'll suggest 2-5 complementary items you might need.",
-  },
+  { id: 'intent',     label: 'Shop by Occasion', desc: 'Party, gathering, or event',     Icon: Zap,               color: '#FF9900' },
+  { id: 'cooking',    label: 'Recipe Mode',       desc: 'Tell us a dish, we get the stuff', Icon: UtensilsCrossed,  color: '#007185' },
+  { id: 'addon',      label: 'Add-on',            desc: 'Quick add to existing cart',       Icon: Plus,             color: '#CC0C39' },
+  { id: 'predictive', label: 'Guide Me',          desc: 'Life events & situations',         Icon: Brain,            color: '#007600' },
 ];
 
 export default function Home() {
   const router = useRouter();
-  const setMode = useAppStore((s) => s.setMode);
-  const purchaseHistory = useAppStore((s) => s.purchaseHistory);
-  const setCartResult = useAppStore((s) => s.setCartResult);
-  const [isMounted, setIsMounted] = useState(false);
-  const [replenishables, setReplenishables] = useState<ReplenishableItem[]>([]);
+  const setMode = useAppStore(s => s.setMode);
+  const purchaseHistory = useAppStore(s => s.purchaseHistory);
+  const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    setIsMounted(true);
-    const profile = localStorage.getItem("household_profile");
-    if (!profile) router.replace("/setup");
+    import('@/data/products.json').then(mod => {
+      const allProducts = (mod.default as unknown) as Product[];
+      setTrendingProducts(allProducts.filter(p => p.is_bestseller).slice(0, 8));
+    }).catch(() => {});
+  }, []);
 
-    fetch('/api/replenishables')
-      .then(r => r.json())
-      .then(data => setReplenishables(data.replenishables || []))
-      .catch(() => {});
-  }, [router]);
+  function handleQuickLaunch(chip: typeof QUICK_LAUNCHES[0]) {
+    setMode(chip.mode as 'intent' | 'cooking' | 'addon' | 'predictive');
+    router.push(`/intent?mode=${chip.mode}&preset=${encodeURIComponent(chip.preset)}&count=5&time=Tonight&diet=No+restriction`);
+  }
 
-  const handleModeSelect = (mode: "intent" | "cooking" | "addon") => {
-    setMode(mode);
-    router.push("/intent");
-  };
-
-  const handlePredictiveSelect = () => {
-    setMode("predictive");
-    router.push("/intent?mode=predictive");
-  };
-
-  const handleHistoryChip = (record: typeof purchaseHistory[0]) => {
-    setCartResult({
-      cart: record.cartSnapshot,
-      regionalProducts: [],
-      occasionTitle: record.occasionTitle,
-      parsedIntent: { occasion: record.occasionTitle, person_count: 1, time_context: "", dietary: [], exclusions: [] }
-    });
-    setMode("intent");
-    router.push("/cart");
-  };
-
-  const handleQuickAdd = (item: ReplenishableItem) => {
-    setCartResult({
-      cart: [{
-        ...item,
-        category: item.category as import("@/lib/types").ProductCategory,
-        quantity: 1,
-        ai_reasoning: "Quick add - one tap reorder",
-        alternatives: [],
-        is_suggestion: false,
-        rating: 4.5,
-        review_count: 5000,
-        is_bestseller: true,
-        serving_size: 1,
-        occasion_tags: [],
-        region_tags: [],
-        expiry_months: null,
-        keywords: [],
-        sample_reviews: [
-          { author: "Customer", text: "Great product." },
-          { author: "Buyer", text: "Fast delivery." },
-        ] as [{ author: string; text: string }, { author: string; text: string }],
-      }],
-      regionalProducts: [],
-      occasionTitle: `Quick order - ${item.name}`,
-      parsedIntent: { occasion: "replenishable", person_count: 1, time_context: null, dietary: [], exclusions: [] }
-    });
-    router.push('/cart');
-  };
-
-  const handleVoiceTranscript = (text: string) => {
-    // When user speaks, auto-navigate to intent page with their transcript
-    setMode("intent");
-    setPrefillIntent(text);
-    router.push("/intent");
-  };
-
-  const setPrefillIntent = useAppStore((s) => s.setPrefillIntent);
+  function handleModeClick(modeId: string) {
+    setMode(modeId as 'intent' | 'cooking' | 'addon' | 'predictive');
+    router.push(`/mode/${modeId}`);
+  }
 
   return (
-    <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 max-w-5xl mx-auto flex flex-col pt-12">
-      {/* Header */}
-      <div className="mb-10">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              How would you like to shop today?
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
-              Select a shopping mode below, or tap the mic to speak your need in any language.
-            </p>
-          </div>
-          <div className="flex-shrink-0 pt-1 flex items-start gap-4">
-            <div className="flex flex-col items-center gap-1.5">
-              <Link
-                href="/admin"
-                title="Admin Dashboard"
-                className="w-14 h-14 rounded-full flex items-center justify-center bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 transition-all shadow-md hover:shadow-lg"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
-                </svg>
-              </Link>
-              <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Metrics</span>
-            </div>
-            
-            <div className="flex flex-col items-center gap-1.5">
-              <ImageUploadButton onIntentDetected={handleVoiceTranscript} />
-              <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Vision</span>
-            </div>
+    <main className="bg-[#F0F2F2] min-h-screen pb-24">
+      <Navbar />
 
-            <div className="flex flex-col items-center gap-1.5">
-              <VoiceButton onTranscript={handleVoiceTranscript} size="lg" />
-              <span className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">Voice</span>
-            </div>
-          </div>
-        </div>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-[#232F3E] to-[#37475A] px-4 py-6">
+        <div className="max-w-screen-xl mx-auto">
+          <h1 className="text-white text-[22px] font-bold mb-1">
+            What do you need today?
+          </h1>
+          <p className="text-[#A8B4C0] text-[14px] mb-4">
+            Just tell us — AI builds your cart in seconds
+          </p>
 
-        {/* Voice & Vision CTA banner */}
-        <div className="mt-4 flex items-center gap-3 p-3 bg-gradient-to-r from-orange-50 to-purple-50 dark:from-orange-900/10 dark:to-purple-900/10 border border-orange-200 dark:border-orange-800/30 rounded-xl">
-          <div className="flex items-center gap-1 text-orange-500 dark:text-orange-400">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-orange-800 dark:text-orange-300">Voice & Vision Shopping</p>
-            <p className="text-[11px] text-orange-600/80 dark:text-orange-400/60">Speak in any language or snap a photo — AI builds your cart instantly.</p>
-          </div>
-        </div>
-      </div>
+          {/* Voice CTA */}
+          <button
+            onClick={() => router.push('/nowspeak')}
+            className="w-full bg-[#FF9900] hover:bg-[#E47911] text-white font-bold
+                       py-3.5 rounded-lg flex items-center justify-center gap-3
+                       transition-colors shadow-lg text-[15px]"
+          >
+            <Mic size={20} />
+            Speak to Order — NowSpeak
+          </button>
 
-      {/* Mode cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-        {MODES.map((mode) => (
-          <ModeCard
-            key={mode.key}
-            type={mode.key}
-            title={mode.title}
-            description={mode.description}
-            onClick={() => handleModeSelect(mode.key)}
-          />
-        ))}
-      </div>
-
-      {/* 4th mode: Predictive & Confident */}
-      <button
-        id="mode-card-predictive"
-        onClick={handlePredictiveSelect}
-        className="group flex items-start gap-4 p-5 bg-white dark:bg-[#1A2332] border border-indigo-100 dark:border-indigo-900/40 rounded-2xl hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all duration-200 text-left w-full mb-10"
-      >
-        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-colors">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-          </svg>
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-0.5">
-            <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">Not sure what you need?</h3>
-            <span className="text-xs bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 font-medium px-2 py-0.5 rounded-full">AI guides you</span>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">New baby, new home, someone sick - tell us your situation and we will build the right kit.</p>
-        </div>
-        <svg className="flex-shrink-0 w-5 h-5 text-gray-300 dark:text-gray-600 group-hover:text-indigo-400 mt-0.5 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-
-      {/* Running Low? section */}
-      {isMounted && replenishables.length > 0 && (
-        <div className="mb-10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Running Low?</h2>
-            <span className="text-xs text-gray-400">Tap to add instantly</span>
-          </div>
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-            {replenishables.map(item => (
+          {/* Quick chips */}
+          <div className="mt-4 flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+            {QUICK_LAUNCHES.map(chip => (
               <button
-                key={item.id}
-                onClick={() => handleQuickAdd(item)}
-                className="flex-shrink-0 w-32 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] hover:border-orange-300 dark:hover:border-orange-500 rounded-xl p-3 text-left hover:shadow-sm transition-all"
+                key={chip.label}
+                onClick={() => handleQuickLaunch(chip)}
+                className="flex-shrink-0 px-4 py-2 rounded-full border border-[#A8B4C0]/30
+                           text-[13px] text-white/90 bg-white/10 backdrop-blur-sm
+                           hover:bg-white/20 transition-colors font-medium whitespace-nowrap"
               >
-                <div className="w-full h-16 bg-gray-50 dark:bg-[#0F1923] rounded-lg flex items-center justify-center mb-2">
-                  <img src={item.image_url || "/placeholder-product.png"} alt={item.name}
-                    className="max-w-full max-h-full object-contain" />
-                </div>
-                <p className="text-xs font-medium text-gray-800 dark:text-gray-200 line-clamp-2 leading-tight">{item.name}</p>
-                <p className="text-xs text-orange-600 dark:text-orange-400 font-semibold mt-1">Rs.{item.price}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{item.eta_minutes} min</p>
+                {chip.label}
               </button>
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Category Navigation */}
+      <CategoryNav />
+
+      {/* Modes Section — Professional cards */}
+      <section className="px-4 py-5">
+        <h2 className="text-[17px] font-bold text-[#0F1111] mb-3">
+          How would you like to shop?
+        </h2>
+        <div className="grid grid-cols-2 gap-3">
+          {MODES.map(mode => (
+            <button
+              key={mode.id}
+              onClick={() => handleModeClick(mode.id)}
+              className="bg-white border border-[#D5D9D9] rounded-lg p-4 text-left
+                         hover:border-[#FF9900] hover:shadow-md transition-all group"
+            >
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-2"
+                   style={{ backgroundColor: mode.color + '15' }}>
+                <mode.Icon size={20} style={{ color: mode.color }} />
+              </div>
+              <p className="text-[14px] font-bold text-[#0F1111] group-hover:text-[#007185]">
+                {mode.label}
+              </p>
+              <p className="text-[11px] text-[#565959] mt-0.5 leading-tight">
+                {mode.desc}
+              </p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Everyday Essentials — SDM advice: replenishable goods */}
+      <section className="px-4 py-4 bg-white border-y border-[#D5D9D9]">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h2 className="text-[17px] font-bold text-[#0F1111]">Everyday Essentials</h2>
+            <p className="text-[12px] text-[#565959]">Quick replenish — one-tap add</p>
+          </div>
+          <Zap size={16} className="text-[#FF9900]" />
+        </div>
+
+        <div className="grid grid-cols-4 gap-2">
+          {ESSENTIALS.map(item => (
+            <button
+              key={item.name}
+              className="bg-[#F7F7F7] border border-[#D5D9D9] rounded-lg p-2.5
+                         hover:border-[#FF9900] hover:shadow-sm transition-all text-center"
+              onClick={() => {
+                setMode('addon');
+                router.push(`/intent?mode=addon&preset=${encodeURIComponent(item.name)}&count=1&time=Now&diet=No+restriction`);
+              }}
+            >
+              <p className="text-[13px] font-bold text-[#0F1111]">{item.name}</p>
+              <p className="text-[10px] text-[#565959]">{item.sub}</p>
+              <p className="text-[12px] text-[#CC0C39] font-bold mt-1">{item.price}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Trending Products */}
+      {trendingProducts.length > 0 && (
+        <section className="px-4 py-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-[17px] font-bold text-[#0F1111]">Top Picks for You</h2>
+            <button className="text-[13px] text-[#007185] font-medium flex items-center gap-0.5">
+              See all <ChevronRight size={14} />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[1px] bg-[#D5D9D9] border border-[#D5D9D9] rounded-lg overflow-hidden">
+            {trendingProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
       )}
 
-      {/* Buy it again */}
-      {isMounted && purchaseHistory.length > 0 && (
-        <div className="mb-10">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Buy it again</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {purchaseHistory.slice(0, 3).map((record, i) => (
+      {/* Recent Orders — real data from store */}
+      <section className="px-4 py-4 bg-white border-y border-[#D5D9D9]">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-[17px] font-bold text-[#0F1111]">Your recent orders</h2>
+          <button
+            onClick={() => router.push('/orders')}
+            className="text-[13px] text-[#007185] font-medium flex items-center gap-0.5"
+          >
+            See all <ChevronRight size={14} />
+          </button>
+        </div>
+
+        {purchaseHistory.length === 0 ? (
+          <p className="text-[13px] text-[#8C9296] py-4 text-center">
+            No orders yet — try speaking an order above!
+          </p>
+        ) : (
+          <div className="space-y-0 divide-y divide-[#D5D9D9]">
+            {purchaseHistory.slice(0, 3).map((order, idx) => (
               <button
-                key={record.orderId || i}
-                onClick={() => handleHistoryChip(record)}
-                className="flex items-center gap-3 p-4 bg-white dark:bg-[#1A2332] border border-gray-200 dark:border-[#3A4553] rounded-xl hover:border-orange-300 dark:hover:border-orange-500 hover:shadow-sm transition-all text-left"
+                key={order.orderId || idx}
+                onClick={() => router.push(`/orders/${order.orderId || idx}`)}
+                className="w-full py-3 flex items-center justify-between text-left hover:bg-[#F7F7F7] transition-colors"
               >
-                <div className="w-9 h-9 rounded-lg bg-gray-100 dark:bg-[#2B3645] flex items-center justify-center flex-shrink-0">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.41"/>
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{record.occasionTitle}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    {record.cartSnapshot?.length ?? 0} items · {new Date(record.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                <div>
+                  <p className="text-[14px] font-medium text-[#0F1111]">
+                    {order.occasionTitle || 'Your Order'}
+                  </p>
+                  <p className="text-[12px] text-[#565959] mt-0.5">
+                    {order.orderId} · {order.itemCount || order.items?.length || 0} items
                   </p>
                 </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[14px] font-bold text-[#0F1111]">
+                    ₹{Math.round((order.total || 0) / 100)}
+                  </span>
+                  <ChevronRight size={16} className="text-[#8C9296]" />
+                </div>
               </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </section>
+
+      {/* NowSpeak promo */}
+      <section className="px-4 py-4">
+        <button
+          onClick={() => router.push('/nowspeak')}
+          className="w-full bg-white border border-[#D5D9D9] rounded-lg p-5
+                     flex items-center gap-4 hover:border-[#FF9900] hover:shadow-md transition-all"
+        >
+          <div className="w-14 h-14 bg-[#FF9900]/10 rounded-full flex items-center justify-center flex-shrink-0">
+            <Mic size={24} className="text-[#FF9900]" />
+          </div>
+          <div className="text-left flex-1">
+            <p className="text-[15px] font-bold text-[#0F1111]">NowSpeak Voice Assistant</p>
+            <p className="text-[12px] text-[#565959] mt-0.5">
+              Just talk naturally — &quot;I need snacks for a movie night&quot;
+            </p>
+          </div>
+          <ChevronRight size={20} className="text-[#8C9296] flex-shrink-0" />
+        </button>
+      </section>
+
     </main>
   );
 }

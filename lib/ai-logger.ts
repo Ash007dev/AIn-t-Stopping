@@ -62,16 +62,16 @@ const PIPELINE_STORE: PipelineTrace[] = [
     id: "pipe-1", timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
     userIntent: "I need milk and bread", mode: "intent", status: "success", totalLatencyMs: 3250, cartItemCount: 2,
     steps: [
-      { id: "s1", agent: "intent-parser", status: "success", latencyMs: 850, model: "gemini-2.5-flash", input: "", output: "" },
-      { id: "s2", agent: "cart-curator", status: "success", latencyMs: 2400, model: "gemini-2.5-pro", input: "", output: "" }
+      { id: "s1", timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(), agent: "intent-parser", status: "success", latencyMs: 850, model: "gemini-2.5-flash", input: "", output: "" },
+      { id: "s2", timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000 + 1000).toISOString(), agent: "cart-curator", status: "success", latencyMs: 2400, model: "gemini-2.5-pro", input: "", output: "" }
     ]
   },
   {
     id: "pipe-2", timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
     userIntent: "Idiyappam and kadala curry", mode: "cooking", status: "partial", totalLatencyMs: 4420, cartItemCount: 5,
     steps: [
-      { id: "s3", agent: "intent-parser", status: "success", latencyMs: 920, model: "gemini-2.5-flash", input: "", output: "" },
-      { id: "s4", agent: "cart-curator", status: "fallback", latencyMs: 3500, model: "llama-3.3-70b-versatile", input: "", output: "" }
+      { id: "s3", timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), agent: "intent-parser", status: "success", latencyMs: 920, model: "gemini-2.5-flash", input: "", output: "" },
+      { id: "s4", timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000 + 1000).toISOString(), agent: "cart-curator", status: "fallback", latencyMs: 3500, model: "llama-3.3-70b-versatile", input: "", output: "" }
     ]
   }
 ];

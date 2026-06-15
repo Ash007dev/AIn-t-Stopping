@@ -93,6 +93,10 @@ export interface PurchaseRecord {
   cartSnapshot: CartProduct[];
   createdAt: string;
   orderId: string;
+  total: number;
+  date: string;
+  itemCount: number;
+  items: { id: string; name: string; quantity: number; price: number; image_url: string }[];
 }
 
 export interface AISuggestion {

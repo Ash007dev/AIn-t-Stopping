@@ -1,37 +1,33 @@
-// components/StarRating.tsx
-"use client";
-interface StarRatingProps {
-  rating: number;
-}
-export default function StarRating({ rating }: StarRatingProps) {
-  const fullStars = Math.floor(rating);
-  const hasHalf = rating % 1 >= 0.25 && rating % 1 < 0.75;
-  const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+// components/StarRating.tsx — Amazon exact star rating
+export default function StarRating({ rating, size = 14 }: { rating: number; size?: number }) {
+  const stars = Array.from({ length: 5 }, (_, i) => {
+    const fill = Math.min(Math.max(rating - i, 0), 1);
+    return fill >= 0.75 ? 'full' : fill >= 0.25 ? 'half' : 'empty';
+  });
 
   return (
-    <div className="flex items-center gap-0.5" aria-label={`Rating: ${rating} out of 5 stars`}>
-      {Array.from({ length: fullStars }).map((_, i) => (
-        <svg key={`full-${i}`} width="14" height="14" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
-      ))}
-      {hasHalf && (
-        <svg width="14" height="14" viewBox="0 0 24 24" strokeWidth="1">
+    <span className="inline-flex items-center" style={{ gap: 1 }}
+          aria-label={`${rating} out of 5 stars`}>
+      {stars.map((type, i) => (
+        <svg key={i} width={size} height={size} viewBox="0 0 24 24"
+             style={{ display: 'block', flexShrink: 0 }}>
           <defs>
-            <linearGradient id="halfStar">
-              <stop offset="50%" stopColor="#FBBF24" />
-              <stop offset="50%" stopColor="#374151" />
+            <linearGradient id={`half-${i}-${size}`}>
+              <stop offset="50%" stopColor="#F5A623"/>
+              <stop offset="50%" stopColor="#E8E8E8"/>
             </linearGradient>
           </defs>
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-            fill="url(#halfStar)" stroke="#FBBF24" />
-        </svg>
-      )}
-      {Array.from({ length: emptyStars }).map((_, i) => (
-        <svg key={`empty-${i}`} width="14" height="14" viewBox="0 0 24 24" fill="#374151" stroke="#4B5563" strokeWidth="1">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          <polygon
+            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+            fill={
+              type === 'full'  ? '#F5A623'                  :
+              type === 'half'  ? `url(#half-${i}-${size})` :
+                                 '#E8E8E8'
+            }
+            stroke="none"
+          />
         </svg>
       ))}
-    </div>
+    </span>
   );
 }
