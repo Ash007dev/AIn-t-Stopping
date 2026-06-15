@@ -6,7 +6,7 @@ import { useAppStore } from '@/store/useAppStore';
 import Navbar from '@/components/Navbar';
 import CategoryNav from '@/components/CategoryNav';
 import ProductCard from '@/components/ProductCard';
-import { Mic, ChevronRight, Zap, UtensilsCrossed, Plus, Brain } from 'lucide-react';
+import { Mic, ChevronRight, Zap, UtensilsCrossed, Plus, Brain, Truck, Clock, Leaf, Sparkles } from 'lucide-react';
 import type { Product } from '@/lib/types';
 
 // Quick-launch labels — plain text, NO emojis
@@ -21,14 +21,14 @@ const QUICK_LAUNCHES = [
 
 // Everyday essentials (SDM advice: replenishable goods)
 const ESSENTIALS = [
-  { name: 'Milk',       sub: '500ml',    price: '₹28' },
-  { name: 'Eggs',       sub: '12 pack',  price: '₹84' },
-  { name: 'Atta',       sub: '5kg',      price: '₹245' },
-  { name: 'Bread',      sub: 'White',    price: '₹40' },
-  { name: 'Rice',       sub: '5kg',      price: '₹320' },
-  { name: 'Oil',        sub: '1L',       price: '₹165' },
-  { name: 'Sugar',      sub: '1kg',      price: '₹42' },
-  { name: 'Tea',        sub: '250g',     price: '₹120' },
+  { name: 'Milk',       sub: '500ml',    price: '₹28',  emoji: '🥛' },
+  { name: 'Eggs',       sub: '12 pack',  price: '₹84',  emoji: '🥚' },
+  { name: 'Atta',       sub: '5kg',      price: '₹245', emoji: '🌾' },
+  { name: 'Bread',      sub: 'White',    price: '₹40',  emoji: '🍞' },
+  { name: 'Rice',       sub: '5kg',      price: '₹320', emoji: '🍚' },
+  { name: 'Oil',        sub: '1L',       price: '₹165', emoji: '🛢️' },
+  { name: 'Sugar',      sub: '1kg',      price: '₹42',  emoji: '🧂' },
+  { name: 'Tea',        sub: '250g',     price: '₹120', emoji: '🍵' },
 ];
 
 const MODES = [
@@ -117,24 +117,35 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-[#232F3E] to-[#37475A] px-4 py-6">
-        <div className="max-w-screen-xl mx-auto">
-          <h1 className="text-white text-[22px] font-bold mb-1">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#131A22] via-[#232F3E] to-[#37475A] px-4 pt-7 pb-8">
+        <div className="absolute inset-0 hero-texture pointer-events-none" />
+        {/* glow orb */}
+        <div className="absolute -top-16 -right-10 w-56 h-56 bg-[#FF9900]/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-screen-xl mx-auto">
+          <div className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 backdrop-blur-sm text-[#FFD814] text-[11px] font-semibold px-3 py-1 rounded-full mb-3">
+            <Sparkles size={12} />
+            AI-powered grocery shopping
+          </div>
+
+          <h1 className="text-white text-[26px] sm:text-[30px] font-bold leading-tight mb-1.5">
             What do you need today?
           </h1>
-          <p className="text-[#A8B4C0] text-[14px] mb-4">
-            Just tell us - AI builds your cart in seconds
+          <p className="text-[#C5D0DB] text-[14px] mb-5 max-w-md">
+            Just tell us in your words — AI builds your cart in seconds and delivers in minutes.
           </p>
 
           {/* Voice CTA */}
           <button
             onClick={() => router.push('/nowspeak')}
-            className="w-full bg-[#FF9900] hover:bg-[#E47911] text-white font-bold
-                       py-3.5 rounded-lg flex items-center justify-center gap-3
-                       transition-colors shadow-lg text-[15px]"
+            className="cta-glow w-full bg-gradient-to-r from-[#FFA724] to-[#FF9900] hover:from-[#FF9900] hover:to-[#E47911]
+                       text-[#131A22] font-bold py-4 rounded-xl flex items-center justify-center gap-3
+                       transition-all text-[15px] active:scale-[0.99]"
           >
-            <Mic size={20} />
-            Speak to Order - NowSpeak
+            <span className="w-8 h-8 rounded-full bg-[#131A22]/15 flex items-center justify-center">
+              <Mic size={18} />
+            </span>
+            Speak to Order — NowSpeak
           </button>
 
           {/* Quick chips */}
@@ -143,9 +154,9 @@ export default function Home() {
               <button
                 key={chip.label}
                 onClick={() => handleQuickLaunch(chip)}
-                className="flex-shrink-0 px-4 py-2 rounded-full border border-[#A8B4C0]/30
+                className="flex-shrink-0 px-4 py-2 rounded-full border border-white/15
                            text-[13px] text-white/90 bg-white/10 backdrop-blur-sm
-                           hover:bg-white/20 transition-colors font-medium whitespace-nowrap"
+                           hover:bg-white/20 hover:border-[#FF9900]/50 transition-all font-medium whitespace-nowrap"
               >
                 {chip.label}
               </button>
@@ -154,28 +165,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Category Navigation */}
-      <CategoryNav onSelect={handleCategorySelect} />
+      {/* Trust / delivery promise strip */}
+      <section className="bg-white border-b border-[#D5D9D9]">
+        <div className="max-w-screen-xl mx-auto grid grid-cols-3 divide-x divide-[#E6E8E8]">
+          {[
+            { Icon: Clock,  title: '14 min',     sub: 'Express delivery', color: '#FF9900' },
+            { Icon: Truck,  title: 'Free',       sub: 'Over ₹199',        color: '#007185' },
+            { Icon: Leaf,   title: 'Fresh',      sub: 'Farm-picked daily', color: '#007600' },
+          ].map(b => (
+            <div key={b.sub} className="flex items-center justify-center gap-2 py-2.5 px-2">
+              <b.Icon size={18} style={{ color: b.color }} />
+              <div className="leading-tight">
+                <p className="text-[12px] font-bold text-[#0F1111]">{b.title}</p>
+                <p className="text-[10px] text-[#565959]">{b.sub}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Modes Section — Professional cards */}
       <section className="px-4 py-5">
-        <h2 className="text-[17px] font-bold text-[#0F1111] mb-3">
+        <h2 className="text-[17px] font-bold text-[#0F1111] mb-0.5">
           How would you like to shop?
         </h2>
+        <p className="text-[12px] text-[#565959] mb-3">Pick a way and let AI do the heavy lifting</p>
         <div className="grid grid-cols-2 gap-3">
           {MODES.map(mode => (
             <button
               key={mode.id}
               onClick={() => handleModeClick(mode.id)}
-              className="bg-white border border-[#D5D9D9] rounded-lg p-4 text-left
-                         hover:border-[#FF9900] hover:shadow-md transition-all group"
+              className="lift relative overflow-hidden bg-white border border-[#D5D9D9] rounded-xl p-4 text-left
+                         hover:border-[#FF9900] group"
             >
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-2"
-                   style={{ backgroundColor: mode.color + '15' }}>
-                <mode.Icon size={20} style={{ color: mode.color }} />
+              {/* corner accent */}
+              <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-full opacity-[0.07]"
+                   style={{ backgroundColor: mode.color }} />
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-2.5"
+                   style={{ backgroundColor: mode.color + '18' }}>
+                <mode.Icon size={22} style={{ color: mode.color }} />
               </div>
-              <p className="text-[14px] font-bold text-[#0F1111] group-hover:text-[#007185]">
+              <p className="text-[14px] font-bold text-[#0F1111] group-hover:text-[#007185] flex items-center gap-1">
                 {mode.label}
+                <ChevronRight size={15} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all text-[#FF9900]" />
               </p>
               <p className="text-[11px] text-[#565959] mt-0.5 leading-tight">
                 {mode.desc}
@@ -186,45 +218,63 @@ export default function Home() {
       </section>
 
       {/* Everyday Essentials — SDM advice: replenishable goods */}
-      <section className="px-4 py-4 bg-white border-y border-[#D5D9D9]">
+      <section className="px-4 py-5 bg-white border-y border-[#D5D9D9]">
         <div className="flex items-center justify-between mb-3">
           <div>
             <h2 className="text-[17px] font-bold text-[#0F1111]">Everyday Essentials</h2>
             <p className="text-[12px] text-[#565959]">Quick replenish — one-tap add</p>
           </div>
-          <Zap size={16} className="text-[#FF9900]" />
+          <span className="flex items-center gap-1 text-[11px] font-semibold text-[#FF9900] bg-[#FF9900]/10 px-2.5 py-1 rounded-full">
+            <Zap size={13} /> Fast add
+          </span>
         </div>
 
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-2.5">
           {ESSENTIALS.map(item => (
             <button
               key={item.name}
-              className="bg-[#F7F7F7] border border-[#D5D9D9] rounded-lg p-2.5
-                         hover:border-[#FF9900] hover:shadow-sm transition-all text-center"
+              className="lift group bg-white border border-[#E0E3E3] rounded-xl p-2.5
+                         hover:border-[#FF9900] text-center relative"
               onClick={() => {
                 setMode('addon');
                 router.push(`/intent?mode=addon&preset=${encodeURIComponent(item.name)}&count=1&time=Now&diet=No+restriction`);
               }}
             >
-              <p className="text-[13px] font-bold text-[#0F1111]">{item.name}</p>
+              <div className="mx-auto w-11 h-11 rounded-full bg-[#F2F4F4] flex items-center justify-center text-[20px] mb-1.5 group-hover:bg-[#FFF3E0] transition-colors">
+                {item.emoji}
+              </div>
+              <p className="text-[13px] font-bold text-[#0F1111] leading-tight">{item.name}</p>
               <p className="text-[10px] text-[#565959]">{item.sub}</p>
               <p className="text-[12px] text-[#CC0C39] font-bold mt-1">{item.price}</p>
+              {/* add chip */}
+              <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#FF9900] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <Plus size={13} strokeWidth={3} />
+              </span>
             </button>
           ))}
         </div>
       </section>
 
+      {/* Category Navigation */}
+      <div className="bg-white pt-4">
+        <h2 className="text-[17px] font-bold text-[#0F1111] px-4 mb-1">Shop by category</h2>
+      </div>
+      <CategoryNav onSelect={handleCategorySelect} />
+
       {/* Trending Products */}
       {trendingProducts.length > 0 && (
-        <section className="px-4 py-4">
+        <section className="px-4 py-5">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-[17px] font-bold text-[#0F1111]">{categoryTitle}</h2>
-            <button className="text-[13px] text-[#007185] font-medium flex items-center gap-0.5">
+            <h2 className="text-[17px] font-bold text-[#0F1111] flex items-center gap-1.5">
+              <Sparkles size={16} className="text-[#FF9900]" />
+              {categoryTitle}
+            </h2>
+            <button className="text-[13px] text-[#007185] font-medium flex items-center gap-0.5 hover:underline">
               See all <ChevronRight size={14} />
             </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[1px] bg-[#D5D9D9] border border-[#D5D9D9] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[1px] bg-[#D5D9D9] border border-[#D5D9D9] rounded-xl overflow-hidden shadow-sm">
             {trendingProducts.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -277,22 +327,23 @@ export default function Home() {
       </section>
 
       {/* NowSpeak promo */}
-      <section className="px-4 py-4">
+      <section className="px-4 py-5">
         <button
           onClick={() => router.push('/nowspeak')}
-          className="w-full bg-white border border-[#D5D9D9] rounded-lg p-5
-                     flex items-center gap-4 hover:border-[#FF9900] hover:shadow-md transition-all"
+          className="lift w-full relative overflow-hidden bg-gradient-to-r from-[#232F3E] to-[#37475A] rounded-xl p-5
+                     flex items-center gap-4 hover:border-[#FF9900] text-left"
         >
-          <div className="w-14 h-14 bg-[#FF9900]/10 rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="absolute -right-6 -bottom-8 w-32 h-32 bg-[#FF9900]/15 rounded-full blur-2xl pointer-events-none" />
+          <div className="w-14 h-14 bg-[#FF9900]/20 rounded-full flex items-center justify-center flex-shrink-0 relative">
             <Mic size={24} className="text-[#FF9900]" />
           </div>
-          <div className="text-left flex-1">
-            <p className="text-[15px] font-bold text-[#0F1111]">NowSpeak Voice Assistant</p>
-            <p className="text-[12px] text-[#565959] mt-0.5">
-              Just talk naturally - &quot;I need snacks for a movie night&quot;
+          <div className="text-left flex-1 relative">
+            <p className="text-[15px] font-bold text-white">NowSpeak Voice Assistant</p>
+            <p className="text-[12px] text-[#C5D0DB] mt-0.5">
+              Just talk naturally — &quot;I need snacks for a movie night&quot;
             </p>
           </div>
-          <ChevronRight size={20} className="text-[#8C9296] flex-shrink-0" />
+          <ChevronRight size={20} className="text-white/70 flex-shrink-0 relative" />
         </button>
       </section>
 

@@ -64,38 +64,42 @@ export default function CheckoutPage() {
     return (
       <main className="bg-[#F0F2F2] min-h-screen">
         <Navbar />
-        <div className="max-w-2xl mx-auto mt-8 bg-white border border-[#D5D9D9] rounded p-8">
-          <div className="flex items-center gap-3 mb-6 border-b border-[#D5D9D9] pb-4">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-[#007600] flex-shrink-0">
-              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
-                    fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2"/>
-              <path d="M8 12l3 3 5-5" stroke="currentColor" strokeWidth="2"
-                    strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <div>
-              <h1 className="text-xl font-bold text-[#007600]">Order placed, thank you!</h1>
-              <p className="text-[14px] text-[#0F1111]">Confirmation will be sent to your email.</p>
+        <div className="max-w-2xl mx-auto mt-8 px-4">
+          <div className="bg-white border border-[#D5D9D9] rounded-2xl p-8 shadow-sm animate-scale-in">
+            <div className="flex items-center gap-4 mb-6 border-b border-[#D5D9D9] pb-5">
+              <div className="w-14 h-14 rounded-full bg-[#007600]/10 flex items-center justify-center flex-shrink-0">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" className="text-[#007600] flex-shrink-0">
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
+                        fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M8 12l3 3 5-5" stroke="currentColor" strokeWidth="2"
+                        strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-[#007600]">Order placed, thank you!</h1>
+                <p className="text-[14px] text-[#565959]">Confirmation will be sent to your email.</p>
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-3 mb-8">
-            <div className="flex justify-between text-[14px]">
-              <span className="text-[#565959] font-bold">Order Number</span>
-              <span className="font-medium text-[#007185]">{orderId}</span>
+            <div className="bg-[#F7FBF7] border border-[#CDEBCD] rounded-xl p-4 space-y-3 mb-8">
+              <div className="flex justify-between text-[14px]">
+                <span className="text-[#565959] font-semibold">Order Number</span>
+                <span className="font-bold text-[#007185]">{orderId}</span>
+              </div>
+              <div className="flex justify-between text-[14px]">
+                <span className="text-[#565959] font-semibold">Estimated Delivery</span>
+                <span className="font-bold text-[#007600]">{finalEta} minutes</span>
+              </div>
             </div>
-            <div className="flex justify-between text-[14px]">
-              <span className="text-[#565959] font-bold">Estimated Delivery</span>
-              <span className="font-bold text-[#007600]">{finalEta} minutes</span>
-            </div>
-          </div>
 
-          <button
-            onClick={() => router.push('/')}
-            className="w-full py-2.5 rounded-lg text-[14px] bg-[#F0F2F2] hover:bg-[#E3E6E6]
-                       text-[#0F1111] border border-[#D5D9D9] font-medium transition-colors"
-          >
-            Continue shopping
-          </button>
+            <button
+              onClick={() => router.push('/')}
+              className="w-full py-3 rounded-xl text-[14px] bg-[#F0F2F2] hover:bg-[#E3E6E6]
+                         text-[#0F1111] border border-[#D5D9D9] font-bold transition-colors"
+            >
+              Continue shopping
+            </button>
+          </div>
         </div>
       </main>
     );
@@ -116,26 +120,27 @@ export default function CheckoutPage() {
         <div className="flex flex-col lg:flex-row gap-6 items-start">
 
           {/* Left Column */}
-          <div className="flex-1 bg-white border border-[#D5D9D9] rounded p-6">
+          <div className="flex-1 bg-white border border-[#D5D9D9] rounded-2xl p-6 shadow-sm">
             <h2 className="text-xl font-bold text-[#0F1111] mb-4">
               1 &nbsp; Review items and delivery
             </h2>
 
-            <div className="border border-[#D5D9D9] rounded p-4 mb-4">
-              <h3 className="font-bold text-[#007600] mb-1">
+            <div className="border border-[#CDEBCD] bg-[#F7FBF7] rounded-xl p-4 mb-4">
+              <h3 className="font-bold text-[#007600] mb-1 flex items-center gap-1.5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#007600"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 Guaranteed delivery in {maxEta} mins
               </h3>
               <p className="text-[14px] text-[#565959] mb-4">Items shipped from Amazon Intent</p>
 
               <div className="space-y-4">
                 {cart.map(item => (
-                  <div key={item.id} className="flex gap-4">
-                    <div className="w-16 h-16 bg-white rounded border border-[#D5D9D9] p-1 flex-shrink-0">
+                  <div key={item.id} className="flex gap-4 bg-white rounded-xl p-2 border border-[#E6E8E8]">
+                    <div className="w-16 h-16 bg-white rounded-lg border border-[#D5D9D9] p-1 flex-shrink-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={item.image_url} alt={item.name}
                            className="w-full h-full object-contain" />
                     </div>
-                    <div className="min-w-0 flex-1">
+                    <div className="min-w-0 flex-1 self-center">
                       <p className="text-[14px] font-medium text-[#0F1111] truncate">{item.name}</p>
                       <p className="text-[14px] text-[#CC0C39] font-bold">
                         ₹{item.price < 1000 ? item.price : Math.round(item.price / 100)}
@@ -150,12 +155,13 @@ export default function CheckoutPage() {
 
           {/* Right Column */}
           <div className="w-full lg:w-[320px] flex-shrink-0">
-            <div className="bg-white border border-[#D5D9D9] rounded p-5 sticky top-6">
+            <div className="bg-white border border-[#D5D9D9] rounded-2xl p-5 sticky top-6 shadow-sm">
               <button
                 onClick={handlePlaceOrder}
                 disabled={isPlacing}
-                className="w-full py-2.5 rounded-lg text-[14px] bg-[#FFD814] hover:bg-[#F7CA00]
-                           text-[#0F1111] border border-[#FCD200] font-bold transition-colors
+                className="cta-glow w-full py-3 rounded-xl text-[14px] bg-gradient-to-r from-[#FFD814] to-[#FFB800]
+                           hover:from-[#F7CA00] hover:to-[#F0A800]
+                           text-[#0F1111] border border-[#FCD200] font-bold transition-all active:scale-[0.99]
                            flex justify-center items-center gap-2 disabled:opacity-70"
               >
                 {isPlacing ? 'Processing...' : 'Place your order'}

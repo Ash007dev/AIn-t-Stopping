@@ -1,10 +1,11 @@
 // components/Navbar.tsx — Pixel-perfect Amazon Now header
 'use client';
 import { useState } from 'react';
-import { ShoppingCart, Mic, Home, X } from 'lucide-react';
+import { ShoppingCart, Mic, Home, X, User } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const router = useRouter();
@@ -100,6 +101,19 @@ export default function Navbar() {
                 {itemCount}
               </span>
             )}
+          </Link>
+
+          {/* Theme toggle */}
+          <ThemeToggle compact />
+
+          {/* Profile */}
+          <Link
+            href="/profile"
+            aria-label="Your account"
+            className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center
+                       hover:bg-[#F0F2F2] transition-colors"
+          >
+            <User size={22} className="text-[#0F1111]" strokeWidth={1.5} />
           </Link>
         </div>
 

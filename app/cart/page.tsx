@@ -28,13 +28,16 @@ export default function CartPage() {
       <main className="bg-[#F0F2F2] min-h-screen pb-32">
         <Navbar />
         <div className="flex items-center justify-center py-20 px-4">
-          <div className="text-center max-w-md">
-            <h2 className="text-2xl font-bold text-[#0F1111] mb-3">Your cart is empty</h2>
+          <div className="text-center max-w-md bg-white border border-[#D5D9D9] rounded-2xl p-8 shadow-sm animate-fade-in">
+            <div className="mx-auto w-20 h-20 rounded-full bg-[#FFF3E0] flex items-center justify-center mb-4 text-[34px]">
+              🛒
+            </div>
+            <h2 className="text-2xl font-bold text-[#0F1111] mb-2">Your cart is empty</h2>
             <p className="text-[#565959] mb-6">Tell us what you need and we will build the perfect cart for you.</p>
             <button
               onClick={() => router.push('/')}
-              className="bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-bold
-                         px-8 py-3 rounded-lg border border-[#FCD200] transition-colors"
+              className="cta-glow bg-gradient-to-r from-[#FFD814] to-[#FFB800] hover:from-[#F7CA00] hover:to-[#F0A800]
+                         text-[#0F1111] font-bold px-8 py-3 rounded-xl border border-[#FCD200] transition-all active:scale-[0.99]"
             >
               Start Shopping
             </button>
@@ -116,14 +119,17 @@ export default function CartPage() {
 
         {/* Left: product grid */}
         <div className="flex-1">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4
-                          gap-[1px] bg-[#D5D9D9] border-x border-[#D5D9D9]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 px-4 py-3 lg:px-0 lg:py-0">
             {mainItems.map(item => (
-              <ProductCard
+              <div
                 key={item.id}
-                product={item}
-                highlightBorder={highlighted.includes(item.id)}
-              />
+                className="bg-white border border-[#D5D9D9] rounded-xl overflow-hidden shadow-sm"
+              >
+                <ProductCard
+                  product={item}
+                  highlightBorder={highlighted.includes(item.id)}
+                />
+              </div>
             ))}
           </div>
 
@@ -132,14 +138,21 @@ export default function CartPage() {
             <section className="mt-4 border-t border-[#D5D9D9] pt-4">
               <div className="px-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <h3 className="text-[15px] font-bold text-[#0F1111]">Suggested Add-ons</h3>
+                  <h3 className="text-[15px] font-bold text-[#0F1111] flex items-center gap-1.5">
+                    <span className="text-[#FF9900]">✨</span> Suggested Add-ons
+                  </h3>
                   <span className="text-[12px] text-[#565959] bg-[#F0F2F2] px-2 py-0.5 rounded-full">
                     Customers who bought this also got
                   </span>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-[1px] bg-[#D5D9D9] border border-[#D5D9D9]">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                   {suggestions.map(item => (
-                    <ProductCard key={item.id} product={item} />
+                    <div
+                      key={item.id}
+                      className="bg-white border border-[#D5D9D9] rounded-xl overflow-hidden shadow-sm"
+                    >
+                      <ProductCard product={item} />
+                    </div>
                   ))}
                 </div>
               </div>

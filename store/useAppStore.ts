@@ -29,6 +29,60 @@ interface AppStore {
   setPinCode: (code: string) => void;
   scannedImageBase64: string | null;
   setScannedImageBase64: (val: string | null) => void;
+  // Profile
+  profile: UserProfile;
+  setProfileInfo: (info: Partial<Pick<UserProfile, "name" | "email" | "phone">>) => void;
+  addAddress: (a: Omit<Address, "id">) => void;
+  updateAddress: (id: string, a: Partial<Address>) => void;
+  removeAddress: (id: string) => void;
+  setDefaultAddress: (id: string) => void;
+  addPayment: (p: Omit<PaymentMethod, "id">) => void;
+  removePayment: (id: string) => void;
+  setDefaultPayment: (id: string) => void;
+}
+
+export interface Address {
+  id: string;
+  label: string;        // Home, Work, Other
+  fullName: string;
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  pincode: string;
+  phone: string;
+  isDefault?: boolean;
+}
+
+export interface PaymentMethod {
+  id: string;
+  type: "card" | "upi" | "cod";
+  label: string;        // e.g. "Visa ****1234" or "name@upi"
+  detail?: string;      // expiry / holder
+  isDefault?: boolean;
+}
+
+export interface UserProfile {
+  name: string;
+  email: string;
+  phone: string;
+  addresses: Address[];
+  payments: PaymentMethod[];
+}
+
+function loadProfile(): UserProfile {
+  const fallback: UserProfile = { name: "", email: "", phone: "", addresses: [], payments: [] };
+  if (typeof window === "undefined") return fallback;
+  try {
+    const raw = localStorage.getItem("user_profile");
+    return raw ? { ...fallback, ...JSON.parse(raw) } : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveProfile(p: UserProfile) {
+  try { localStorage.setItem("user_profile", JSON.stringify(p)); } catch {}
 }
 
 function loadPurchaseHistory(): PurchaseRecord[] {
@@ -51,12 +105,12 @@ function loadPinCode(): string {
 }
 
 export const useAppStore = create<AppStore>((set, get) => ({
-  theme: "light",
+  theme: loadTheme(),
   setTheme: (theme) => {
-    set({ theme: "light" });
+    set({ theme });
     try {
-      localStorage.setItem("app_theme", "light");
-      document.documentElement.classList.remove("dark");
+      localStorage.setItem("app_theme", theme);
+      document.documentElement.classList.toggle("dark", theme === "dark");
     } catch {}
   },
   selectedMode: null,
@@ -174,4 +228,66 @@ export const useAppStore = create<AppStore>((set, get) => ({
   },
   scannedImageBase64: null,
   setScannedImageBase64: (val) => set({ scannedImageBase64: val }),
+
+  // ===== Profile =====
+  profile: loadProfile(),
+  setProfileInfo: (info) => {
+    const profile = { ...get().profile, ...info };
+    set({ profile });
+    saveProfile(profile);
+  },
+  addAddress: (a) => {
+    const addresses = [...get().profile.addresses];
+    const id = `addr-${Date.now()}`;
+    const isFirst = addresses.length === 0;
+    const newAddr: Address = { ...a, id, isDefault: isFirst || a.isDefault };
+    if (newAddr.isDefault) addresses.forEach(x => (x.isDefault = false));
+    addresses.push(newAddr);
+    const profile = { ...get().profile, addresses };
+    set({ profile });
+    saveProfile(profile);
+  },
+  updateAddress: (id, a) => {
+    const addresses = get().profile.addresses.map(x => (x.id === id ? { ...x, ...a } : x));
+    const profile = { ...get().profile, addresses };
+    set({ profile });
+    saveProfile(profile);
+  },
+  removeAddress: (id) => {
+    const addresses = get().profile.addresses.filter(x => x.id !== id);
+    if (addresses.length && !addresses.some(x => x.isDefault)) addresses[0].isDefault = true;
+    const profile = { ...get().profile, addresses };
+    set({ profile });
+    saveProfile(profile);
+  },
+  setDefaultAddress: (id) => {
+    const addresses = get().profile.addresses.map(x => ({ ...x, isDefault: x.id === id }));
+    const profile = { ...get().profile, addresses };
+    set({ profile });
+    saveProfile(profile);
+  },
+  addPayment: (p) => {
+    const payments = [...get().profile.payments];
+    const id = `pay-${Date.now()}`;
+    const isFirst = payments.length === 0;
+    const newPay: PaymentMethod = { ...p, id, isDefault: isFirst || p.isDefault };
+    if (newPay.isDefault) payments.forEach(x => (x.isDefault = false));
+    payments.push(newPay);
+    const profile = { ...get().profile, payments };
+    set({ profile });
+    saveProfile(profile);
+  },
+  removePayment: (id) => {
+    const payments = get().profile.payments.filter(x => x.id !== id);
+    if (payments.length && !payments.some(x => x.isDefault)) payments[0].isDefault = true;
+    const profile = { ...get().profile, payments };
+    set({ profile });
+    saveProfile(profile);
+  },
+  setDefaultPayment: (id) => {
+    const payments = get().profile.payments.map(x => ({ ...x, isDefault: x.id === id }));
+    const profile = { ...get().profile, payments };
+    set({ profile });
+    saveProfile(profile);
+  },
 }));
