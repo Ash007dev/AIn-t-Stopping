@@ -85,7 +85,7 @@ export default function Navbar() {
             <button
               onClick={() => router.push('/nowspeak')}
               className="flex items-center justify-center px-3 bg-[#F3A847] hover:bg-[#E47911] h-full transition-colors"
-              title="Speak to order — NowSpeak Voice Assistant"
+              title="Speak to order - NowSpeak Voice Assistant"
             >
               <Mic size={16} className="text-[#0F1111]" />
             </button>
@@ -124,7 +124,7 @@ export default function Navbar() {
           </button>
           {/* Mic hint text — Item 13 */}
           <p className="text-[10px] text-[#8C9296] text-center">
-            Tap the mic to speak your order — we&apos;ll build your cart instantly
+            Tap the mic to speak your order - we&apos;ll build your cart instantly
           </p>
         </div>
 

@@ -17,7 +17,16 @@ export function formatPrice(amount: number): string {
 
 export function getMaxEta(items: CartProduct[]): number {
   if (!items || items.length === 0) return 0;
-  return Math.max(...items.map((i) => i.eta_minutes));
+  let max = 0;
+  items.forEach(i => {
+    let eta = i.eta_minutes;
+    if (!eta) {
+      // Generate a deterministic pseudo-random ETA between 12 and 22 based on product id length
+      eta = 12 + (i.id.length % 10);
+    }
+    if (eta > max) max = eta;
+  });
+  return max;
 }
 
 export function generateOrderId(): string {
