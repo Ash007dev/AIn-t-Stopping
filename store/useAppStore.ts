@@ -137,10 +137,10 @@ export const useAppStore = create<AppStore>((set, get) => ({
   occasionTitle: "",
   parsedIntent: null,
   setCartResult: (result) => set({
-    cart: result.cart,
-    regionalProducts: result.regionalProducts,
-    occasionTitle: result.occasionTitle,
-    parsedIntent: result.parsedIntent,
+    cart: result.cart ?? [],
+    regionalProducts: result.regionalProducts ?? [],
+    occasionTitle: result.occasionTitle ?? "",
+    parsedIntent: result.parsedIntent ?? null,
   }),
   switchProduct: (cardIndex, alternativeId) => {
     const cart = [...get().cart];

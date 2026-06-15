@@ -16,7 +16,7 @@ export default function Navbar() {
   const customerLocation = useAppStore(s => s.customerLocation);
   const setCustomerLocation = useAppStore(s => s.setCustomerLocation);
 
-  const mainItems = cart.filter(i => !i.is_suggestion);
+  const mainItems = (cart ?? []).filter(i => !i.is_suggestion);
   const itemCount = mainItems.reduce((s, i) => s + i.quantity, 0);
 
   // Dynamic ETA from cart items
