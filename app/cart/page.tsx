@@ -11,6 +11,7 @@ import LoadingScreen from "@/components/loading/LoadingScreen";
 import { Button, Pill, StarRating, Card, Chip } from "@/components/ui";
 import { mockScenarios, CartScenario } from "@/data/mockCart";
 import { CartProduct, Product } from "@/lib/types";
+import { useAppStore } from "@/store/useAppStore";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -713,9 +714,50 @@ function CartInner({ scenario: initialScenario }: { scenario: CartScenario }) {
 function CartPageInner() {
   const searchParams = useSearchParams();
   const slug = searchParams.get("scenario") ?? "movie-night";
-  const scenario = mockScenarios[slug] ?? mockScenarios["movie-night"];
+  const mockScenario = mockScenarios[slug] ?? mockScenarios["movie-night"];
 
-  const [loaded, setLoaded] = useState(false);
+  // ── Read from real AI backend if populated ──
+  const storeCart = useAppStore((s) => s.cart);
+  const storeRegional = useAppStore((s) => s.regionalProducts);
+  const storeTitle = useAppStore((s) => s.occasionTitle);
+  
+  const scenario: CartScenario = storeCart.length > 0
+    ? {
+        slug: "dynamic",
+        occasionTitle: storeTitle || mockScenario.occasionTitle,
+        emoji: "✨",
+        eta: 18,
+        total: storeCart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+        itemCount: storeCart.reduce((sum, item) => sum + item.quantity, 0),
+        products: storeCart,
+        regionalProducts: storeRegional,
+      }
+    : mockScenario;
+
+  const [loaded, setLoaded] = useState(() => {
+    // Skip loading screen if navigating directly to /cart without a scenario param (e.g. from Navbar)
+    // and we already have items in the store.
+    if (!searchParams.get("scenario") && storeCart.length > 0) return true;
+    return false;
+  });
+
+  // If directly accessing /cart with no scenario and an empty store, show empty state
+  if (!searchParams.get("scenario") && storeCart.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-center px-4" style={{ background: "#0a0a0a" }}>
+        <div className="w-16 h-16 rounded-full bg-[#1a1a1a] flex items-center justify-center mb-4 border border-[#2a2a2a]">
+          <span className="text-2xl">🛒</span>
+        </div>
+        <h2 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "Sora, sans-serif" }}>Your cart is empty</h2>
+        <p className="text-sm text-[#666666] mb-6">Looks like you haven't added anything yet.</p>
+        <Link href="/">
+          <Button variant="primary" className="rounded-full px-6 py-2.5 text-sm font-bold">
+            Start Shopping →
+          </Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <AnimatePresence mode="wait">
