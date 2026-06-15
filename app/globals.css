@@ -7,16 +7,16 @@
 
 @layer base {
   :root {
-    /* Light mode (legacy) */
-    --bg-color: #FFFFFF;
-    --text-color: #0F1111;
+    /* Light mode (legacy) / default */
+    --bg-color: #0a0a0a;
+    --text-color: #FFFFFF;
 
     /* IntentCart dark theme tokens */
     --bg-primary: #0a0a0a;
     --bg-card: #111111;
     --bg-elevated: #1a1a1a;
-    --border-default: #1f1f1f;
-    --border-bright: #2a2a2a;
+    --border-default: #222222;
+    --border-bright: #333333;
     --accent-primary: #E8170A;
     --accent-hover: #FF2010;
     --accent-orange: #FF9900;
@@ -24,17 +24,22 @@
     --accent-star: #FBBF24;
     --text-primary: #FFFFFF;
     --text-secondary: #A0A0A0;
-    --text-muted: #666666;
+    --text-muted: #555555;
 
-    /* Radius */
+    /* Design System Radii */
+    --radius-card: 16px;
+    --radius-button: 12px;
+    --radius-pill: 999px;
+    --radius-input: 12px;
+
+    /* Legacy/Other Radii */
     --radius-sm: 6px;
     --radius-md: 10px;
     --radius-lg: 16px;
     --radius-full: 9999px;
   }
-
   .dark {
-    --bg-color: #131A22;
+    --bg-color: #0a0a0a;
     --text-color: #FFFFFF;
   }
 
@@ -128,6 +133,44 @@
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: #2a2a2a;
-  border-radius: 3px;
+  border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+.dark ::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* Design System Utilities */
+.card-shadow {
+  box-shadow: 0 0 0 1px #222222, 0 4px 24px rgba(0,0,0,0.4);
+}
+
+.card-shadow-hover {
+  box-shadow: 0 0 0 1px #333333, 0 8px 32px rgba(0,0,0,0.6), 0 0 24px rgba(232,23,10,0.15);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a1515 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}

@@ -1,6 +1,6 @@
 // app/page.tsx - Home / Mode Selection
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import ModeCard from "@/components/ModeCard";
@@ -36,7 +36,7 @@ const MODES = [
   },
 ];
 
-export default function Home() {
+function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setMode = useAppStore((s) => s.setMode);
@@ -219,5 +219,13 @@ export default function Home() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-gray-400">Loading...</p></div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

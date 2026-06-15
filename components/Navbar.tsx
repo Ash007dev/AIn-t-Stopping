@@ -21,7 +21,7 @@ const CITIES = [
   { label: "Mumbai, Maharashtra", active: false },
 ];
 
-const PROFILE_ITEMS = ["Edit Profile", "Order History", "Sign Out"];
+// const PROFILE_ITEMS = ["Edit Profile", "Order History", "Sign Out"];
 
 export default function Navbar() {
   const { itemCount } = useCart();
