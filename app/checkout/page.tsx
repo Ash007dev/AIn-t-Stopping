@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
 import { computeCartTotal, getMaxEta, generateOrderId } from '@/lib/cart-utils';
+import { getProductImage, getProductEmoji, getProductTint } from '@/lib/productImage';
 import Navbar from '@/components/Navbar';
 
 export default function CheckoutPage() {
@@ -135,10 +136,14 @@ export default function CheckoutPage() {
               <div className="space-y-4">
                 {cart.map(item => (
                   <div key={item.id} className="flex gap-4 bg-white rounded-xl p-2 border border-[#E6E8E8]">
-                    <div className="w-16 h-16 bg-white rounded-lg border border-[#D5D9D9] p-1 flex-shrink-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={item.image_url} alt={item.name}
-                           className="w-full h-full object-contain" />
+                    <div className="w-16 h-16 rounded-lg border border-[#D5D9D9] p-1 flex-shrink-0 flex items-center justify-center" style={{ backgroundColor: getProductTint(item) }}>
+                      {getProductImage(item) ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={getProductImage(item) as string} alt={item.name}
+                             className="w-full h-full object-contain" />
+                      ) : (
+                        <span className="text-[30px] leading-none" role="img" aria-label={item.name}>{getProductEmoji(item)}</span>
+                      )}
                     </div>
                     <div className="min-w-0 flex-1 self-center">
                       <p className="text-[14px] font-medium text-[#0F1111] truncate">{item.name}</p>

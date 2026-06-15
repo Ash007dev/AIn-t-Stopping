@@ -2,6 +2,7 @@
 'use client';
 import { useRouter, useParams } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
+import { getProductImage, getProductEmoji, getProductTint } from '@/lib/productImage';
 import Navbar from '@/components/Navbar';
 
 export default function OrderDetailPage() {
@@ -69,15 +70,17 @@ export default function OrderDetailPage() {
             <div className="space-y-3 mb-4">
               {order.items.map((item, i) => (
                 <div key={item.id || i} className="flex gap-3 items-start">
-                  <div className="w-14 h-14 bg-[#F0F2F2] rounded border border-[#D5D9D9] flex-shrink-0 flex items-center justify-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={item.image_url?.startsWith('http') || item.image_url?.startsWith('/placeholder')
-                        ? item.image_url : '/placeholder-product.png'}
-                      alt={item.name}
-                      className="w-12 h-12 object-contain"
-                      onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-product.png'; }}
-                    />
+                  <div className="w-14 h-14 rounded border border-[#D5D9D9] flex-shrink-0 flex items-center justify-center" style={{ backgroundColor: getProductTint(item) }}>
+                    {getProductImage(item) ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={getProductImage(item) as string}
+                        alt={item.name}
+                        className="w-12 h-12 object-contain"
+                      />
+                    ) : (
+                      <span className="text-[26px] leading-none" role="img" aria-label={item.name}>{getProductEmoji(item)}</span>
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[14px] font-medium text-[#0F1111] truncate">{item.name}</p>

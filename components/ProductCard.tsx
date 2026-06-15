@@ -2,6 +2,7 @@
 'use client';
 import { useAppStore } from '@/store/useAppStore';
 import StarRating from './StarRating';
+import { getProductImage, getProductEmoji, getProductTint } from '@/lib/productImage';
 import type { CartProduct, Product } from '@/lib/types';
 
 interface ProductCardProps {
@@ -71,14 +72,20 @@ export default function ProductCard({ product, highlightBorder = false }: Produc
       )}
 
       {/* Product image */}
-      <div className="bg-white flex items-center justify-center p-4 h-44">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={product.image_url?.startsWith('http') || product.image_url?.startsWith('/placeholder') ? product.image_url : '/placeholder-product.png'}
-          alt={product.name}
-          className="max-h-36 max-w-full object-contain"
-          onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-product.png'; }}
-        />
+      <div className="flex items-center justify-center p-3 h-44" style={{ backgroundColor: getProductTint(product) }}>
+        {getProductImage(product) ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={getProductImage(product) as string}
+            alt={product.name}
+            loading="lazy"
+            className="max-h-36 max-w-full object-contain"
+          />
+        ) : (
+          <span className="text-[72px] leading-none select-none" role="img" aria-label={product.name}>
+            {getProductEmoji(product)}
+          </span>
+        )}
       </div>
 
       {/* Product info */}

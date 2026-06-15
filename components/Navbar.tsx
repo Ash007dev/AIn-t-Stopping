@@ -24,6 +24,7 @@ export default function Navbar() {
 
   const [showPinModal, setShowPinModal] = useState(false);
   const [pinInput, setPinInput] = useState(pinCode);
+  const [query, setQuery] = useState('');
 
   const isHome = pathname === '/';
 
@@ -32,6 +33,12 @@ export default function Navbar() {
       setPinCode(pinInput.trim());
       setShowPinModal(false);
     }
+  }
+
+  function submitSearch(e?: React.FormEvent) {
+    e?.preventDefault();
+    const q = query.trim();
+    if (q) router.push(`/search?q=${encodeURIComponent(q)}`);
   }
 
   return (
@@ -69,28 +76,30 @@ export default function Navbar() {
           </Link>
 
           {/* Search bar (desktop) */}
-          <div className="flex-1 hidden md:flex items-center border-2 border-[#FF9900] rounded overflow-hidden h-10">
-            <div className="flex items-center justify-center px-3 bg-[#FF9900] h-full">
+          <form onSubmit={submitSearch} className="flex-1 hidden md:flex items-center border-2 border-[#FF9900] rounded overflow-hidden h-10">
+            <button type="submit" className="flex items-center justify-center px-3 bg-[#FF9900] h-full" aria-label="Search">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                    stroke="white" strokeWidth="2.5" strokeLinecap="round">
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
               </svg>
-            </div>
+            </button>
             <input
               type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
               placeholder='Search for "Atta", "Milk", "Eggs"...'
               className="flex-1 h-full px-3 text-[14px] text-[#0F1111] outline-none
                          placeholder:text-[#8C9296] bg-white"
-              onFocus={() => router.push('/nowspeak')}
             />
             <button
+              type="button"
               onClick={() => router.push('/nowspeak')}
               className="flex items-center justify-center px-3 bg-[#F3A847] hover:bg-[#E47911] h-full transition-colors"
               title="Speak to order - NowSpeak Voice Assistant"
             >
               <Mic size={16} className="text-[#0F1111]" />
             </button>
-          </div>
+          </form>
 
           {/* Cart icon */}
           <Link href="/cart" className="flex-shrink-0 relative ml-auto md:ml-0">
@@ -119,26 +128,32 @@ export default function Navbar() {
 
         {/* Mobile search bar */}
         <div className="md:hidden px-3 pb-2 flex flex-col gap-1">
-          <button
-            onClick={() => router.push('/nowspeak')}
-            className="flex items-center border-2 border-[#FF9900] rounded overflow-hidden h-9"
-          >
-            <div className="flex items-center justify-center px-2.5 bg-[#FF9900] h-full">
+          <form onSubmit={submitSearch} className="flex items-center border-2 border-[#FF9900] rounded overflow-hidden h-9">
+            <button type="submit" className="flex items-center justify-center px-2.5 bg-[#FF9900] h-full" aria-label="Search">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                    stroke="white" strokeWidth="2.5" strokeLinecap="round">
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
               </svg>
-            </div>
-            <span className="flex-1 h-full px-2.5 text-[13px] text-[#8C9296] flex items-center">
-              Search for &quot;Atta&quot;, &quot;Milk&quot;...
-            </span>
-            <div className="flex items-center justify-center px-2.5 bg-[#F3A847] h-full">
+            </button>
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder='Search for "Atta", "Milk"...'
+              className="flex-1 h-full px-2.5 text-[13px] text-[#0F1111] outline-none placeholder:text-[#8C9296] bg-white"
+            />
+            <button
+              type="button"
+              onClick={() => router.push('/nowspeak')}
+              className="flex items-center justify-center px-2.5 bg-[#F3A847] h-full"
+              title="Speak to order"
+            >
               <Mic size={14} className="text-[#0F1111]" />
-            </div>
-          </button>
+            </button>
+          </form>
           {/* Mic hint text — Item 13 */}
           <p className="text-[10px] text-[#8C9296] text-center">
-            Tap the mic to speak your order - we&apos;ll build your cart instantly
+            Type to search, or tap the mic to speak your order
           </p>
         </div>
 
