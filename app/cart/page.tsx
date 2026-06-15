@@ -9,6 +9,7 @@ import CartSummaryPanel from '@/components/CartSummaryPanel';
 import StickyCartBar from '@/components/StickyCartBar';
 import ModificationBar from '@/components/ModificationBar';
 import { computeCartTotal, getMaxEta } from '@/lib/cart-utils';
+import { getDarkStoreInfo, groupCartByDarkStore } from '@/lib/dark-store-utils';
 
 export default function CartPage() {
   const router = useRouter();
@@ -49,6 +50,9 @@ export default function CartPage() {
 
   const eta = getMaxEta(mainItems) || 16;
   const total = computeCartTotal(mainItems);
+  const sourceGroups = groupCartByDarkStore(mainItems);
+  const sourceIds = Object.keys(sourceGroups);
+  const primaryStore = getDarkStoreInfo(sourceIds[0] || 'DS-Central');
 
   async function handleModification(text: string) {
     setModificationError(null);
@@ -110,7 +114,12 @@ export default function CartPage() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#565959" strokeWidth="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>
           </svg>
-          All items from Amazon Dark Store North - <button onClick={() => router.push('/darkstores')} className="text-[#007185] hover:underline ml-1">View nearby stores</button>
+          {sourceIds.length > 1
+            ? `${mainItems.length} items optimally sourced from ${sourceIds.length} nearby hubs`
+            : `Fulfilled by ${primaryStore?.name || 'your nearest Amazon Now hub'}`}
+          <button onClick={() => router.push('/darkstores')} className="text-[#007185] font-semibold hover:underline ml-1">
+            View live sourcing map
+          </button>
         </p>
       </div>
 

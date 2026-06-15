@@ -5,7 +5,12 @@ import { resolveRegion } from "@/lib/region-map";
 import { invokeIntentParser } from "@/lib/agents/intent-parser";
 import { buildDynamicCart } from "@/lib/agents/cart-curator";
 import { computeCartTotal } from "@/lib/cart-utils";
-import { groupCartByDarkStore, getConsolidatedEta, getDarkStoreInfo } from "@/lib/dark-store-utils";
+import {
+  getConsolidatedEta,
+  getNearbyDarkStores,
+  groupCartByDarkStore,
+  sourceCartFromNearbyStores,
+} from "@/lib/dark-store-utils";
 import { startPipelineTrace, finalizePipelineTrace } from "@/lib/ai-logger";
 
 export async function POST(req: NextRequest) {
@@ -17,6 +22,14 @@ export async function POST(req: NextRequest) {
 
     if (!intentText || intentText.trim().length === 0)
       return NextResponse.json({ error: "Intent text is required" }, { status: 400 });
+    if (
+      !householdProfile ||
+      !householdProfile.pinCode ||
+      !Number.isFinite(householdProfile.servingCount) ||
+      !householdProfile.dietary
+    ) {
+      return NextResponse.json({ error: "A valid household profile is required" }, { status: 400 });
+    }
 
     // Start pipeline trace
     trace = startPipelineTrace(intentText, body.mode || "intent");
@@ -85,6 +98,12 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const sourcedCart = sourceCartFromNearbyStores(
+      trimmedCart,
+      householdProfile.location,
+      householdProfile.pinCode
+    );
+
     // Step 6: Get regional suggestions (not for addon or predictive mode)
     const regionalProducts = region && effectiveMode !== "addon" && effectiveMode !== "predictive"
       ? getRegionalProducts(catalog, region)
@@ -95,25 +114,26 @@ export async function POST(req: NextRequest) {
       : `Shopping Cart for ${personCount}`;
 
     // Step 7: Dark store summary
-    const darkStoreGroups = groupCartByDarkStore(trimmedCart);
+    const nearbyStores = getNearbyDarkStores(householdProfile.location, householdProfile.pinCode);
+    const darkStoreGroups = groupCartByDarkStore(sourcedCart);
     const darkStoreSummary = Object.entries(darkStoreGroups).map(([storeId, items]) => ({
-      store: getDarkStoreInfo(storeId),
+      store: nearbyStores.find((store) => store.id === storeId) || null,
       item_count: items.length,
       store_id: storeId
     }));
-    const consolidatedEta = getConsolidatedEta(trimmedCart);
+    const consolidatedEta = getConsolidatedEta(sourcedCart);
 
     // Finalize pipeline trace
     if (trace) finalizePipelineTrace(trace.id, { cartItemCount: trimmedCart.length, status: "success" });
 
     const response: GenerateCartResponse = {
-      cart: trimmedCart,
+      cart: sourcedCart,
       regionalProducts,
       occasionTitle,
       parsedIntent: parsed,
       darkStoreSummary,
       consolidatedEta,
-      subtotal: computeCartTotal(trimmedCart),
+      subtotal: computeCartTotal(sourcedCart),
     };
 
     return NextResponse.json(response);

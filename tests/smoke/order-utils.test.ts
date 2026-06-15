@@ -18,6 +18,14 @@ describe("legacy order normalization", () => {
     })).toBe(58);
   });
 
+  it("recovers legacy totals from the cart snapshot", () => {
+    expect(getOrderSubtotal({
+      cartSnapshot: [
+        { id: "1", name: "Bread", quantity: 2, price: 4200 } as never,
+      ],
+    })).toBe(84);
+  });
+
   it("does not render Invalid Date", () => {
     expect(formatOrderDate({ date: "not-a-date" })).toBe("Date unavailable");
   });

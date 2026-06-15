@@ -7,6 +7,7 @@ import { CreditCard, MapPin } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { computeCartTotal, getMaxEta, generateOrderId } from '@/lib/cart-utils';
 import { getProductImage, getProductEmoji, getProductTint } from '@/lib/productImage';
+import { groupCartByDarkStore } from '@/lib/dark-store-utils';
 import Navbar from '@/components/Navbar';
 
 export default function CheckoutPage() {
@@ -35,6 +36,7 @@ export default function CheckoutPage() {
   const tax = Math.round(subtotal * 0.05);
   const total = subtotal + tax;
   const maxEta = getMaxEta(cart);
+  const sourceCount = Object.keys(groupCartByDarkStore(cart)).length;
 
   function handlePlaceOrder() {
     setIsPlacing(true);
@@ -58,6 +60,8 @@ export default function CheckoutPage() {
           quantity: i.quantity,
           price: i.price,
           image_url: i.image_url,
+          return_policy: i.return_policy,
+          dark_store: i.dark_store,
         })),
       });
       setIsPlacing(false);
@@ -166,7 +170,11 @@ export default function CheckoutPage() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="#007600"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 Guaranteed delivery in {maxEta} mins
               </h3>
-              <p className="text-[14px] text-[#565959] mb-4">Items shipped from Amazon Intent</p>
+              <p className="text-[14px] text-[#565959] mb-4">
+                {sourceCount > 1
+                  ? `Optimally sourced from ${sourceCount} nearby Amazon Now hubs`
+                  : 'Sourced from your nearest Amazon Now hub'}
+              </p>
 
               <div className="space-y-4">
                 {cart.map(item => (

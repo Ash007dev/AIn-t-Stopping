@@ -5,6 +5,15 @@ export interface HouseholdProfile {
   servingCount: number;
   dietary: "No restriction" | "Vegetarian" | "Jain";
   budget: number | null;
+  location?: CustomerLocation | null;
+}
+
+export interface CustomerLocation {
+  latitude: number;
+  longitude: number;
+  accuracy?: number;
+  source: "device" | "pincode";
+  label?: string;
 }
 
 export type ProductCategory =
@@ -82,7 +91,17 @@ export interface GenerateCartResponse {
   regionalProducts: Product[];
   occasionTitle: string;
   parsedIntent: ParsedIntent;
-  darkStoreSummary?: { store: { name: string; distance_km: number; base_eta_minutes: number } | null; item_count: number; store_id: string }[];
+  darkStoreSummary?: {
+    store: {
+      name: string;
+      distance_km: number;
+      base_eta_minutes: number;
+      eta_minutes?: number;
+      address?: string;
+    } | null;
+    item_count: number;
+    store_id: string;
+  }[];
   consolidatedEta?: number;
   subtotal?: number;
 }
@@ -100,7 +119,15 @@ export interface PurchaseRecord {
   total: number;
   date: string;
   itemCount: number;
-  items: { id: string; name: string; quantity: number; price: number; image_url: string }[];
+  items: {
+    id: string;
+    name: string;
+    quantity: number;
+    price: number;
+    image_url: string;
+    return_policy?: string;
+    dark_store?: string;
+  }[];
 }
 
 export interface AISuggestion {

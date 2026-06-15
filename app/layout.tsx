@@ -1,10 +1,18 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ServiceWorkerCleanup from "@/components/ServiceWorkerCleanup";
 
 export const metadata: Metadata = {
   title: "Amazon-Intent - Shop Smarter with AI",
   description: "AI-powered shopping that understands your needs. Speak, type, or scan - we deliver in 30 minutes.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#131A22",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

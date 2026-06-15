@@ -2,7 +2,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
-import { formatOrderDate, getOrderSubtotal } from '@/lib/order-utils';
+import { formatOrderDate, getOrderSubtotal, hasOrderPrice } from '@/lib/order-utils';
 import Navbar from '@/components/Navbar';
 
 export default function OrdersPage() {
@@ -52,7 +52,9 @@ export default function OrdersPage() {
                   </div>
                   <div className="text-right">
                     <p className="text-[15px] font-bold text-[#0F1111]">
-                      &#8377;{Math.round(getOrderSubtotal(order))}
+                      {hasOrderPrice(order)
+                        ? <>&#8377;{Math.round(getOrderSubtotal(order))}</>
+                        : <span className="text-[12px] text-[#565959]">Price unavailable</span>}
                     </p>
                     <p className="text-[12px] text-[#007600] font-medium">
                       Delivered

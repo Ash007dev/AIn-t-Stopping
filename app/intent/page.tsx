@@ -25,6 +25,8 @@ function IntentPageContent() {
   const setMode = useAppStore(s => s.setMode);
   const scannedImageBase64 = useAppStore(s => s.scannedImageBase64);
   const setScannedImageBase64 = useAppStore(s => s.setScannedImageBase64);
+  const pinCode = useAppStore(s => s.pinCode);
+  const customerLocation = useAppStore(s => s.customerLocation);
 
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(0); // 0-3 for animated steps
@@ -64,10 +66,11 @@ function IntentPageContent() {
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         const profile: HouseholdProfile = {
-          pinCode: '641002',
+          pinCode,
           servingCount: personCount,
           dietary: dietary as "No restriction" | "Vegetarian" | "Jain",
           budget: null,
+          location: customerLocation,
         };
 
         const res = await fetch('/api/generate-cart', {

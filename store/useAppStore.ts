@@ -1,7 +1,7 @@
 // store/useAppStore.ts
 "use client";
 import { create } from "zustand";
-import { CartProduct, CartDiff, ParsedIntent, Product, GenerateCartResponse, PurchaseRecord } from "@/lib/types";
+import { CartProduct, CartDiff, ParsedIntent, Product, GenerateCartResponse, PurchaseRecord, CustomerLocation } from "@/lib/types";
 import { normalizePurchaseRecord } from "@/lib/order-utils";
 
 interface AppStore {
@@ -28,6 +28,8 @@ interface AppStore {
   addSuggestionToCart: (productId: string) => void;
   pinCode: string;
   setPinCode: (code: string) => void;
+  customerLocation: CustomerLocation | null;
+  setCustomerLocation: (location: CustomerLocation | null) => void;
   scannedImageBase64: string | null;
   setScannedImageBase64: (val: string | null) => void;
   // Profile
@@ -105,6 +107,16 @@ function loadTheme(): "light" | "dark" {
 function loadPinCode(): string {
   if (typeof window === "undefined") return "641002";
   return localStorage.getItem("user_pincode") || "641002";
+}
+
+function loadCustomerLocation(): CustomerLocation | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem("customer_location");
+    return raw ? JSON.parse(raw) as CustomerLocation : null;
+  } catch {
+    return null;
+  }
 }
 
 export const useAppStore = create<AppStore>((set, get) => ({
@@ -228,6 +240,17 @@ export const useAppStore = create<AppStore>((set, get) => ({
   setPinCode: (code) => {
     set({ pinCode: code });
     try { localStorage.setItem("user_pincode", code); } catch {}
+  },
+  customerLocation: loadCustomerLocation(),
+  setCustomerLocation: (customerLocation) => {
+    set({ customerLocation });
+    try {
+      if (customerLocation) {
+        localStorage.setItem("customer_location", JSON.stringify(customerLocation));
+      } else {
+        localStorage.removeItem("customer_location");
+      }
+    } catch {}
   },
   scannedImageBase64: null,
   setScannedImageBase64: (val) => set({ scannedImageBase64: val }),

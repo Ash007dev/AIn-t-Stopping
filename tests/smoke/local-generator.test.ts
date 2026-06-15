@@ -40,4 +40,13 @@ describe("quota-free local generation", () => {
     expect(names).toContain("chips");
     expect(names).toContain("coca-cola");
   });
+
+  it("maps an urgent charger request to one charger", () => {
+    const parsed = parseLocalIntent("Phone charger", profile);
+    const suggestions = buildLocalSuggestions(parsed, "addon");
+
+    expect(suggestions).toHaveLength(1);
+    expect(suggestions[0].name.toLowerCase()).toContain("charger");
+    expect(suggestions[0].quantity).toBe(1);
+  });
 });

@@ -1,7 +1,7 @@
 // components/Navbar.tsx - Pixel-perfect Amazon Now header
 'use client';
 import { useState } from 'react';
-import { ShoppingCart, Mic, Home, X, User, BarChart3 } from 'lucide-react';
+import { ShoppingCart, Mic, Home, X, User, BarChart3, LocateFixed, MapPin } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -13,6 +13,8 @@ export default function Navbar() {
   const cart = useAppStore(s => s.cart);
   const pinCode = useAppStore(s => s.pinCode);
   const setPinCode = useAppStore(s => s.setPinCode);
+  const customerLocation = useAppStore(s => s.customerLocation);
+  const setCustomerLocation = useAppStore(s => s.setCustomerLocation);
 
   const mainItems = cart.filter(i => !i.is_suggestion);
   const itemCount = mainItems.reduce((s, i) => s + i.quantity, 0);
@@ -25,6 +27,7 @@ export default function Navbar() {
   const [showPinModal, setShowPinModal] = useState(false);
   const [pinInput, setPinInput] = useState(pinCode);
   const [query, setQuery] = useState('');
+  const [locating, setLocating] = useState(false);
 
   const isHome = pathname === '/';
 
@@ -41,10 +44,30 @@ export default function Navbar() {
     if (q) router.push(`/search?q=${encodeURIComponent(q)}`);
   }
 
+  function useDeviceLocation() {
+    if (!navigator.geolocation) return;
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        setCustomerLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: position.coords.accuracy,
+          source: 'device',
+          label: 'Current location',
+        });
+        setLocating(false);
+        setShowPinModal(false);
+      },
+      () => setLocating(false),
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 300000 }
+    );
+  }
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-white border-b border-[#D5D9D9] shadow-sm">
-        <div className="flex items-center gap-2 px-3 py-2 max-w-screen-xl mx-auto">
+        <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 max-w-screen-xl mx-auto">
 
           {/* Home / Back button */}
           {!isHome ? (
@@ -60,7 +83,7 @@ export default function Navbar() {
 
           {/* ETA Badge - dynamic */}
           <div className="flex-shrink-0 flex items-center gap-1 bg-[#FFD100] text-black
-                          font-bold text-[12px] px-2.5 py-1.5 rounded-md whitespace-nowrap">
+                          font-bold text-[11px] sm:text-[12px] px-2 sm:px-2.5 py-1.5 rounded-md whitespace-nowrap">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="black">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
             </svg>
@@ -68,7 +91,7 @@ export default function Navbar() {
           </div>
 
           {/* Wordmark */}
-          <Link href="/" className="flex-shrink-0">
+          <Link href="/" className="hidden min-[370px]:block flex-shrink-0">
             <span className="font-bold text-[#0F1111] text-[17px] tracking-tight leading-none">amazon</span>
             <span className="block text-[#FF9900] font-bold text-[10px] tracking-widest uppercase -mt-0.5">
               intent
@@ -172,7 +195,7 @@ export default function Navbar() {
         </div>
 
         {/* Delivery address bar - changeable pincode */}
-        <div className="bg-[#F0F2F2] border-t border-[#D5D9D9] px-3 py-1.5">
+        <div className="bg-[#F0F2F2] border-t border-[#D5D9D9] px-2 sm:px-3 py-1.5 flex items-center justify-between gap-2">
           <button
             onClick={() => { setPinInput(pinCode); setShowPinModal(true); }}
             className="text-[12px] text-[#565959] hover:text-[#007185] transition-colors"
@@ -180,9 +203,12 @@ export default function Navbar() {
             <span className="font-semibold text-[#0F1111]">
               {maxEta ? `${maxEta} mins` : 'Express'}
             </span>
-            {' '}&middot; Deliver to {pinCode}
+            {' '}&middot; Deliver to {customerLocation?.source === 'device' ? 'current location' : pinCode}
             <span className="text-[#007185] ml-1">Change</span>
           </button>
+          <Link href="/darkstores" className="flex items-center gap-1 text-[11px] font-semibold text-[#007185] whitespace-nowrap">
+            <MapPin size={12} /> Nearby hubs
+          </Link>
         </div>
       </header>
 
@@ -218,6 +244,19 @@ export default function Navbar() {
                          transition-colors text-[14px]"
             >
               Apply
+            </button>
+            <div className="my-3 flex items-center gap-3 text-[11px] text-[#8C9296]">
+              <span className="h-px flex-1 bg-[#D5D9D9]" />
+              or
+              <span className="h-px flex-1 bg-[#D5D9D9]" />
+            </div>
+            <button
+              onClick={useDeviceLocation}
+              disabled={locating}
+              className="w-full border border-[#D5D9D9] hover:border-[#FF9900] text-[#0F1111] font-bold py-2.5 rounded-lg transition-colors text-[14px] flex items-center justify-center gap-2 disabled:opacity-60"
+            >
+              <LocateFixed size={16} />
+              {locating ? 'Finding your location...' : 'Use my current location'}
             </button>
           </div>
         </div>

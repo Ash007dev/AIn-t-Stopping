@@ -296,10 +296,46 @@ function getLocalItems(parsed: ParsedIntent, mode: string): LocalItem[] {
   }
 
   if (mode === "addon") {
+    const addonItems: { matches: string[]; product: LocalItem }[] = [
+      {
+        matches: ["milk"],
+        product: item("Amul Taza Milk 500ml", "Amul", "dairy", 29, 1, ["milk"], "no_return"),
+      },
+      {
+        matches: ["egg"],
+        product: item("Suguna Farm Fresh Eggs 6-pack", "Suguna", "dairy", 55, 1, ["eggs"], "no_return"),
+      },
+      {
+        matches: ["atta", "flour"],
+        product: item("Aashirvaad Whole Wheat Atta 5kg", "Aashirvaad", "pantry staples", 245, 1, ["atta", "wheat flour"]),
+      },
+      {
+        matches: ["cooking oil", "sunflower oil"],
+        product: item("Fortune Sunflower Oil 1L", "Fortune", "pantry staples", 165, 1, ["cooking oil"]),
+      },
+      {
+        matches: ["dishwash", "dish wash"],
+        product: item("Vim Dishwash Liquid 500ml", "Vim", "cleaning supplies", 99, 1, ["dishwash liquid"]),
+      },
+      {
+        matches: ["charger", "usb-c", "usb c"],
+        product: item("Amazon Basics 20W USB-C Charger", "Amazon Basics", "pantry staples", 499, 1, ["charger", "usb-c", "electronics"]),
+      },
+      {
+        matches: ["diaper"],
+        product: item("Pampers Newborn Diapers 24 Count", "Pampers", "baby", 349, 1, ["diapers", "baby"], "7_day_return"),
+      },
+    ];
+    const directAddon = addonItems.find(({ matches }) =>
+      matches.some((match) => lower.includes(match))
+    );
+    if (directAddon) return [directAddon.product];
+
     if (lower.includes("bread")) {
-      return INTENT_SETS.find(({ matches }) => matches.includes("breakfast"))!.items.slice(2, 6);
+      return [
+        item("Britannia Whole Wheat Bread 400g", "Britannia", "pantry staples", 42, 1, ["bread"], "no_return"),
+      ];
     }
-    if (lower.includes("diaper")) return PREDICTIVE_SETS.new_baby.slice(1);
     if (lower.includes("spaghetti") || lower.includes("pasta")) {
       return RECIPE_SETS.find(({ matches }) => matches.includes("aglio"))!.items.slice(1);
     }
@@ -315,7 +351,9 @@ export function buildLocalSuggestions(parsed: ParsedIntent, mode: string): AISug
   return getLocalItems(parsed, mode).map((product, index) => {
     const isDrink = product.category === "beverages";
     const calculatedQuantity = Math.ceil(people / Math.max(1, product.servingSize));
-    const quantity = isDrink
+    const quantity = mode === "addon"
+      ? 1
+      : isDrink
       ? Math.max(1, calculatedQuantity)
       : Math.min(2, Math.max(1, calculatedQuantity));
 

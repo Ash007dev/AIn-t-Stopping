@@ -18,7 +18,18 @@ export function getOrderSubtotal(order: Partial<PurchaseRecord>): number {
   }, 0);
 
   if (itemTotal > 0) return itemTotal;
+  const snapshot = Array.isArray(order.cartSnapshot) ? order.cartSnapshot : [];
+  const snapshotTotal = snapshot.reduce((sum, item) => {
+    const quantity = Math.max(1, asFiniteNumber(item.quantity, 1));
+    return sum + normalizeUnitPrice(item.price) * quantity;
+  }, 0);
+
+  if (snapshotTotal > 0) return snapshotTotal;
   return Math.max(0, asFiniteNumber(order.total));
+}
+
+export function hasOrderPrice(order: Partial<PurchaseRecord>): boolean {
+  return getOrderSubtotal(order) > 0;
 }
 
 export function getOrderDate(order: Partial<PurchaseRecord>): Date | null {
