@@ -7,7 +7,7 @@ import { getMemoryContext } from "@/lib/user-memory";
 /**
  * Build the dynamic SYSTEM PROMPT based on mode.
  */
-function buildSystemPrompt(mode: string, budget: number | null, region: string | null, dietary: string[]): string {
+function buildSystemPrompt(mode: string, budget: number | null, region: string | null, dietary: string[], hasImage: boolean): string {
   let budgetInstruction = "";
   if (budget && budget > 0) {
     budgetInstruction = `\n\nIMPORTANT BUDGET CONSTRAINT: The total cart price must not exceed ₹${budget}. Prioritise lower-priced products that meet quality thresholds.`;
@@ -29,6 +29,9 @@ function buildSystemPrompt(mode: string, budget: number | null, region: string |
 Your job is to build a cart that gets delivered in 10-20 minutes from a nearby dark store.
 
 CRITICAL RULES — FOLLOW EXACTLY:
+
+0. IMAGE SCANNING RULES:
+   ${hasImage ? '- AN IMAGE HAS BEEN PROVIDED. Extract all necessary ingredients, items, or products shown in the image or required to make the dish shown in the image.\n   - Base your generated cart heavily on the visual context.' : '- No image provided.'}
 
 1. PRODUCT SCOPE: You are NOT limited to any catalog. Use your knowledge of real Indian
    retail brands. Name specific products: "Amul Taza Milk 500ml" not just "milk".
@@ -156,9 +159,10 @@ async function invokeCartCuratorAI(
   parsed: ParsedIntent,
   budget: number | null,
   region: string | null,
-  mode: string
+  mode: string,
+  imageBase64?: string | null
 ): Promise<AISuggestion[]> {
-  const systemPrompt = buildSystemPrompt(mode, budget, region, parsed.dietary || []);
+  const systemPrompt = buildSystemPrompt(mode, budget, region, parsed.dietary || [], !!imageBase64);
 
   const userMessage = JSON.stringify({
     occasion: parsed.occasion,
@@ -170,7 +174,7 @@ async function invokeCartCuratorAI(
   });
 
   setAgentContext("cart-curator");
-  const raw = await invokeAI(systemPrompt, userMessage, "pro", 8192);
+  const raw = await invokeAI(systemPrompt, userMessage, "pro", 3000, imageBase64);
 
   // Extract JSON array
   const start = raw.indexOf("[");
@@ -243,10 +247,11 @@ export async function buildDynamicCart(
   catalog: Product[],
   budget: number | null,
   region: string | null,
-  mode: string = "intent"
+  mode: string = "intent",
+  imageBase64?: string | null
 ): Promise<CartProduct[]> {
   // Step 1: AI generates what should be in the cart
-  const aiSuggestions = await invokeCartCuratorAI(parsed, budget, region, mode);
+  const aiSuggestions = await invokeCartCuratorAI(parsed, budget, region, mode, imageBase64);
 
   if (!aiSuggestions || aiSuggestions.length === 0) {
     return [];

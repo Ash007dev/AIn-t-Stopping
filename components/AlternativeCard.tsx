@@ -12,6 +12,8 @@ export default function AlternativeCard({ product, onSwitch }: AlternativeCardPr
     <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 bg-white dark:bg-[#1E2530] border border-[#D5D9D9] dark:border-[#3A4553] rounded-md hover:bg-[#F7F8FA] dark:hover:bg-[#2B3645] transition-colors">
       <div className="flex items-start gap-3 flex-1 min-w-0">
         <div className="w-12 h-12 flex-shrink-0 bg-white rounded p-1 flex items-center justify-center">
+          {/* Product images may come from dynamic third-party URLs. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={product.image_url} alt={product.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
         </div>
         <div className="flex-1 min-w-0">

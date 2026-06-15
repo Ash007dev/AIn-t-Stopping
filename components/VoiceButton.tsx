@@ -98,9 +98,9 @@ export default function VoiceButton({
           } else {
             setError("Couldn't understand. Try again.");
           }
-        } catch (err: any) {
+        } catch (err: unknown) {
           console.error("Sarvam STT error:", err);
-          setError(err.message || "Voice processing failed");
+          setError(err instanceof Error ? err.message : "Voice processing failed");
         } finally {
           setIsProcessing(false);
           setIsRecording(false);
@@ -109,7 +109,7 @@ export default function VoiceButton({
 
       mediaRecorder.start();
       setIsRecording(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Mic access error:", err);
       setError("Microphone access denied");
     }

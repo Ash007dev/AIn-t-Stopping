@@ -42,14 +42,65 @@ export default function Home() {
   const router = useRouter();
   const setMode = useAppStore(s => s.setMode);
   const purchaseHistory = useAppStore(s => s.purchaseHistory);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
+  const [categoryTitle, setCategoryTitle] = useState('Top Picks for You');
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     import('@/data/products.json').then(mod => {
-      const allProducts = (mod.default as unknown) as Product[];
-      setTrendingProducts(allProducts.filter(p => p.is_bestseller).slice(0, 8));
+      const products = (mod.default as unknown) as Product[];
+      setAllProducts(products);
+      setTrendingProducts(products.filter(p => p.is_bestseller).slice(0, 8));
     }).catch(() => {});
   }, []);
+
+  function handleCategorySelect(catId: string) {
+    if (!allProducts.length) return;
+
+    let filtered: Product[] = [];
+    let title = 'Top Picks for You';
+
+    switch (catId) {
+      case 'top':
+        filtered = allProducts.filter(p => p.is_bestseller).slice(0, 8);
+        title = 'Top Picks for You';
+        break;
+      case 'veg':
+      case 'frt':
+        filtered = allProducts.filter(p => p.category === 'fresh produce').slice(0, 8);
+        title = catId === 'veg' ? 'Fresh Vegetables' : 'Fresh Fruits';
+        break;
+      case 'dai':
+        filtered = allProducts.filter(p => p.category === 'dairy').slice(0, 8);
+        title = 'Dairy & Eggs';
+        break;
+      case 'drk':
+        filtered = allProducts.filter(p => p.category === 'beverages').slice(0, 8);
+        title = 'Cold Drinks & Juices';
+        break;
+      case 'oil':
+      case 'ric':
+      case 'brk':
+        filtered = allProducts.filter(p => p.category === 'pantry staples').slice(0, 8);
+        title = 'Pantry Staples';
+        break;
+      case 'chc':
+        filtered = allProducts.filter(p => p.category === 'snacks').slice(0, 8);
+        title = 'Chocolates & Sweets';
+        break;
+      case 'bby':
+        filtered = allProducts.filter(p => p.category === 'cleaning supplies').slice(0, 8);
+        title = 'Baby & Home Care';
+        break;
+      default:
+        filtered = allProducts.filter(p => p.is_bestseller).slice(0, 8);
+    }
+
+    setTrendingProducts(filtered);
+    setCategoryTitle(title);
+  }
 
   function handleQuickLaunch(chip: typeof QUICK_LAUNCHES[0]) {
     setMode(chip.mode as 'intent' | 'cooking' | 'addon' | 'predictive');
@@ -104,7 +155,7 @@ export default function Home() {
       </section>
 
       {/* Category Navigation */}
-      <CategoryNav />
+      <CategoryNav onSelect={handleCategorySelect} />
 
       {/* Modes Section — Professional cards */}
       <section className="px-4 py-5">
@@ -167,7 +218,7 @@ export default function Home() {
       {trendingProducts.length > 0 && (
         <section className="px-4 py-4">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-[17px] font-bold text-[#0F1111]">Top Picks for You</h2>
+            <h2 className="text-[17px] font-bold text-[#0F1111]">{categoryTitle}</h2>
             <button className="text-[13px] text-[#007185] font-medium flex items-center gap-0.5">
               See all <ChevronRight size={14} />
             </button>
@@ -193,7 +244,7 @@ export default function Home() {
           </button>
         </div>
 
-        {purchaseHistory.length === 0 ? (
+        {!isMounted || purchaseHistory.length === 0 ? (
           <p className="text-[13px] text-[#8C9296] py-4 text-center">
             No orders yet - try speaking an order above!
           </p>

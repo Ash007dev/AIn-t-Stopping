@@ -1,10 +1,10 @@
 // lib/agents/gemini-client.ts
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, type Part } from "@google/generative-ai";
 import { logAgentCall, type AILogEntry } from "@/lib/ai-logger";
 
 const GROQ_MODELS = {
   pro: "llama-3.3-70b-versatile",
-  flash: "llama-3.1-8b-instant",
+  flash: "llama-3.3-70b-versatile",
 };
 
 const GEMINI_MODELS = {
@@ -68,14 +68,54 @@ export async function invokeGeminiAgent(
   userMessage: string,
   tier: "pro" | "flash" = "flash",
   maxOutputTokens = 1024,
+  imageBase64?: string | null
 ): Promise<string> {
   const startTime = Date.now();
   let usedModel = GEMINI_MODELS[tier];
 
   try {
-    // FORCE GROQ ONLY MODE AS REQUESTED
-    usedModel = GROQ_MODELS[tier];
-    const output = await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
+    let output: string;
+
+    if (imageBase64) {
+      // IMAGE SCANNING MUST USE GEMINI
+      const API_KEY = process.env.GEMINI_API_KEY;
+      if (!API_KEY) throw new Error("GEMINI_API_KEY is missing.");
+
+      const genAI = new GoogleGenerativeAI(API_KEY);
+      usedModel = GEMINI_MODELS[tier];
+      const model = genAI.getGenerativeModel({
+        model: usedModel,
+        systemInstruction: systemPrompt,
+      });
+
+      const parts: Part[] = [{ text: userMessage }];
+
+      // Clean base64 string if it has data url prefix
+      const base64Data = imageBase64.includes('base64,')
+        ? imageBase64.split('base64,')[1]
+        : imageBase64;
+
+      parts.push({
+        inlineData: {
+          data: base64Data,
+          mimeType: imageBase64.match(/data:([^;]+);/)?.[1] || "image/jpeg"
+        }
+      });
+
+      console.log(`[gemini-client] Invoking Google Gemini ${usedModel} with Image...`);
+      const response = await model.generateContent({
+        contents: [{ role: "user", parts }],
+        generationConfig: {
+          maxOutputTokens,
+          temperature: 0.2,
+        },
+      });
+      output = response.response.text();
+    } else {
+      // FORCE GROQ ONLY MODE FOR TEXT AS REQUESTED
+      usedModel = GROQ_MODELS[tier];
+      output = await invokeGroqFallback(systemPrompt, userMessage, tier, maxOutputTokens);
+    }
 
     // Log successful call
     logAgentCall({

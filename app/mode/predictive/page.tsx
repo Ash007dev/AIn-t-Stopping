@@ -30,6 +30,9 @@ export default function PredictiveModePage() {
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#007600] to-[#005700] px-4 py-6">
+        <button onClick={() => window.history.back()} className="text-white text-[14px] font-medium mb-2 flex items-center gap-1 hover:text-white/80 transition-colors">
+          ← Back
+        </button>
         <div className="flex items-center gap-2 mb-1">
           <Brain size={22} className="text-white" />
           <h1 className="text-white text-[24px] font-bold">Guide Me</h1>

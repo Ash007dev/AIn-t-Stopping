@@ -13,7 +13,8 @@ export type ProductCategory =
   | "fresh produce"
   | "dairy"
   | "pantry staples"
-  | "cleaning supplies";
+  | "cleaning supplies"
+  | "baby";
 
 export interface SampleReview {
   author: string;
@@ -26,6 +27,8 @@ export interface Product {
   brand: string;
   category: ProductCategory;
   price: number;
+  original_price?: number;
+  discount_percent?: number;
   rating: number;
   review_count: number;
   is_bestseller: boolean;
@@ -71,6 +74,7 @@ export interface GenerateCartRequest {
   intentText: string;
   householdProfile: HouseholdProfile;
   mode: "intent" | "cooking" | "addon" | "predictive";
+  imageBase64?: string | null;
 }
 
 export interface GenerateCartResponse {

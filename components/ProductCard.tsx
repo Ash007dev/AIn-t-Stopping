@@ -22,6 +22,7 @@ export default function ProductCard({ product, highlightBorder = false }: Produc
     ? (product.original_price < 1000 ? product.original_price : Math.round(product.original_price / 100))
     : Math.round(priceRupees * 1.25);
   const discountPct = product.discount_percent || Math.round((1 - priceRupees / originalPrice) * 100);
+  const isPerishable = product.category === 'fresh produce' || product.category === 'dairy';
 
   function handleAdd() {
     const newItem: CartProduct = {
@@ -130,11 +131,9 @@ export default function ProductCard({ product, highlightBorder = false }: Produc
         {/* Return policy */}
         {product.category && (
           <p className={`text-[10px] mb-2 ${
-            product.category === 'vegetables' || product.category === 'dairy'
-              ? 'text-[#CC0C39]' : 'text-[#007185]'
+            isPerishable ? 'text-[#CC0C39]' : 'text-[#007185]'
           }`}>
-            {product.category === 'vegetables' || product.category === 'dairy'
-              ? 'No returns · perishable' : '7-day returns'}
+            {isPerishable ? 'No returns · perishable' : '7-day returns'}
           </p>
         )}
 

@@ -69,9 +69,9 @@ export default function ImageUploadButton({
       } else {
         setError("Couldn't understand the image");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Vision error:", err);
-      setError(err.message || "Image processing failed");
+      setError(err instanceof Error ? err.message : "Image processing failed");
     } finally {
       setIsProcessing(false);
     }

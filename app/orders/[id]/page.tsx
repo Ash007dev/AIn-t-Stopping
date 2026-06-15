@@ -41,6 +41,11 @@ export default function OrderDetailPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div>
+            <div className="flex items-center gap-3 mb-2">
+              <button onClick={() => router.back()} className="text-[#007185] text-[14px] font-medium flex-shrink-0">
+                ← Back
+              </button>
+            </div>
             <h1 className="text-[20px] font-bold text-[#0F1111]">Order Details</h1>
             <p className="text-[13px] text-[#565959] mt-0.5">
               {order.orderId} · {new Date(order.date).toLocaleDateString('en-IN', {

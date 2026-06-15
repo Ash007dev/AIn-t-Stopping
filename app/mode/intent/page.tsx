@@ -38,6 +38,9 @@ export default function IntentModePage() {
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#FF9900] to-[#E47911] px-4 py-6">
+        <button onClick={() => window.history.back()} className="text-white text-[14px] font-medium mb-3 flex items-center gap-1 hover:text-white/80 transition-colors">
+          ← Back
+        </button>
         <h1 className="text-white text-[24px] font-bold">Shop by Occasion</h1>
         <p className="text-white/80 text-[14px] mt-1">
           Tell us the event — we build the perfect cart

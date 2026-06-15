@@ -19,6 +19,9 @@ export default function DarkStoresPage() {
       <Navbar />
 
       <div className="bg-gradient-to-b from-[#232F3E] to-[#37475A] px-4 py-6">
+        <button onClick={() => window.history.back()} className="text-white text-[14px] font-medium mb-3 flex items-center gap-1 hover:text-[#FF9900] transition-colors">
+          ← Back
+        </button>
         <h1 className="text-white text-[22px] font-bold">Nearby Dark Stores</h1>
         <p className="text-[#A8B4C0] text-[14px] mt-1 flex items-center gap-1.5">
           <MapPin size={14} />

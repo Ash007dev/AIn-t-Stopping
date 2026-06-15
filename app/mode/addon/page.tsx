@@ -29,6 +29,9 @@ export default function AddonModePage() {
       <Navbar />
 
       <div className="bg-gradient-to-b from-[#CC0C39] to-[#A00A2D] px-4 py-6">
+        <button onClick={() => window.history.back()} className="text-white text-[14px] font-medium mb-2 flex items-center gap-1 hover:text-white/80 transition-colors">
+          ← Back
+        </button>
         <div className="flex items-center gap-2 mb-1">
           <Plus size={22} className="text-white" />
           <h1 className="text-white text-[24px] font-bold">Quick Add-on</h1>

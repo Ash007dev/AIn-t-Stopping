@@ -12,7 +12,7 @@ export function deduplicateDietary(arr: string[]): string[] {
   return Array.from(new Set(arr.map((s) => s.toLowerCase())));
 }
 
-export async function invokeIntentParser(intentText: string, profile: HouseholdProfile): Promise<ParsedIntent> {
+export async function invokeIntentParser(intentText: string, profile: HouseholdProfile, imageBase64?: string | null): Promise<ParsedIntent> {
   const SYSTEM_PROMPT = `You are an intent parser for a grocery shopping app. Parse the user's shopping request and extract structured data.
 
 Return ONLY valid JSON with exactly these fields:
@@ -34,6 +34,11 @@ Rules:
 - Extract ALL dietary constraints mentioned.
 - Do NOT include any text outside the JSON object.
 
+IMAGE SCANNING RULES:
+- If an image is provided, identify the dish, recipe, or grocery list shown in the image.
+- Set the 'occasion' field to the name of the dish or the context of the list (e.g. "Pizza Recipe", "Grocery List").
+- Ignore intentText if it just says "Create a recipe based on this image" and rely heavily on the visual context.
+
 ADAPTIVE CLARIFYING QUESTIONS — set clarifying_question when:
 - The request is dangerously vague (e.g., "I need medicine", "I need stuff", "buy things").
   → clarifying_question: "What symptoms are you experiencing? (e.g., fever, cold, headache)"
@@ -53,7 +58,7 @@ PREDICTIVE MODE DETECTION — set mode_override when these life situations are d
 
   try {
     setAgentContext("intent-parser");
-    const raw = await invokeAI(SYSTEM_PROMPT, intentText, "flash", 1024);
+    const raw = await invokeAI(SYSTEM_PROMPT, intentText, "flash", 1024, imageBase64);
     const start = raw.indexOf('{');
     const end = raw.lastIndexOf('}');
     if (start === -1 || end === -1) {

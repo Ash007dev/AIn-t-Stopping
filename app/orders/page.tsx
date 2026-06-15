@@ -13,7 +13,12 @@ export default function OrdersPage() {
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-4 py-6">
-        <h1 className="text-[22px] font-bold text-[#0F1111] mb-4">Your Orders</h1>
+        <div className="flex items-center gap-3 mb-4">
+          <button onClick={() => router.back()} className="text-[#007185] text-[14px] font-medium flex-shrink-0">
+            ← Back
+          </button>
+          <h1 className="text-[22px] font-bold text-[#0F1111]">Your Orders</h1>
+        </div>
 
         {purchaseHistory.length === 0 ? (
           <div className="bg-white border border-[#D5D9D9] rounded-lg p-8 text-center">

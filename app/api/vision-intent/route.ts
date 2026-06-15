@@ -1,6 +1,14 @@
 // app/api/vision-intent/route.ts — Use Gemini Vision to extract shopping intent from an image
 import { NextResponse } from "next/server";
 
+interface GeminiVisionResponse {
+  candidates?: Array<{
+    content?: {
+      parts?: Array<{ text?: string }>;
+    };
+  }>;
+}
+
 export async function POST(req: Request) {
   try {
     const { imageBase64, mimeType } = await req.json();
@@ -64,7 +72,7 @@ Return ONLY the intent sentence, nothing else. No quotes, no explanation.`
       return NextResponse.json({ error: "Vision API failed" }, { status: 502 });
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as GeminiVisionResponse;
     const intentText =
       data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
 
@@ -73,8 +81,9 @@ Return ONLY the intent sentence, nothing else. No quotes, no explanation.`
     }
 
     return NextResponse.json({ intentText });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Vision intent error:", error);
-    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Internal Server Error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

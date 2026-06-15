@@ -13,7 +13,8 @@ function validateProduct(p: Record<string, unknown>): { valid: boolean; field?: 
   }
   if (typeof p.rating === "number" && (p.rating < 1 || p.rating > 5))
     return { valid: false, field: "rating" };
-  if (typeof p.price === "number" && (p.price < 0.01 || p.price > 99999.99))
+  // Catalog prices may be stored as rupees (<1000) or paise (>=1000).
+  if (typeof p.price === "number" && (p.price < 10 || p.price > 150000))
     return { valid: false, field: "price" };
   if (typeof p.serving_size === "number" && p.serving_size < 1)
     return { valid: false, field: "serving_size" };

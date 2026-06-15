@@ -72,7 +72,7 @@ export default function CartPage() {
   }
 
   return (
-    <main className="bg-[#F0F2F2] min-h-screen pb-56 lg:pb-0">
+    <main className="bg-[#F0F2F2] min-h-screen pb-72 lg:pb-32">
       <Navbar />
 
       {/* Sticky top bar */}

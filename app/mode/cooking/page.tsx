@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/store/useAppStore';
 import Navbar from '@/components/Navbar';
-import { ChefHat, Users, Mic } from 'lucide-react';
+import { ChefHat, Users, Mic, Camera } from 'lucide-react';
 
 const RECIPES = [
   { id: 'aglio',   label: 'Aglio Olio Pasta',       time: '25 min', difficulty: 'Easy' },
@@ -20,8 +20,10 @@ const RECIPES = [
 export default function CookingModePage() {
   const router = useRouter();
   const setMode = useAppStore(s => s.setMode);
+  const setScannedImageBase64 = useAppStore(s => s.setScannedImageBase64);
   const [inputText, setInputText] = useState('');
   const [personCount, setPersonCount] = useState(3);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   function handleSubmit(text?: string) {
     const t = text || inputText;
@@ -30,12 +32,42 @@ export default function CookingModePage() {
     router.push(`/intent?mode=cooking&preset=${encodeURIComponent(t)}&count=${personCount}&time=Now&diet=No+restriction`);
   }
 
+  function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      setUploadError('Please upload a JPEG, PNG, or WebP image.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError('Image must be under 5 MB.');
+      return;
+    }
+
+    setUploadError(null);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result as string;
+      setScannedImageBase64(base64);
+      setMode('cooking');
+      router.push(`/intent?mode=cooking&preset=Create+a+recipe+based+on+this+image&count=${personCount}&time=Now&diet=No+restriction`);
+    };
+    reader.onerror = () => setUploadError('Could not read that image. Please try another file.');
+    reader.readAsDataURL(file);
+  }
+
   return (
     <main className="bg-[#F0F2F2] min-h-screen pb-10">
       <Navbar />
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-[#007185] to-[#004B6E] px-4 py-6">
+        <button onClick={() => window.history.back()} className="text-white text-[14px] font-medium mb-3 flex items-center gap-1 hover:text-white/80 transition-colors">
+          ← Back
+        </button>
         <h1 className="text-white text-[24px] font-bold">Recipe Mode</h1>
         <p className="text-white/80 text-[14px] mt-1">
           Name a dish — we get all the ingredients
@@ -74,14 +106,27 @@ export default function CookingModePage() {
           </div>
         </div>
 
-        {/* Voice */}
-        <button onClick={() => router.push('/nowspeak')}
-          className="w-full bg-white border border-[#D5D9D9] rounded-lg p-3 flex items-center gap-3 hover:border-[#007185] transition-colors">
-          <div className="w-10 h-10 bg-[#007185]/10 rounded-full flex items-center justify-center">
-            <Mic size={18} className="text-[#007185]" />
-          </div>
-          <span className="text-[14px] font-medium text-[#0F1111]">Or say the dish name</span>
-        </button>
+        {/* Voice and Scan */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button onClick={() => router.push('/nowspeak')}
+            className="w-full bg-white border border-[#D5D9D9] rounded-lg p-3 flex items-center gap-3 hover:border-[#007185] transition-colors">
+            <div className="w-10 h-10 bg-[#007185]/10 rounded-full flex items-center justify-center">
+              <Mic size={18} className="text-[#007185]" />
+            </div>
+            <span className="text-[14px] font-medium text-[#0F1111]">Say the dish name</span>
+          </button>
+
+          <label className="w-full bg-white border border-[#D5D9D9] rounded-lg p-3 flex items-center gap-3 hover:border-[#007185] transition-colors cursor-pointer">
+            <div className="w-10 h-10 bg-[#007185]/10 rounded-full flex items-center justify-center">
+              <Camera size={18} className="text-[#007185]" />
+            </div>
+            <span className="text-[14px] font-medium text-[#0F1111]">Scan an image</span>
+            <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleImageUpload} />
+          </label>
+        </div>
+        {uploadError && (
+          <p className="text-[13px] text-[#CC0C39]" role="alert">{uploadError}</p>
+        )}
 
         {/* Popular recipes */}
         <div>

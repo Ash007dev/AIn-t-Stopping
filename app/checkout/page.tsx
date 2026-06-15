@@ -106,7 +106,12 @@ export default function CheckoutPage() {
       <Navbar />
 
       <div className="max-w-5xl mx-auto mt-4 px-4 pb-20">
-        <h1 className="text-[28px] text-[#0F1111] mb-4">Checkout</h1>
+        <div className="flex items-center gap-3 mb-4">
+          <button onClick={() => router.back()} className="text-[#007185] text-[14px] font-medium flex-shrink-0">
+            ← Back
+          </button>
+          <h1 className="text-[28px] text-[#0F1111]">Checkout</h1>
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
 

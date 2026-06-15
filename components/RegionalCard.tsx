@@ -11,6 +11,8 @@ export default function RegionalCard({ product }: RegionalCardProps) {
   return (
     <div className="flex flex-col p-4 bg-amazon-card-light dark:bg-amazon-card-dark border border-amazon-border-light dark:border-amazon-border-dark rounded-card hover:shadow-medium transition-shadow cursor-pointer">
       <div className="w-full h-32 bg-white rounded mb-3 flex items-center justify-center p-2 relative">
+        {/* Product images may come from dynamic third-party URLs. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={product.image_url} alt={product.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
         <div className="absolute top-0 left-0">
           <BestsellerBadge show={product.is_bestseller} />

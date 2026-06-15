@@ -9,7 +9,6 @@ import { groupCartByDarkStore, getConsolidatedEta, getDarkStoreInfo } from "@/li
 import { startPipelineTrace, finalizePipelineTrace } from "@/lib/ai-logger";
 
 export async function POST(req: NextRequest) {
-  const pipelineStart = Date.now();
   let trace: ReturnType<typeof startPipelineTrace> | null = null;
 
   try {
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     // Step 1: Parse intent + load catalog in parallel
     const [parsed, catalog] = await Promise.all([
-      invokeIntentParser(intentText, householdProfile),
+      invokeIntentParser(intentText, householdProfile, body.imageBase64),
       Promise.resolve(loadCatalog()),
     ]);
 
@@ -48,7 +47,7 @@ export async function POST(req: NextRequest) {
     const effectiveMode = parsed.mode_override || body.mode;
 
     // Step 3: AI-first dynamic cart generation
-    const cart = await buildDynamicCart(parsed, catalog, householdProfile.budget, region, effectiveMode);
+    const cart = await buildDynamicCart(parsed, catalog, householdProfile.budget, region, effectiveMode, body.imageBase64);
 
     if (cart.length === 0) {
       if (trace) finalizePipelineTrace(trace.id, { cartItemCount: 0, status: "error" });

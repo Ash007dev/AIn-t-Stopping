@@ -23,6 +23,8 @@ function IntentPageContent() {
   const setPipelineRunning = useAppStore(s => s.setPipelineRunning);
   const setCartResult = useAppStore(s => s.setCartResult);
   const setMode = useAppStore(s => s.setMode);
+  const scannedImageBase64 = useAppStore(s => s.scannedImageBase64);
+  const setScannedImageBase64 = useAppStore(s => s.setScannedImageBase64);
 
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(0); // 0-3 for animated steps
@@ -64,7 +66,7 @@ function IntentPageContent() {
         const profile: HouseholdProfile = {
           pinCode: '641002',
           servingCount: personCount,
-          dietary,
+          dietary: dietary as "No restriction" | "Vegetarian" | "Jain",
           budget: null,
         };
 
@@ -75,6 +77,7 @@ function IntentPageContent() {
             intentText: text,
             householdProfile: profile,
             mode,
+            imageBase64: scannedImageBase64,
           }),
         });
 
@@ -90,9 +93,10 @@ function IntentPageContent() {
         const result = await res.json();
         setCartResult(result);
         setPipelineRunning(false);
+        setScannedImageBase64(null); // Clear image after success
         router.push('/cart');
         return; // Success — exit
-      } catch (err) {
+      } catch {
         if (attempt === 2) {
           // Final attempt failed
           setPipelineRunning(false);
@@ -111,15 +115,20 @@ function IntentPageContent() {
   ];
 
   return (
-    <main className="bg-white min-h-screen">
+    <main className="bg-[#F0F2F2] min-h-screen pb-40">
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Status card */}
         <div className="bg-white border border-[#D5D9D9] rounded-lg p-6 mb-6 animate-fade-in">
-          <h2 className="text-[18px] font-bold text-[#0F1111] mb-4 border-b border-[#D5D9D9] pb-3">
-            Building cart for &quot;{preset}&quot;
-          </h2>
+          <div className="flex items-center gap-3 mb-4 border-b border-[#D5D9D9] pb-3">
+            <button onClick={() => window.history.back()} className="text-[#007185] text-[14px] font-medium flex-shrink-0 hover:text-[#004B6E] transition-colors">
+              ← Back
+            </button>
+            <h2 className="text-[18px] font-bold text-[#0F1111]">
+              Building cart for &quot;{preset}&quot;
+            </h2>
+          </div>
 
           {error ? (
             <div className="p-4 bg-[#FFF0F0] border border-[#F5C6CB] rounded-lg">

@@ -27,6 +27,8 @@ interface AppStore {
   addSuggestionToCart: (productId: string) => void;
   pinCode: string;
   setPinCode: (code: string) => void;
+  scannedImageBase64: string | null;
+  setScannedImageBase64: (val: string | null) => void;
 }
 
 function loadPurchaseHistory(): PurchaseRecord[] {
@@ -170,4 +172,6 @@ export const useAppStore = create<AppStore>((set, get) => ({
     set({ pinCode: code });
     try { localStorage.setItem("user_pincode", code); } catch {}
   },
+  scannedImageBase64: null,
+  setScannedImageBase64: (val) => set({ scannedImageBase64: val }),
 }));

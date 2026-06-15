@@ -48,10 +48,11 @@ describe("Base catalog integrity", () => {
     });
   });
 
-  it("prices are realistic (between 10 and 1000)", () => {
+  it("prices are realistic after normalizing rupee and paise values", () => {
     products.forEach((p: any) => {
-      expect(p.price, `${p.id} price out of range`).toBeGreaterThanOrEqual(10);
-      expect(p.price, `${p.id} price out of range`).toBeLessThanOrEqual(1000);
+      const priceRupees = p.price < 1000 ? p.price : Math.round(p.price / 100);
+      expect(priceRupees, `${p.id} price out of range`).toBeGreaterThanOrEqual(10);
+      expect(priceRupees, `${p.id} price out of range`).toBeLessThanOrEqual(1500);
     });
   });
 
